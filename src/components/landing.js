@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function Landing(props) {
   console.log('Landing',props.user);

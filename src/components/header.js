@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Home from './header-home';
 import Settings from './header-settings';
 import StatusBar from './header-statusbar';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function Header(props) {
   console.log('Header',props);  

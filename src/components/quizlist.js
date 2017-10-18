@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import QuizLi from './quiz-li';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function QuizList(props) {
   let infoModal;
@@ -13,7 +14,7 @@ export function QuizList(props) {
   let quizId = '999';
   let categ;
   let diff;
-  const quizLi = <QuizLi id={quizId} categ={categ} diff={diff}/>
+  const quizLi = <QuizLi status={true} id={quizId} categ={categ} diff={diff}/>
   
     return (
       <div>

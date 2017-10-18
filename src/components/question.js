@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function Question(props) {
   console.log('Question', props);      
@@ -13,8 +14,8 @@ export function Question(props) {
     console.log('1 Question', option);
     const name = inputType === 'radio' ? 'option' : `${option}${index}`;
     return (
-      <div>
-      <input type={inputType} name={name} value={option.id}/>
+      <div key={index}>
+      <input type={inputType} name={name} value={option.id}/> {/* fix value */}
       <label htmlFor={name}>{option.option}</label>
     </div>
     )

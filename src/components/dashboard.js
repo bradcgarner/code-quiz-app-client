@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Badges from './dashboard-badges';
 import Recent  from './dashboard-recent';
 import QuizLi from './quiz-li';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function Dashboard(props) {
   console.log('Dashboard',props.user);

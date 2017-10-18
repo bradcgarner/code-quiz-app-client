@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ResultsGraph from './results-graph';
 import ResultsScore from './results-score';
+import { REACT_APP_BASE_URL } from '../config';
 
 export function Results(props) {
   console.log('Results', props.user);
