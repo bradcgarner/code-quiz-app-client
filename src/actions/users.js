@@ -1,4 +1,5 @@
 import { REACT_APP_BASE_URL } from '../config';
+import * as actionsMode from './mode';
 
 export const LOGIN= 'LOGIN';
 export const login = (authToken, id, username, firstName, lastName, badges, recent) => ({
@@ -12,18 +13,16 @@ export const login = (authToken, id, username, firstName, lastName, badges, rece
   recent
 });
 
-
-export const GOTO_LOGIN = 'GOTO_LOGIN';
-export const gotoLogin = () => ({
-  type: GOTO_LOGIN,
-  view: 'login'
-})
-
 export const UPDATE_USER = 'UPDATE_USER';
 export const updateUser = user => {
   return Object.assign({}, user, {  type: UPDATE_USER } )
 }
-//scoreChoice(correct)  correct.id, correct.correct
+
+export const SCORE_CHOICE = 'SCORE_CHOICE';
+export const scoreChoice = correct => ({
+  correct: correct.id,
+  correct: correct.correct
+});
 
 export const submitCredentials = (credentials) => dispatch => {
   console.log('credentials',credentials)// dispatch synchronous form validation here
@@ -86,7 +85,7 @@ export const createUser = (credentials) => dispatch => { //credential should inc
   }) 
   .then(user => { 
     console.log('user created', user); 
-    dispatch(gotoLogin());
+    dispatch(actionsMode.gotoLogin());
   })
   .catch(error => {
    // dispatch(loginError(error));

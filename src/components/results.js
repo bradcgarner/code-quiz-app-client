@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import ResultsGraph from './results-graph';
 import ResultsScore from './results-score';
 import { REACT_APP_BASE_URL } from '../config';
+import * as actionsUser from '../actions/users';
+import * as actionsMode from '../actions/mode';
+import * as actionsQuiz from '../actions/quiz';
 
 export function Results(props) {
   console.log('Results', props.user);

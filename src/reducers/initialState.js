@@ -35,5 +35,5 @@ export const initialQuiz = {
 
 export const initialMode = {
   view: 'answer'
-} // landing, login, profile, dashboard, quizlist, 
+} // landing, about, login, profile, dashboard, quizlist, 
   // question, result, accuracy, answer

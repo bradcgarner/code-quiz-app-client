@@ -1,17 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
+import * as actionsUser from '../actions/users';
+import * as actionsMode from '../actions/mode';
+import * as actionsQuiz from '../actions/quiz';
 
 export function Landing(props) {
-  console.log('Landing',props.user);
-  const gotoLogin = () => { }
-  const gotoAbout = () => { }
+  console.log('Landing',props);
+
+  const handleLoginButton = () => {
+    props.dispatch(actionsMode.gotoLogin());
+  }
+
+  const handleAboutButton = () => {
+    props.dispatch(actionsMode.gotoAbout());
+  }  
   
     return (
       <div>
           <p>Logo image</p>
-          <button onClick={()=>gotoLogin()}>Login</button>
-          <button onClick={()=>gotoAbout()}>About</button>
+          <button onClick={()=>handleLoginButton()}>Login</button>
+          <button onClick={()=>handleAboutButton()}>About</button>
       </div>
     );
 }

@@ -4,6 +4,9 @@ import Home from './header-home';
 import Settings from './header-settings';
 import StatusBar from './header-statusbar';
 import { REACT_APP_BASE_URL } from '../config';
+import * as actionsUser from '../actions/users';
+import * as actionsMode from '../actions/mode';
+import * as actionsQuiz from '../actions/quiz';
 
 export function Header(props) {
   console.log('Header',props);  
@@ -18,6 +21,10 @@ export function Header(props) {
   } else if (props.mode.view === 'login') {
     home =<Home where={'landing'}/>; 
     header = <h1>Login</h1>;
+
+  } else if (props.mode.view === 'about') {
+    home =<Home where={'landing'}/>; 
+    header = <h1>About</h1>;
 
   } else if (props.mode.view === 'profile') {
     home =<Home where={'dashboard'}/>; 
