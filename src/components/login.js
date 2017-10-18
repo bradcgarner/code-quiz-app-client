@@ -9,7 +9,7 @@ export class Login extends React.Component {
   
   onSubmit(values) {
     console.log('submitting login',values);
-    this.props.dispatch(userActions.login(values));
+    this.props.dispatch(userActions.submitCredentials(values));
   }
   gotoProfile() {
     // 

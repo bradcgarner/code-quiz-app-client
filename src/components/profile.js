@@ -6,7 +6,7 @@ export function Profile(props) {
   console.log('Profile',props.user);
 
   const buttonText = props.user.id ? 'Save Changes' : 'Create Account';
-  const saveProfile = () => {
+  const updateProfile = () => {
     //
   }
 
@@ -24,7 +24,7 @@ export function Profile(props) {
           <label htmlFor="password">Password</label>
           <input name="password2" type="text" placeholder="re-type password" required="true"/>
           <label htmlFor="password2">Re-Type Password</label>
-          <button type="submit" onClick={()=>saveProfile()}>{buttonText}</button>
+          <button type="submit" onClick={()=>updateProfile()}>{buttonText}</button>
         </form>
       </div>
     );
