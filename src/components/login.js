@@ -18,7 +18,6 @@ export class Login extends React.Component {
   render() {
     console.log('Login',this.props);    
 
-
     return (
       <div>
         <h2 className="temp">2 Login</h2>
