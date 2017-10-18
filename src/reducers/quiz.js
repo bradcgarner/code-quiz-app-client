@@ -1,7 +1,7 @@
 import * as actions from '../actions/questions';
-import { initialState } from './initialState';
+import { initialQuiz } from './initialState';
 
-export const reducer = ( state = initialState, action ) => {
+export const reducer = ( state = initialQuiz, action ) => {
   if ( action.type === 'actions.NAME' ) {
     //do something
   } else if ( action.type === 'actions.NAME' ) {

@@ -2,22 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export function Landing(props) {
-  let infoModal;
-  if (props.user) {
-      infoModal = <p>Landing Test</p>;
-      console.log('Landing',props.user);
-      
-  }
+  console.log('Landing',props.user);
+  const gotoLogin = () => { }
+  const gotoAbout = () => { }
+  
     return (
       <div>
-        {infoModal}
-        <p>Landing</p>
+          <p>Logo image</p>
+          <button onClick={()=>gotoLogin()}>Login</button>
+          <button onClick={()=>gotoAbout()}>About</button>
       </div>
     );
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  quiz: state.quiz,
+  mode: state.mode
 })
 
 export default connect(mapStateToProps)(Landing);

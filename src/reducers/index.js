@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as user } from './users';
-import { reducer as question } from './questions';
+import { reducer as quiz } from './quiz';
+import { reducer as mode } from './mode';
 
 export default combineReducers ( {
   user,
-  question
+  quiz, 
+  mode
 })
