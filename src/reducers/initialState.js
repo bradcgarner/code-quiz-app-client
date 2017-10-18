@@ -13,7 +13,8 @@ export const initialUser = {
     difficulty: null
   }],
   badges: 'none',
-  recent: 'nothing'
+  recent: 'nothing',
+  authToken: ''
 };
 
 export const initialQuiz = {
