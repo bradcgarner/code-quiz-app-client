@@ -33,6 +33,11 @@ export const updateQuizMenu = (menu) => ({
   type: UPDATE_QUIZ_MENU,
   menuOfAllQuizzes: menu
 });
+export const UPDATE_CURRENT_QUESTION = 'UPDATE_CURRENT_QUESTION';
+export const updateCurrentQuestion = (index) => ({
+  type: UPDATE_CURRENT_QUESTION,
+  current: index
+});
 
 // @@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@
 

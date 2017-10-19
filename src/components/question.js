@@ -51,13 +51,15 @@ export function Question(props) {
 
   const handleGotoQuestionButton = index => {
     // get current # and go up or back 1
+    props.dispatch(actionsQuiz.updateCurrentQuestion(props.quiz.current + index))
+    console.log('current question incremented', props.quiz.current, props.quiz.current + index);
+    
+
   }
 
-  const prevQuestionButton = props.quiz.current > 0 ? 
-    <button onClick={()=>handleGotoQuestionButton(-1)}>back</button> : '' ;
+  const prevQuestionButton = props.quiz.current > 0 ?  'normal'  : 'grey' ;
 
-  const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?
-    <button onClick={()=>handleGotoQuestionButton(1)}>fwd</button> : '' ;
+  const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?  'normal'  : 'grey' ;
 
   return (
     <div>
@@ -74,8 +76,8 @@ export function Question(props) {
 
         {/*Footer - can arrows be inside form, or should "appear" inside form*/}
           
-        {prevQuestionButton}
-        {nextQuestionButton}
+        <button className={prevQuestionButton} onClick={()=>handleGotoQuestionButton(-1)}>back</button>
+        <button className={nextQuestionButton} onClick={()=>handleGotoQuestionButton(1)}>fwd</button>
 
         <p>Answers: Skip for now, same as questions, but add in: 
           User's choice, 
