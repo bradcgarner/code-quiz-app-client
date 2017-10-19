@@ -9,14 +9,11 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Dashboard(props) {
-  console.log('Dashboard',props.user);
 
   const handleQuizlistButton = () => {
     if ( props.quiz.menuOfAllQuizzes.length > 1) {
-      console.log('going to your list');
       props.dispatch(actionsMode.gotoQuizlist());
     } else {
-      console.log('fetching quizzes');
       props.dispatch(actionsQuiz.fetchQuizzes());      
     }
   }
@@ -28,12 +25,11 @@ export function Dashboard(props) {
 
     return (
       <div>
-        <h2 className="temp">4 Dashboard</h2>
-          <Badges />
-          <Recent recent={props.user.recent}/>
-          <h3>{listHeader}</h3>
-          {quizLi}            
-          <button onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
+        <Badges />
+        <Recent recent={props.user.recent}/>
+        <h3>{listHeader}</h3>
+        {quizLi}            
+        <button onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
       </div>
     );
 }

@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actionsMode from '../actions/mode';
-import Modal from './header-settings-modal';
-// we need to call the modal somewhere!
 
-export function Settings(props) {
+export function Modal(props) {
   
   const handleSettingsButton = () => {
     props.dispatch(actionsMode.showModal(props.type))
@@ -23,4 +21,4 @@ const mapStateToProps = state => ({
   mode: state.mode
 })
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(Modal);

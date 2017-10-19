@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as actionsMode from '../actions/mode';
 
 export function About(props) {
-  console.log('About',props);
   
     return (
       <div>

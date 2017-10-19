@@ -1,6 +1,7 @@
 {
-  "name": "client",
+  "name": "CodeQuiz",
   "version": "0.1.0",
+  "description": "Like Code Wars, but more mobile-friendly and multiple choice.",  
   "private": true,
   "dependencies": {
     "assert": "^1.4.1",

@@ -7,17 +7,13 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizList(props) {
-  console.log('QuizList',props);
 
   const handleTakeQuizButton = (id) => {
     props.dispatch(actionsQuiz.takeQuiz(id));
   }
  
   const handleAddQuizButton = (quiz) => {
-    const updatedUser = 
-    console.log('quiz is object with props read from DOM');
     let userData;
-    console.log('add to user data from store');
     props.dispatch(actionsUser.updateUserData(userData));
   }
 
@@ -27,7 +23,6 @@ export function QuizList(props) {
   
     return (
       <div>
-        <h2 className="temp">5 List of All Quizzes</h2>
         <ul>
           {quizLi}
         </ul>
