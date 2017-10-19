@@ -6,7 +6,6 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Landing(props) {
-  console.log('Landing',props);
 
   const handleLoginButton = () => {
     props.dispatch(actionsMode.gotoLogin());

@@ -10,20 +10,17 @@ import * as actionsQuiz from '../actions/quiz';
 export class Login extends React.Component {
   
   handleSubmitButton(values) {
-    console.log('submitting login',values);
     this.props.dispatch(actionsUser.login(values));
   }
   
-  handleProfileButton() {
+  handleCreateAccountButton() {
     this.props.dispatch(actionsMode.gotoProfile());
   }
 
   render() {
-    console.log('Login',this.props);    
 
     return (
       <div>
-        <h2 className="temp">2 Login</h2>
         <form onSubmit={this.props.handleSubmit(values =>
           this.handleSubmitButton(values)
         )}>
@@ -48,7 +45,7 @@ export class Login extends React.Component {
           <button type="submit">Login</button>
         </form>
 
-        <button onClick={e=>this.handleProfileButton()}>Create Account</button>
+        <button onClick={e=>this.handleCreateAccountButton()}>Create Account</button>
       </div>
     );
   }

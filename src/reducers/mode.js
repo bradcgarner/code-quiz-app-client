@@ -7,6 +7,11 @@ export const reducer = ( state = initialMode, action ) => {
     return Object.assign({}, state, {
       view: action.view,
     })
+  } else if ( action.type === actions.SHOW_MODAL ) {
+    alert(`${action.modal} modal coming soon` )
+    return Object.assign({}, state, {
+      modal: action.modal,
+    })
   } else {
     return state;
   }

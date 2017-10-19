@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 export function ResultsScore(props) {
   let infoModal;
-  console.log('ResultsScore', props);
   if (props.user) {
       infoModal = <p className="temp">ResultsScore Test</p>;
   }

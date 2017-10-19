@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export function Badges(props) {
-  console.log('Badges',props);
 
     return (
       <div>

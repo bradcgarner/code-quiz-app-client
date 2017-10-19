@@ -61,3 +61,9 @@ export const gotoAnswer = () => ({
   type: GOTO_ANSWER,
   view: 'answer'
 })
+
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const showModal = (modal) => ({
+  type: SHOW_MODAL,
+  modal
+})

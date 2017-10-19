@@ -8,25 +8,6 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Question(props) {
-  console.log('Question', props);      
-
-  const handleSubmitButton = (choice) => {
-    console.log('submitting choice',choice);
-    let formattedChoices = [];
-    for ( let prop in choice ) {
-      formattedChoices.push(prop);
-    }
-    console.log('formattedChoice', formattedChoices);
-    const formattedChoiceObject = {
-      userId: props.user.id, // user must be logged in
-      questionId: props.quiz.questions[current].id,
-      quizId: props.quiz.id,
-      choices : formattedChoices
-    };
-    console.log('formattedChoiceObject', formattedChoiceObject);
-    props.dispatch(actionsUser.submitChoices(formattedChoiceObject));
-  }  // refer to actions/users.js for format of values
-
   console.log('props inside question.js', props);
   const current = props.quiz.current || 0;
   const currQuestion = props.quiz.questions[current];
@@ -47,7 +28,24 @@ export function Question(props) {
         <label htmlFor={answer.id}>{answer.option}</label>
       </div>
     )
-  });
+  });    
+
+  const handleSubmitButton = (choice) => {
+    console.log('submitting choice',choice);
+    let formattedChoices = [];
+    for ( let prop in choice ) {
+      formattedChoices.push(prop);
+    }
+    console.log('formattedChoice', formattedChoices);
+    const formattedChoiceObject = {
+      userId: props.user.id, // user must be logged in
+      questionId: props.quiz.questions[current].id,
+      quizId: props.quiz.id,
+      choices : formattedChoices
+    };
+    console.log('formattedChoiceObject', formattedChoiceObject);
+    props.dispatch(actionsUser.submitChoices(formattedChoiceObject));
+  }  // refer to actions/users.js for format of values
 
   const handleGotoQuestionButton = index => {
     // get current # and go up or back 1
