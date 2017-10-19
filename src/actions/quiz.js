@@ -9,6 +9,7 @@ export const questions = (questions) => ({
   questions
 });
 
+// this is the single current quiz
 export const UPDATE_QUIZ_STORE = 'UPDATE_QUIZ_STORE';
 export const updateQuizStore = (quiz) => ({
   type: UPDATE_QUIZ_STORE,
@@ -20,12 +21,18 @@ export const updateQuizStore = (quiz) => ({
   questions: quiz.questions,
 });
 
+export const UPDATE_QUIZ_MENU = 'UPDATE_QUIZ_MENU';
+export const updateQuizMenu = (menu) => ({
+  type: UPDATE_QUIZ_MENU,
+  menuOfAllQuizzes: menu
+});
+
 // @@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@
 
 // get list of all quizzes
 export const  fetchQuizzes = () => dispatch => {
   console.log("fetches quizzes async action");
-  fetch(`${REACT_APP_BASE_URL}/api/quizzes/`)
+  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/`)
       .then(res => {
         console.log('quizzes fetched',res);
           if (!res.ok) {
@@ -35,7 +42,8 @@ export const  fetchQuizzes = () => dispatch => {
       })
       .then(quizzes => {
         console.log('quizzes fetched',quizzes);
-          dispatch(actionsMode.gotoQuizlist());
+          dispatch(updateQuizMenu(quizzes));
+          return dispatch(actionsMode.gotoQuizlist());
       })
       .catch(error => {
        // dispatch(fetchError(error));
@@ -46,7 +54,7 @@ export const  fetchQuizzes = () => dispatch => {
 // get list of all questions
 export const  fetchQuestions = () => dispatch => {
   console.log("fetches questions async action");
-  fetch(`${REACT_APP_BASE_URL}/api/quizzes/questions`)
+  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/questions`)
       .then(res => {
         console.log(res);
           if (!res.ok) {
@@ -56,7 +64,7 @@ export const  fetchQuestions = () => dispatch => {
       })
       .then(questions => {
         console.log(questions);
-          dispatch(fetch(questions(questions)));
+          return dispatch(fetch(questions(questions)));
       })
       .catch(error => {
        // dispatch(fetchError(error));

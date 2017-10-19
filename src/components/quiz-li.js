@@ -7,9 +7,9 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLi(props) {
-  console.log('QuizLi',props);
+  console.log('QuizLi!!!!',props);
 
-  const takeQuiz = (id) => {
+  const handleTakeQuizButton = (id) => {
     // starts @ 1st unanswered question
   }
 
@@ -17,15 +17,15 @@ export function QuizLi(props) {
     // add to list
   }
 
-  const id = props.id;
-  const category= props.category;
-  const difficulty= props.difficulty;
-  const name= props.name;
-  const theQuiz = <span onClick={()=>takeQuiz(id)}>{name}/{category}/{difficulty}</span>;
+  const id = 'props.quiz.id';
+  const category= props.quiz.category || 'cat';
+  const difficulty= props.quiz.difficulty || 'dif';
+  const name= props.quiz.name || 'name';
+  const theQuiz = <span>{name}/{category}/{difficulty}</span>;
 
-  const total= props.total;
-  const completed= props.completed;
-  const correct= props.correct;
+  const total= props.quiz.total;
+  const completed= props.quiz.completed;
+  const correct= props.quiz.correct;
 
   const statusBox = <QuizLiStatus
     id={id}
@@ -41,22 +41,10 @@ export function QuizLi(props) {
   const diff = props.diff; // make these graphic
   
   return (
-    <div>
-      <ul>
-        {theQuiz}
-        {status}
-        {categ}
-        {diff}
-        <button onClick={()=>takeQuiz()}>></button>
-      </ul>
-    </div>
+      <li onClick={()=>handleTakeQuizButton(id)}>
+        {theQuiz}{status}{categ}{diff}{'>'}
+      </li>
   );
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  quiz: state.quiz,
-  mode: state.mode
-})
-
-export default connect(mapStateToProps)(QuizLi);
+export default connect()(QuizLi);

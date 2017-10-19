@@ -19,16 +19,16 @@ export function QuizList(props) {
     props.dispatch(actionsUser.updateUserData(userData));
   }
 
-  // do for each quiz in the array
-  let quizId = '999';
-  let categ;
-  let diff;
-  const quizLi = <QuizLi status={true} id={quizId} categ={categ} diff={diff}/>
+  const quizLi = props.quiz.menuOfAllQuizzes.map((quiz, index)=>{
+    return <QuizLi key={index} status={true} testing={true} quiz={quiz} />
+  })
   
     return (
       <div>
         <h2 className="temp">5 List of All Quizzes</h2>
-        {quizLi}
+        <ul>
+          {quizLi}
+        </ul>
       </div>
     );
 }

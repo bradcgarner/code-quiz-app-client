@@ -12,20 +12,11 @@ export function Dashboard(props) {
   console.log('Dashboard',props.user);
 
   const handleQuizlistButton = () => {
-    props.dispatch(actionsMode.gotoQuizlist());
+    props.dispatch(actionsQuiz.fetchQuizzes());
   }
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   const quizLi = props.user.quizzes.map((quiz, index)=>{
-    return <QuizLi
-      key={index} 
-      id={quiz.id}
-      name={quiz.name}
-      total={quiz.total}
-      completed={quiz.completed}
-      correct={quiz.correct}
-      category={quiz.category} 
-      difficulty={quiz.difficulty}
-    />
+    return <QuizLi key={index} status={true} testing={true} quiz={quiz} />
   })
 
     return (

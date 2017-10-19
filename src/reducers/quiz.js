@@ -6,8 +6,10 @@ export const reducer = ( state = initialQuiz, action ) => {
     return Object.assign({}, state, {
       questions: action.questions
     })
-  } else if ( action.type === 'actions.NAME' ) {
-    // do something else
+  } else if ( action.type === actions.UPDATE_QUIZ_MENU ) {
+    return Object.assign({}, state, {
+      menuOfAllQuizzes: action.menuOfAllQuizzes
+    })
   } else {
     return state;
   }

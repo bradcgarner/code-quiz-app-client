@@ -33,7 +33,7 @@ export const login = (credentials) => dispatch => {
     cache: 'default'
   };
   console.log('init', init);
-  fetch(url, init)
+  return fetch(url, init)
   .then(res=>{
     console.log(res);
     if (!res.ok) { 
@@ -45,7 +45,7 @@ export const login = (credentials) => dispatch => {
     console.log('logged in!', user); 
     
     dispatch(updateUserStore(user));
-    dispatch(actionsMode.gotoDashboard());
+    return dispatch(actionsMode.gotoDashboard());
   })
   .catch(error => {
    // dispatch(loginError(error));
@@ -66,7 +66,7 @@ export const createUser = (credentials) => dispatch => { //credential should inc
     cache: 'default'
   };
   console.log('init', init);
-  fetch(url, init)
+  return fetch(url, init)
   .then(res=>{//response user api repr firstName, lastName, username, id
     console.log(res);
     if (!res.ok) { 
@@ -76,7 +76,7 @@ export const createUser = (credentials) => dispatch => { //credential should inc
   }) 
   .then(user => { 
     console.log('user created', user); 
-    dispatch(actionsMode.gotoLogin());
+    return dispatch(actionsMode.gotoLogin());
   })
   .catch(error => {
    // dispatch(loginError(error));
@@ -98,7 +98,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
     cache: 'default'
   };
   console.log('init', init);
-  fetch(url, init)
+  return fetch(url, init)
   .then(res=>{//response user api repr  no need to do anything with response
     console.log(res);
     if (!res.ok) { 
@@ -108,7 +108,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
   }) 
   .then(user => { 
     console.log('user updated', user); 
-    dispatch(updateUserStore(user));
+    return dispatch(updateUserStore(user));
   })
   .catch(error => {
    // dispatch(loginError(error));
@@ -128,7 +128,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
       cache: 'default'
     };
     console.log('init', init);
-    fetch(url, init)
+    return fetch(url, init)
     .then(res=>{//response user api repr  no need to do anything with response
       console.log(res);
       if (!res.ok) { 
@@ -138,7 +138,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
     }) 
     .then(user => { 
       console.log('user updated', user); 
-      dispatch(updateUserStore(user));
+      return dispatch(updateUserStore(user));
     })
     .catch(error => {
      // dispatch(loginError(error));
@@ -158,7 +158,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
       cache: 'default'
     };
     console.log('init', init);
-    fetch(url, init)
+    return fetch(url, init)
     .then(res=>{//response user api repr  
       console.log(res);
       if (!res.ok) { 
@@ -168,7 +168,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
     }) 
     .then(user => { 
       console.log('user found', user); 
-      dispatch(updateUserStore(user));
+      return dispatch(updateUserStore(user));
     })
     .catch(error => {
      // dispatch(loginError(error));
@@ -204,7 +204,7 @@ export const submitChoices = choice => dispatch => {
     cache: 'default'
   };
   console.log('init', init);
-  fetch(url, init)
+  return fetch(url, init)
   .then(res=>{//response is object{correct, id}
     console.log(res);
     if (!res.ok) { 
@@ -214,7 +214,7 @@ export const submitChoices = choice => dispatch => {
   }) 
   .then(correct => { 
     console.log('choice scored', correct); 
-    dispatch(scoreChoice(correct));
+    return dispatch(scoreChoice(correct));
     // read question #s from store:
     // if not last, gotoQuestion(1)
     // if last, gotoResults(quiz)

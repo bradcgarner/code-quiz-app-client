@@ -4,13 +4,13 @@ export const initialUser = {
   lastName: '',
   username: '',
   quizzes: [{
-    id: null,
-    name: '',
-    total: null,
-    completed: null,
-    correct: null,
+    id: 555,
+    name: 'test',
+    total: 3,
+    completed: 1,
+    correct: 1,
     category: '',
-    difficulty: null
+    difficulty: 3
   }],
   badges: 'none',
   recent: 'nothing',
@@ -30,10 +30,11 @@ export const initialQuiz = {
       option: '',
       id: null,
     }]
-  }]
+  }],
+  menuOfAllQuizzes: []
 };
 
 export const initialMode = {
-  view: 'answer'
+  view: 'landing'
 } // landing, about, login, profile, dashboard, quizlist, 
   // question, result, accuracy, answer
