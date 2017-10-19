@@ -12,23 +12,40 @@ export function Question(props) {
 
   const handleSubmitButton = (choice) => {
     console.log('submitting choice',choice);
-    props.dispatch(actionsUser.submitChoices(choice));
+    let formattedChoices = [];
+    for ( let prop in choice ) {
+      formattedChoices.push(prop);
+    }
+    console.log('formattedChoice', formattedChoices);
+    const formattedChoiceObject = {
+      userId: props.user.id, // user must be logged in
+      questionId: props.quiz.questions[current].id,
+      quizId: props.quiz.id,
+      choices : formattedChoices
+    };
+    console.log('formattedChoiceObject', formattedChoiceObject);
+    props.dispatch(actionsUser.submitChoices(formattedChoiceObject));
   }  // refer to actions/users.js for format of values
 
   console.log('props inside question.js', props);
   const current = props.quiz.current || 0;
-  const question = props.quiz.questions[current];
-  const inputType = question.inputType; 
+  const currQuestion = props.quiz.questions[current];
+  const inputType = currQuestion.inputType; 
   console.log('questions', props.quiz.questions);
   
-  const options = question.answers.map((option,index)=>{
-    console.log('1 Question', option);
-    const name = inputType === 'radio' ? 'option' : `${option}${index}`;
+  const options = currQuestion.answers.map((answer,index)=>{
+    const optionName = inputType === 'radio' ? 'option' : `${answer.id}`;
     return (
       <div key={index}>
-      <Field component="input" type={inputType} name={name} value={option.id}/>
-      <label htmlFor={name}>{option.option}</label>
-    </div>
+        <Field 
+          name={optionName} 
+          id={answer.id}
+          component='input'
+          type={inputType}
+          value={answer.id}
+        />
+        <label htmlFor={answer.id}>{answer.option}{JSON.stringify(answer)}</label>
+      </div>
     )
   });
 
@@ -45,9 +62,9 @@ export function Question(props) {
   return (
     <div>
       <h2 className="temp">6 Question</h2>
-        <p>{question.question}</p>
-        <form onSubmit={props.handleSubmit(choice =>
-          handleSubmitButton(choice)
+        <p>{currQuestion.question}</p>
+        <form onSubmit={props.handleSubmit(values =>
+          handleSubmitButton(values)
         )}>
           <ul>
             {options}

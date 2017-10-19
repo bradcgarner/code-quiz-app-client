@@ -125,11 +125,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
     const init = { 
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: {
-        "firstName": "Prince" // userData
-    }, //user data should flow the exact format ofthe schema
-      // mode: 'cors',
-      // cache: 'default'
+      body: JSON.stringify(userData) //user data should flow the exact format ofthe schema
     };
     // ######## The body is showing up as populated on the 
     // ######## client, but showing up empty on the server.
@@ -201,20 +197,19 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
   //         {"optionId" : "59e651e1c7bea3a51c15d905"},
   //       ]
   //    }
-export const submitChoices = choice => dispatch => { 
-  console.log('choice',choice)
+export const submitChoices = choices => dispatch => { 
+  console.log('choice as received by submitChoices',choices)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
-  console.log('url', url);
+  console.log('url for submitChoices', url);
   const init = { 
     method: 'POST',
-    body: choice,
-    mode: 'cors',
-    cache: 'default'
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(choices),
   };
-  console.log('init', init);
+  console.log('init for submitChoices', init);
   return fetch(url, init)
   .then(res=>{//response is object{correct, id}
-    console.log(res);
+    console.log('response after fetch in submitChoices', res);
     if (!res.ok) { 
       return Promise.reject(res.statusText);
     }

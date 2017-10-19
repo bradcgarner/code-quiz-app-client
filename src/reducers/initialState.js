@@ -1,4 +1,4 @@
-export const initialUser = {
+export const initialUser = { // store.user
   id: null,
   firstName: '',
   lastName: '',
@@ -17,7 +17,7 @@ export const initialUser = {
   authToken: ''
 };
 
-export const initialQuiz = {
+export const initialQuiz = { // store.quiz
   id: null,    
   name: '',
   category: '',
@@ -34,7 +34,7 @@ export const initialQuiz = {
   menuOfAllQuizzes: []
 };
 
-export const initialMode = {
+export const initialMode = {  // store.mode
   view: 'landing'
 } // landing, about, login, profile, dashboard, quizlist, 
   // question, result, accuracy, answer
