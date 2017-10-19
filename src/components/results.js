@@ -10,22 +10,26 @@ import * as actionsQuiz from '../actions/quiz';
 export function Results(props) {
   console.log('Results', props.user);
 
-  const gotoAnotherQuiz = () => {
-    // === gotoDash(user) || gotoListOfQuizzes()
+  const handleGotoAnotherQuizButton = () => {
+    if ( props.user.id ) {
+      console.log('also check to make sure user has un-taken quizzes on the list') 
+      props.dispatch(actionsMode.gotoDashboard() )
+    } else {
+      props.dispatch(actionsMode.gotoQuizlist() )
+    }
   } 
-  const gotoAccuracy = () => {
-    // === gotoDash(user) || gotoListOfQuizzes()
+
+  const handleGotoAccuracyButton = () => {
+    props.dispatch(actionsMode.gotoResult() )
   } 
 
     return (
       <div>
-
         <h2 className="temp">7 Results</h2>
-
         <ResultsGraph score={'score'}/>
         <ResultsScore score={'score'}/>
-        <button onClick={()=>gotoAccuracy()}>Check Accuracy</button>
-        <button onClick={()=>gotoAnotherQuiz()}>Take Another Quiz</button>
+        <button onClick={()=>handleGotoAccuracyButton()}>Check Accuracy</button>
+        <button onClick={()=>handleGotoAnotherQuizButton()}>Take Another Quiz</button>
       </div>
     );
 }

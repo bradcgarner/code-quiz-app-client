@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import * as actionsMode from '../actions/mode';
 
 export function Home(props) {
   console.log('Home',props);
   
-  const gotoHome = () => {
-    // go home (dashboard, profile, landing), read from props.where
+  const handleHomeButton=()=> {
+    if(props.where === 'dashboard') {
+      this.props.dispatch(actionsMode.gotoDashboard());      
+    } else if (props.where === 'profile') {
+      this.props.dispatch(actionsMode.gotoProfile());
+    } else {
+      this.props.dispatch(actionsMode.gotoLanding());
+    }
   }
-
     return (
       <div>
-        <button onClick={()=>gotoHome()}>Home</button>
+        <button onClick={()=>handleHomeButton()}>Home</button>
       </div>
     );
 }

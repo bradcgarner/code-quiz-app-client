@@ -10,8 +10,9 @@ import * as actionsQuiz from '../actions/quiz';
 
 export function Dashboard(props) {
   console.log('Dashboard',props.user);
-  const gotoListOfQuizzes = () => {
-    //
+
+  const handleQuizlistButton = () => {
+    props.dispatch(actionsMode.gotoQuizlist());
   }
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   const quizLi = props.user.quizzes.map((quiz, index)=>{
@@ -34,7 +35,7 @@ export function Dashboard(props) {
           <Recent recent={props.user.recent}/>
           <h3>{listHeader}</h3>
           {quizLi}            
-          <button onClick={()=>gotoListOfQuizzes()}>Add Another Quiz</button>
+          <button onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
       </div>
     );
 }

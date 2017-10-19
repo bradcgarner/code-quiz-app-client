@@ -9,13 +9,14 @@ import * as actionsQuiz from '../actions/quiz';
 
 export class Login extends React.Component {
   
-  onSubmit(values) {
+  handleSubmitButton(values) {
     console.log('submitting login',values);
     this.props.dispatch(actionsUser.submitCredentials(values));
   }
-  gotoProfile() {
-    // 
-  };
+  
+  handleProfileButton() {
+    this.props.dispatch(actionsMode.gotoProfile());
+  }
 
   render() {
     console.log('Login',this.props);    
@@ -24,7 +25,7 @@ export class Login extends React.Component {
       <div>
         <h2 className="temp">2 Login</h2>
         <form onSubmit={this.props.handleSubmit(values =>
-          this.onSubmit(values)
+          this.handleSubmitButton(values)
         )}>
           <Field
             name="username" 
@@ -47,7 +48,7 @@ export class Login extends React.Component {
           <button type="submit">Login</button>
         </form>
 
-        <button onClick={e=>this.gotoProfile()}>Create Account</button>
+        <button onClick={e=>this.handleProfileButton()}>Create Account</button>
       </div>
     );
   }

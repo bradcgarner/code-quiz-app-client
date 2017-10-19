@@ -13,16 +13,22 @@ export const login = (authToken, id, username, firstName, lastName, badges, rece
   recent
 });
 
-export const UPDATE_USER = 'UPDATE_USER';
-export const updateUser = user => {
-  return Object.assign({}, user, {  type: UPDATE_USER } )
+export const UPDATE_USER_STORE = 'UPDATE_USER_STORE';
+export const updateUserStore = user => {
+  return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
 }
 
 export const SCORE_CHOICE = 'SCORE_CHOICE';
 export const scoreChoice = correct => ({
-  correct: correct.id,
-  correct: correct.correct
+  type: SCORE_CHOICE
+  // reach into store and update sub-document
+  // correct: correct.id,
+  // correct: correct.correct
 });
+
+
+
+// @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
 export const submitCredentials = (credentials) => dispatch => {
   console.log('credentials',credentials)// dispatch synchronous form validation here
@@ -96,7 +102,7 @@ export const createUser = (credentials) => dispatch => { //credential should inc
 
 //const url = `${REACT_APP_BASE_URL}/api/users/:id`;
 //username, password, firstName, lastName
-export const updateProfile = (credentials) => dispatch => { //credential may include   username, password, firstName, lastName
+export const updateUserProfile = (credentials) => dispatch => { //credential may include   username, password, firstName, lastName
   console.log('credentials',credentials)// dispatch synchronous form validation here
   const url = `${REACT_APP_BASE_URL}/api/users/:id`;
   console.log('url', url);
@@ -117,7 +123,7 @@ export const updateProfile = (credentials) => dispatch => { //credential may inc
   }) 
   .then(user => { 
     console.log('user updated', user); 
-    dispatch(updateUser(user));
+    dispatch(updateUserStore(user));
   })
   .catch(error => {
    // dispatch(loginError(error));
@@ -147,7 +153,7 @@ export const updateProfile = (credentials) => dispatch => { //credential may inc
     }) 
     .then(user => { 
       console.log('user updated', user); 
-      dispatch(updateUser(user));
+      dispatch(updateUserStore(user));
     })
     .catch(error => {
      // dispatch(loginError(error));
@@ -155,10 +161,7 @@ export const updateProfile = (credentials) => dispatch => { //credential may inc
     });
   }
   
-
-
   //get user by Id  async
-  // id
   //response user api repr
   export const getUser = (id) => dispatch => { 
     console.log('id',id)
@@ -180,7 +183,7 @@ export const updateProfile = (credentials) => dispatch => { //credential may inc
     }) 
     .then(user => { 
       console.log('user found', user); 
-      dispatch(updateUser(user));
+      dispatch(updateUserStore(user));
     })
     .catch(error => {
      // dispatch(loginError(error));
@@ -196,16 +199,16 @@ export const updateProfile = (credentials) => dispatch => { //credential may inc
 
 
   ///////CHOICES
-  //let makeSureReqBodyHasThisFormat =  {
-   {/* "userId": "59e51b41c5944e09d2bc9036",
-    "questionId": "59e651e1c7bea3a51c15d900",
-    "quizId": "59e651e1c7bea3a51c15d8fe",
-    "choices" : [
-      {"optionId" : "59e651e1c7bea3a51c15d904"},
-      {"optionId" : "59e651e1c7bea3a51c15d905"},
-    ]
-  };*/}
-export const submitChoices = (choice) => dispatch => { 
+  // choice must have this format
+  //   {   "userId": "59e51b41c5944e09d2bc9036",
+  //       "questionId": "59e651e1c7bea3a51c15d900",
+  //       "quizId": "59e651e1c7bea3a51c15d8fe",
+  //       "choices" : [
+  //         {"optionId" : "59e651e1c7bea3a51c15d904"},
+  //         {"optionId" : "59e651e1c7bea3a51c15d905"},
+  //       ]
+  //    }
+export const submitChoices = choice => dispatch => { 
   console.log('choice',choice)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url', url);
@@ -227,6 +230,11 @@ export const submitChoices = (choice) => dispatch => {
   .then(correct => { 
     console.log('choice scored', correct); 
     dispatch(scoreChoice(correct));
+    // read question #s from store:
+    // if not last, gotoQuestion(1)
+    // if last, gotoResults(quiz)
+    // send choices to server/db<
+    // if last, calculate score for entire quiz
   })
   .catch(error => {
    // dispatch(loginError(error));
@@ -238,11 +246,3 @@ export const submitChoices = (choice) => dispatch => {
 //const url = `${REACT_APP_BASE_URL}/api/choices/quizzes/:quizId/users/:userId`;
 //quizId and userId
 //response array api reprof each choice
-
-
-
-
-
-
-
-

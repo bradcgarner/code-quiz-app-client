@@ -7,12 +7,18 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizList(props) {
-  let infoModal;
   console.log('QuizList',props.user);
-  if (props.user) {
-      infoModal = <p className="temp">ListOfAllQuestions Test</p>;
-      
+
+  const handleTakeQuizButton = (id) => {
+    props.dispatch(actionsQuiz.takeQuiz(id));
   }
+  const handleAddQuizButton = (quiz) => {
+    console.log('quiz is object with props read from DOM');
+    let userData;
+    console.log('add to user data from store');
+    props.dispatch(actionsUser.updateUserData(userData));
+  }
+
   // do for each quiz in the array
   let quizId = '999';
   let categ;
@@ -21,7 +27,6 @@ export function QuizList(props) {
   
     return (
       <div>
-        {infoModal}
         <h2 className="temp">5 List of All Quizzes</h2>
         {quizLi}
       </div>
