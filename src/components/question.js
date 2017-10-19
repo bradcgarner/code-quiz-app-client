@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
+import { compose } from 'redux';
+import { reduxForm, Field } from 'redux-form';
 import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
@@ -23,7 +25,7 @@ export function Question(props) {
     const name = inputType === 'radio' ? 'option' : `${option}${index}`;
     return (
       <div key={index}>
-      <input type={inputType} name={name} value={option.id}/> {/* fix value */}
+      <Field component="input" type={inputType} name={name} value={option.id}/>
       <label htmlFor={name}>{option.option}</label>
     </div>
     )
@@ -75,4 +77,7 @@ const mapStateToProps = state => ({
   mode: state.mode
 })
 
-export default connect(mapStateToProps)(Question);
+export default compose(
+  connect(mapStateToProps),
+  reduxForm({form:'question'}) // in the state we'll have state.form.login
+)(Question);

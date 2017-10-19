@@ -11,7 +11,7 @@ export class Login extends React.Component {
   
   handleSubmitButton(values) {
     console.log('submitting login',values);
-    this.props.dispatch(actionsUser.submitCredentials(values));
+    this.props.dispatch(actionsUser.login(values));
   }
   
   handleProfileButton() {

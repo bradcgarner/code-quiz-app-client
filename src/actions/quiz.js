@@ -22,6 +22,28 @@ export const updateQuizStore = (quiz) => ({
 
 // @@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@
 
+// get list of all quizzes
+export const  fetchQuizzes = () => dispatch => {
+  console.log("fetches quizzes async action");
+  fetch(`${REACT_APP_BASE_URL}/api/quizzes/`)
+      .then(res => {
+        console.log('quizzes fetched',res);
+          if (!res.ok) {
+              return Promise.reject(res.statusText);
+          }
+          return res.json();
+      })
+      .then(quizzes => {
+        console.log('quizzes fetched',quizzes);
+          dispatch(actionsMode.gotoQuizlist());
+      })
+      .catch(error => {
+       // dispatch(fetchError(error));
+        console.log(error);
+      });
+};
+
+// get list of all questions
 export const  fetchQuestions = () => dispatch => {
   console.log("fetches questions async action");
   fetch(`${REACT_APP_BASE_URL}/api/quizzes/questions`)
@@ -50,9 +72,6 @@ category: req.body.category,
 difficulty: req.body.difficulty,
 questions: req.body.questions*/}
 
-//gotoListOfQuizzes
-//show all gotoListOfQuizzes  GET
-//const url = `${REACT_APP_BASE_URL}/api/quizzes`
 
 // takeQuiz
 //get  takeQuiz by id 

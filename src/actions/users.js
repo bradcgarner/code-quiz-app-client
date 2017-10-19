@@ -1,18 +1,6 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
 
-export const LOGIN= 'LOGIN';
-export const login = (authToken, id, username, firstName, lastName, badges, recent) => ({
-  type: LOGIN,
-  authToken,
-  id,
-  username,
-  firstName,
-  lastName,
-  badges,
-  recent
-});
-
 export const UPDATE_USER_STORE = 'UPDATE_USER_STORE';
 export const updateUserStore = user => {
   return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
@@ -30,7 +18,7 @@ export const scoreChoice = correct => ({
 
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
-export const submitCredentials = (credentials) => dispatch => {
+export const login = (credentials) => dispatch => {
   console.log('credentials',credentials)// dispatch synchronous form validation here
   const url = `${REACT_APP_BASE_URL}/api/auth/login`;
   console.log('url', url);
@@ -56,11 +44,8 @@ export const submitCredentials = (credentials) => dispatch => {
   .then(user => { 
     console.log('logged in!', user); 
     
-    dispatch(login(user.authToken, user.id, user.username,
-      user.firstName,
-      user.lastName,
-      user.badges,
-      user.recent));
+    dispatch(updateUserStore(user));
+    dispatch(actionsMode.gotoDashboard());
   })
   .catch(error => {
    // dispatch(loginError(error));
