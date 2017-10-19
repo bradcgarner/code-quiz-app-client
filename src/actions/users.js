@@ -88,13 +88,16 @@ export const createUser = (credentials) => dispatch => { //credential should inc
 
 //const url = `${REACT_APP_BASE_URL}/api/users/:id`;
 //username, password, firstName, lastName
-export const updateUserProfile = (credentials) => dispatch => { //credential may include   username, password, firstName, lastName
+export const updateUserProfile = (credentials, authToken) => dispatch => { //credential may include   username, password, firstName, lastName
   console.log('credentials',credentials)// dispatch synchronous form validation here
   const url = `${REACT_APP_BASE_URL}/api/users/:id`;
   console.log('url', url);
+  const headers = new Headers({"Authorization": "Bearer " + authToken});
+  console.log('headers', headers);
   const init = { 
     method: 'PUT',
     body: credentials,
+    headers: headers,
     mode: 'cors',
     cache: 'default'
   };
@@ -122,9 +125,11 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
     console.log('userData',userData)
     const url = `${REACT_APP_BASE_URL}/api/users/${userData.id}/data`;
     console.log('url', url);
+    const headers = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + props.user.authToken});
+    console.log('headers', headers);
     const init = { 
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: headers,
       body: JSON.stringify(userData) //user data should flow the exact format ofthe schema
     };
     // ######## The body is showing up as populated on the 

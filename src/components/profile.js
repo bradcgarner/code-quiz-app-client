@@ -12,7 +12,7 @@ constructor(props) {
 
   handleSubmitButton() { // add form validation first
     if (this.props.user.id) {
-      this.props.dispatch(actionsUser.updateUserProfile())
+      this.props.dispatch(actionsUser.updateUserProfile(credentials, props.user.authToken))
     } else {
       this.props.dispatch(actionsUser.createUser());
     }
@@ -24,22 +24,58 @@ constructor(props) {
         <div>
           <h2 className="temp">3 Profile</h2>
           <form>
-            <input name="username" type="text" placeholder="username" required="true"/>
-            <label htmlFor="username">Username</label>
-            <input name="firstname" type="text" placeholder="firstname" required="true"/>
-            <label htmlFor="firstname">First Name</label>
-            <input name="lastname" type="text" placeholder="lastname" required="true"/>
-            <label htmlFor="lastname">Last Name</label>
-            <input name="password" type="text" placeholder="password" required="true"/>
-            <label htmlFor="password">Password</label>
-            <input name="password2" type="text" placeholder="re-type password" required="true"/>
-            <label htmlFor="password2">Re-Type Password</label>
-            <button type="submit" onClick={()=>this.handleSubmitButton()}>{buttonText}</button>
-          </form>
+          <Field 
+            name="firstname"
+            id="firstName"
+            component="input"
+            type="text" 
+            placeholder="firstname"
+            required/>
+          <label htmlFor="firstname">First Name</label>
+          <Field 
+            name="lastname" 
+            id="lastName"
+            component="input"
+            type="text" 
+            placeholder="lastname" 
+            required/>
+          <label htmlFor="lastname">Last Name</label>
+
+          <Field
+            name="username" 
+            id="username"
+            component="input"
+            type="text" 
+            placeholder="username" 
+            required
+          />
+          <label htmlFor="username">Username</label>
+          <Field 
+            name="password" 
+            id="password"
+            component="input"
+            type="text" 
+            placeholder="password" 
+            required
+          />
+          <label htmlFor="password">Password</label>
+          <Field 
+            name="password2" 
+            id="password2"
+            component="input"
+            type="text" 
+            placeholder="re-type password" 
+            required="true"/>
+          <label htmlFor="password2">Re-Type Password</label>
+          <button onClick={e=>this.handleProfileButton()}>Create Account</button>
+         </form>
         </div>
       );
   }
 }
+ 
+
+       
 
 const mapStateToProps = state => ({
   user: state.user,
