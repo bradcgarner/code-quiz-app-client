@@ -3,27 +3,29 @@ import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
-import * as userActions from '../actions/users';
+import * as actionsUser from '../actions/users';
+import * as actionsMode from '../actions/mode';
+import * as actionsQuiz from '../actions/quiz';
 
 export class Login extends React.Component {
   
-  onSubmit(values) {
+  handleSubmitButton(values) {
     console.log('submitting login',values);
-    this.props.dispatch(userActions.submitCredentials(values));
+    this.props.dispatch(actionsUser.login(values));
   }
-  gotoProfile() {
-    // 
-  };
+  
+  handleProfileButton() {
+    this.props.dispatch(actionsMode.gotoProfile());
+  }
 
   render() {
     console.log('Login',this.props);    
-
 
     return (
       <div>
         <h2 className="temp">2 Login</h2>
         <form onSubmit={this.props.handleSubmit(values =>
-          this.onSubmit(values)
+          this.handleSubmitButton(values)
         )}>
           <Field
             name="username" 
@@ -46,11 +48,10 @@ export class Login extends React.Component {
           <button type="submit">Login</button>
         </form>
 
-        <button onClick={e=>this.gotoProfile()}>Create Account</button>
+        <button onClick={e=>this.handleProfileButton()}>Create Account</button>
       </div>
     );
   }
-    
 }
 
 const mapStateToProps = state => ({

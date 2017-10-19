@@ -1,55 +1,81 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
+import { compose } from 'redux';
+import { reduxForm, Field } from 'redux-form';
+import * as actionsUser from '../actions/users';
+import * as actionsMode from '../actions/mode';
+import * as actionsQuiz from '../actions/quiz';
 
 export function Question(props) {
   console.log('Question', props);      
 
-  const current = props.quiz.current;
-  const question = props.quiz.questions[current];
-  const inputType = question.inputType; 
+  const handleSubmitButton = (choice) => {
+    console.log('submitting choice',choice);
+    let formattedChoices = [];
+    for ( let prop in choice ) {
+      formattedChoices.push(prop);
+    }
+    console.log('formattedChoice', formattedChoices);
+    const formattedChoiceObject = {
+      userId: props.user.id, // user must be logged in
+      questionId: props.quiz.questions[current].id,
+      quizId: props.quiz.id,
+      choices : formattedChoices
+    };
+    console.log('formattedChoiceObject', formattedChoiceObject);
+    props.dispatch(actionsUser.submitChoices(formattedChoiceObject));
+  }  // refer to actions/users.js for format of values
+
+  console.log('props inside question.js', props);
+  const current = props.quiz.current || 0;
+  const currQuestion = props.quiz.questions[current];
+  const inputType = currQuestion.inputType; 
   console.log('questions', props.quiz.questions);
   
-  const options = question.answers.map((option,index)=>{
-    console.log('1 Question', option);
-    const name = inputType === 'radio' ? 'option' : `${option}${index}`;
+  const options = currQuestion.answers.map((answer,index)=>{
+    const optionName = inputType === 'radio' ? 'option' : `${answer.id}`;
     return (
       <div key={index}>
-      <input type={inputType} name={name} value={option.id}/> {/* fix value */}
-      <label htmlFor={name}>{option.option}</label>
-    </div>
+        <Field 
+          name={optionName} 
+          id={answer.id}
+          component='input'
+          type={inputType}
+          value={answer.id}
+        />
+        <label htmlFor={answer.id}>{answer.option}</label>
+      </div>
     )
   });
 
-  const submitChoices = (e) => {
-    // if not last, gotoQuestion(1)
-    // if last, gotoResults(quiz)
-    // send choices to server/db<
-    // if last, calculate score for entire quiz on server
-  }; 
-
-  const gotoQuestion =(index) => {
+  const handleGotoQuestionButton = index => {
     // get current # and go up or back 1
   }
 
-  const prevQuestion = props.quiz.current > 0 ? <button onClick={()=>gotoQuestion(-1)}>fwd</button> : '' ;  
-  const nextQuestion = props.quiz.questions.length > ( props.quiz.current + 1 ) ? <button onClick={()=>gotoQuestion(1)}>fwd</button> : '' ;
+  const prevQuestionButton = props.quiz.current > 0 ? 
+    <button onClick={()=>handleGotoQuestionButton(-1)}>back</button> : '' ;
+
+  const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?
+    <button onClick={()=>handleGotoQuestionButton(1)}>fwd</button> : '' ;
 
   return (
     <div>
       <h2 className="temp">6 Question</h2>
-        <p>{question.question}</p>
-        <form>
+        <p>{currQuestion.question}</p>
+        <form onSubmit={props.handleSubmit(values =>
+          handleSubmitButton(values)
+        )}>
           <ul>
             {options}
           </ul>
-          <button type="submit" onSubmit={(e)=>{submitChoices(e)}}>Submit</button>
+          <button type="submit">Submit</button>
         </form>
 
         {/*Footer - can arrows be inside form, or should "appear" inside form*/}
           
-        {prevQuestion}
-        {nextQuestion}
+        {prevQuestionButton}
+        {nextQuestionButton}
 
         <p>Answers: Skip for now, same as questions, but add in: 
           User's choice, 
@@ -69,4 +95,7 @@ const mapStateToProps = state => ({
   mode: state.mode
 })
 
-export default connect(mapStateToProps)(Question);
+export default compose(
+  connect(mapStateToProps),
+  reduxForm({form:'question'}) // in the state we'll have state.form.login
+)(Question);

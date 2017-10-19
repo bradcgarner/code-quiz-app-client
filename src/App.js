@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/header';
 import Landing from './components/landing';
+import About from './components/about';
 import Login from './components/login';
 import Profile from './components/profile';
 import Dashboard from './components/dashboard';
@@ -14,6 +15,8 @@ export default function App(props) {
       <Header />
       <hr />
       <Landing />
+      <hr />
+      <About />
       <hr />
       <Login />
       <hr />

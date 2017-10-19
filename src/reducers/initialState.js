@@ -1,23 +1,23 @@
-export const initialUser = {
+export const initialUser = { // store.user
   id: null,
   firstName: '',
   lastName: '',
   username: '',
   quizzes: [{
-    id: null,
-    name: '',
-    total: null,
-    completed: null,
-    correct: null,
+    id: 555,
+    name: 'test',
+    total: 3,
+    completed: 1,
+    correct: 1,
     category: '',
-    difficulty: null
+    difficulty: 3
   }],
   badges: 'none',
   recent: 'nothing',
   authToken: ''
 };
 
-export const initialQuiz = {
+export const initialQuiz = { // store.quiz
   id: null,    
   name: '',
   category: '',
@@ -30,10 +30,11 @@ export const initialQuiz = {
       option: '',
       id: null,
     }]
-  }]
+  }],
+  menuOfAllQuizzes: []
 };
 
-export const initialMode = {
-  view: 'answer'
-} // landing, login, profile, dashboard, quizlist, 
+export const initialMode = {  // store.mode
+  view: 'landing'
+} // landing, about, login, profile, dashboard, quizlist, 
   // question, result, accuracy, answer
