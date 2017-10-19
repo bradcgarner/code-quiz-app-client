@@ -37,7 +37,7 @@ export const submitCredentials = (credentials) => dispatch => {
     method: 'POST',
     headers: headers,
     mode: 'cors',
-    cache: 'default'
+    cache: 'default'//not caching anything just passing
   };
   console.log('init', init);
   fetch(url, init)
