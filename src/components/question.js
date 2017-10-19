@@ -44,7 +44,7 @@ export function Question(props) {
           type={inputType}
           value={answer.id}
         />
-        <label htmlFor={answer.id}>{answer.option}{JSON.stringify(answer)}</label>
+        <label htmlFor={answer.id}>{answer.option}</label>
       </div>
     )
   });
@@ -53,10 +53,10 @@ export function Question(props) {
     // get current # and go up or back 1
   }
 
-  const prevQuestion = props.quiz.current > 0 ? 
-    <button onClick={()=>handleGotoQuestionButton(-1)}>fwd</button> : '' ;
+  const prevQuestionButton = props.quiz.current > 0 ? 
+    <button onClick={()=>handleGotoQuestionButton(-1)}>back</button> : '' ;
 
-  const nextQuestion = props.quiz.questions.length > ( props.quiz.current + 1 ) ?
+  const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?
     <button onClick={()=>handleGotoQuestionButton(1)}>fwd</button> : '' ;
 
   return (
@@ -74,8 +74,8 @@ export function Question(props) {
 
         {/*Footer - can arrows be inside form, or should "appear" inside form*/}
           
-        {prevQuestion}
-        {nextQuestion}
+        {prevQuestionButton}
+        {nextQuestionButton}
 
         <p>Answers: Skip for now, same as questions, but add in: 
           User's choice, 
