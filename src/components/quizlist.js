@@ -7,12 +7,14 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizList(props) {
-  console.log('QuizList',props.user);
+  console.log('QuizList',props);
 
   const handleTakeQuizButton = (id) => {
     props.dispatch(actionsQuiz.takeQuiz(id));
   }
+ 
   const handleAddQuizButton = (quiz) => {
+    const updatedUser = 
     console.log('quiz is object with props read from DOM');
     let userData;
     console.log('add to user data from store');
@@ -20,7 +22,7 @@ export function QuizList(props) {
   }
 
   const quizLi = props.quiz.menuOfAllQuizzes.map((quiz, index)=>{
-    return <QuizLi key={index} status={true} testing={true} quiz={quiz} />
+    return <QuizLi key={index} status={true} testing={true} li={quiz} />
   })
   
     return (

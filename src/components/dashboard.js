@@ -12,11 +12,18 @@ export function Dashboard(props) {
   console.log('Dashboard',props.user);
 
   const handleQuizlistButton = () => {
-    props.dispatch(actionsQuiz.fetchQuizzes());
+    if ( props.quiz.menuOfAllQuizzes.length > 1) {
+      console.log('going to your list');
+      props.dispatch(actionsMode.gotoQuizlist());
+    } else {
+      console.log('fetching quizzes');
+      props.dispatch(actionsQuiz.fetchQuizzes());      
+    }
   }
+  console.log('props on dashboard',props);
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   const quizLi = props.user.quizzes.map((quiz, index)=>{
-    return <QuizLi key={index} status={true} testing={true} quiz={quiz} />
+    return <QuizLi key={index} status={true} testing={true} li={quiz} />
   })
 
     return (

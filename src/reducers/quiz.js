@@ -10,7 +10,20 @@ export const reducer = ( state = initialQuiz, action ) => {
     return Object.assign({}, state, {
       menuOfAllQuizzes: action.menuOfAllQuizzes
     })
-  } else {
+  } else if ( action.type === actions.UPDATE_QUIZ_STORE ) {
+    return Object.assign({}, state, {
+      id: action.id,    
+      name: action.name,
+      category: action.category,
+      difficulty: action.difficulty,
+      current: action.currrent || 0,
+    })   
+  } else if ( action.type === actions.UPDATE_QUIZ_STORE_QUESTIONS ) {
+    return Object.assign({}, state, {
+      current: action.currrent || 0,
+      questions: action.questions
+    })    
+  } else { 
     return state;
   }
 }

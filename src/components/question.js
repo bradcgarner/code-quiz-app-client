@@ -15,7 +15,8 @@ export function Question(props) {
     props.dispatch(actionsUser.submitChoices(choice));
   }  // refer to actions/users.js for format of values
 
-  const current = props.quiz.current;
+  console.log('props inside question.js', props);
+  const current = props.quiz.current || 0;
   const question = props.quiz.questions[current];
   const inputType = question.inputType; 
   console.log('questions', props.quiz.questions);

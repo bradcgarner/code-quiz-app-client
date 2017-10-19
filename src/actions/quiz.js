@@ -18,7 +18,14 @@ export const updateQuizStore = (quiz) => ({
   category: quiz.category,
   difficulty: quiz.difficulty,
   current: 0,
-  questions: quiz.questions,
+});
+
+// this is the single current quiz
+export const UPDATE_QUIZ_STORE_QUESTIONS = 'UPDATE_QUIZ_STORE_QUESTIONS';
+export const updateQuizStoreQuestions = (questions) => ({
+  type: UPDATE_QUIZ_STORE_QUESTIONS,
+  current: 0,
+  questions: questions,
 });
 
 export const UPDATE_QUIZ_MENU = 'UPDATE_QUIZ_MENU';
@@ -51,27 +58,6 @@ export const  fetchQuizzes = () => dispatch => {
       });
 };
 
-// get list of all questions
-export const  fetchQuestions = () => dispatch => {
-  console.log("fetches questions async action");
-  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/questions`)
-      .then(res => {
-        console.log(res);
-          if (!res.ok) {
-              return Promise.reject(res.statusText);
-          }
-          return res.json();
-      })
-      .then(questions => {
-        console.log(questions);
-          return dispatch(fetch(questions(questions)));
-      })
-      .catch(error => {
-       // dispatch(fetchError(error));
-        console.log(error);
-      });
-};
-
 //update quiz by ID
 //const url = `${REACT_APP_BASE_URL}/api/quizzes/:id`
 // name:req.body.name,
@@ -81,20 +67,30 @@ difficulty: req.body.difficulty,
 questions: req.body.questions*/}
 
 
-// takeQuiz
-//get  takeQuiz by id 
-//const url = `${REACT_APP_BASE_URL}/api/quizzes/:id`
-//quizId
-
 // get all questions by quiz id
 //const url = `${REACT_APP_BASE_URL}/api/quizzes/:id/questions`
 //quizId
 
-export const takeQuiz = id => dispatch => {
-  console.log('do something clever while loading')
-  console.log('get all questions by Quiz id')
-  console.log('add quiz to user\'s list if not already');
-  console.log('update store to reflect which quiz we are taking')
-  console.log('update store to reflect question mode')
-}
+export const takeQuiz = quiz => dispatch => {
+  console.log('do something clever while fetching questions');
+  dispatch(updateQuizStore(quiz));
+  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quiz.id}/questions`)
+        .then(res => {
+          console.log(res);
+            if (!res.ok) {
+                return Promise.reject(res.statusText);
+            }
+            return res.json();
+        })
+        .then(questions => {
+          console.log('quiz returned', questions);
+          dispatch(actionsMode.gotoQuestion());
+            return dispatch(updateQuizStoreQuestions(questions));
+        })
+        .then()
+        .catch(error => {
+         // dispatch(fetchError(error));
+          console.log(error);
+        });
+  };
 

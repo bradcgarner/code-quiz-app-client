@@ -1,6 +1,9 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
 
+const qs = require('qs');
+const assert = require('assert');
+
 export const UPDATE_USER_STORE = 'UPDATE_USER_STORE';
 export const updateUserStore = user => {
   return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
@@ -13,8 +16,6 @@ export const scoreChoice = correct => ({
   // correct: correct.id,
   // correct: correct.correct
 });
-
-
 
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
@@ -119,14 +120,21 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
 //update user  put async
   export const updateUserData = (userData) => dispatch => { 
     console.log('userData',userData)
-    const url = `${REACT_APP_BASE_URL}/api/users/:id/quiz`;
+    const url = `${REACT_APP_BASE_URL}/api/users/${userData.id}/data`;
     console.log('url', url);
     const init = { 
       method: 'PUT',
-      body: userData, //user data should flow the exact format ofthe schema
-      mode: 'cors',
-      cache: 'default'
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        "firstName": "Prince" // userData
+    }, //user data should flow the exact format ofthe schema
+      // mode: 'cors',
+      // cache: 'default'
     };
+    // ######## The body is showing up as populated on the 
+    // ######## client, but showing up empty on the server.
+    // ######## The same method, format, headers work in Postman,
+    // ######## but not here
     console.log('init', init);
     return fetch(url, init)
     .then(res=>{//response user api repr  no need to do anything with response
@@ -137,7 +145,7 @@ export const updateUserProfile = (credentials) => dispatch => { //credential may
       return res.json();
     }) 
     .then(user => { 
-      console.log('user updated', user); 
+      console.log('user updated, ready for STORE', user); 
       return dispatch(updateUserStore(user));
     })
     .catch(error => {

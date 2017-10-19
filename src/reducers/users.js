@@ -18,6 +18,10 @@ export const reducer = ( state = initialUser, action ) => {
     return Object.assign({}, state, {
       DUMMY: 'reach into store and update sub-document'
     })
+  } else if ( action.type === 'actions.ADD_QUIZ_USER_LIST' ) {
+    return Object.assign({}, state, {
+      quizzes: action.quizzes
+    })
   } else {
     return state;
   }

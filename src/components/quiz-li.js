@@ -8,24 +8,57 @@ import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLi(props) {
   console.log('QuizLi!!!!',props);
+  
+  const copyUserWithNewQuiz = (quiz) => {    
+    console.log(' add quiz ', quiz);
+    console.log('inside handle add quiz ', props);
+    const quizIsListed = props.user.quizzes.filter(quiz=>{
+      console.log('quiz is listed calc', quiz);
+      return quiz.id === quiz.id;
+    });
+    console.log('quizIsListed', quizIsListed);
+    if (quizIsListed.length >= 1) {
+       return null;
+    } else {
+      console.log('add quiz', quiz);
+      const newQuizList = [...props.user.quizzes, quiz ];
+      console.log('newQuizList', newQuizList)
+      const userCopy = Object.assign({},props.user);
+      console.log('userCopy', userCopy)
+      userCopy.quizzes = newQuizList;
+      console.log(userCopy);
+      return userCopy;
+    }
+  }
 
-  const handleTakeQuizButton = (id) => {
+  const handleAddQuizButton = (quiz) => {
+    const userCopy = copyUserWithNewQuiz(quiz);
+    if ( userCopy ) {
+      console.log('about to update user data', userCopy);
+      props.dispatch(actionsUser.updateUserData(userCopy))      
+    }
+  }
+
+  const handleTakeQuizButton = (quiz) => {
+    if ( props.mode.view !== 'dashboard') {
+      console.log('I AM NOT ON THE DASHBOARD');
+      handleAddQuizButton(quiz)
+    }
+    console.log('JUST SELECTED QUIZ TO TAKE', quiz);    
+    props.dispatch(actionsQuiz.takeQuiz(quiz))
+    
     // starts @ 1st unanswered question
   }
 
-  const addQuizToList = (id) => {
-    // add to list
-  }
-
-  const id = 'props.quiz.id';
-  const category= props.quiz.category || 'cat';
-  const difficulty= props.quiz.difficulty || 'dif';
-  const name= props.quiz.name || 'name';
+  const id = props.li.id;
+  const category= props.li.category || 'cat';
+  const difficulty= props.li.difficulty || 'dif';
+  const name= props.li.name || 'name';
   const theQuiz = <span>{name}/{category}/{difficulty}</span>;
 
-  const total= props.quiz.total;
-  const completed= props.quiz.completed;
-  const correct= props.quiz.correct;
+  const total= props.li.total;
+  const completed= props.li.completed;
+  const correct= props.li.correct;
 
   const statusBox = <QuizLiStatus
     id={id}
@@ -34,17 +67,20 @@ export function QuizLi(props) {
     correct={correct}
   />;
 
-  const addButton = <button onClick={()=>addQuizToList(id)}>+</button> ;
+  const addButton = <button onClick={()=>handleAddQuizButton(props.li)}>Add</button> ;
+  const takeButton = <button onClick={()=>handleTakeQuizButton(props.li)}>Go!</button> ;
 
-  const status = props.status ? statusBox : addButton ;
-  const categ = props.categ ; // make these graphic
-  const diff = props.diff; // make these graphic
+  const status = props.li.status ? statusBox : addButton ;
   
   return (
-      <li onClick={()=>handleTakeQuizButton(id)}>
-        {theQuiz}{status}{categ}{diff}{'>'}
-      </li>
+      <li>{theQuiz}{status}{takeButton}</li>
   );
 }
 
-export default connect()(QuizLi);
+const mapStateToProps = state => ({
+  user: state.user,
+  quiz: state.quiz,
+  mode: state.mode
+})
+
+export default connect(mapStateToProps)(QuizLi);
