@@ -17,7 +17,7 @@ export function Home(props) {
   const label = props.label ;
 
     return (
-        <i onClick={()=>handleHomeButton()} className="fa fa-hand-o-left" aria-hidden="true"></i>
+        <i onClick={()=>handleHomeButton()} className="fa fa-hand-o-left homeIcon" aria-hidden="true"></i>
     );
 }
 

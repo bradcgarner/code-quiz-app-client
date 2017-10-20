@@ -27,9 +27,9 @@ export function Dashboard(props) {
       <div className="dashboard">
         <Badges />
         <Recent recent={props.user.recent}/>
-        <h3>{listHeader}</h3>
+        <h3 className="dashboardQuizListHeader">{listHeader}</h3>
         {quizLi}            
-        <button onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
+        <button className="gotoQuizListButton"onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
       </div>
     );
 }

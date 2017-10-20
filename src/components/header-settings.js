@@ -11,7 +11,7 @@ export function Settings(props) {
   }
   
     return (
-        <i onClick={()=>handleSettingsButton()} className="fa fa-cogs" aria-hidden="true"></i>
+        <i onClick={()=>handleSettingsButton()} className="fa fa-cogs settingsIcon" aria-hidden="true"></i>
     );
 }
 

@@ -21,7 +21,7 @@ export function Question(props) {
       quizId: props.quiz.id,
       choices : formattedChoices
     };
-    const next = props.quiz.current === (props.quiz.questions.length - 1) ? 'score' : 'next' ;
+    const next = props.quiz.current === (props.quiz.questions.length - 1) ? 'score' : props.quiz.current + 1 ;
     props.dispatch(actionsUser.submitChoices(formattedChoiceObject, props.user.authToken, next));
   }  // refer to actions/users.js for format of values
 
@@ -49,30 +49,44 @@ export function Question(props) {
     // get current # and go up or back 1
     props.dispatch(actionsQuiz.updateCurrentQuestion(props.quiz.current + index))
   }
-
-  const prevQuestionButton = props.quiz.current > 0 ?  'normal'  : 'grey' ;
-
-  const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?  'normal'  : 'grey' ;
+  
+  const prevQuestionClass = props.quiz.current > 0 ?  'fa fa-hand-o-left smallIcon'  : 'fa fa-hand-o-left smallIcon inactive' ;
+  const nextQuestionClass = props.quiz.questions.length > ( props.quiz.current + 1 ) ?  'fa fa-hand-o-right smallIcon'  : 'fa fa-hand-o-right smallIcon inactive' ;
+  const submitButtonClass = 'formisEmpty'==='empty' ?  'submitButton'  : 'submitButton inactive' ;
+  
 
   return (
     <div className="question">
-      <StatusBar />
-      <p>{currQuestion.question}</p>
-      <form onSubmit={props.handleSubmit(values =>
+      <StatusBar 
+      total={props.quiz.questions.length}
+      current={props.quiz.current}
+      />
+
+      <p className="questionAsked">{currQuestion.question}</p>
+      <form className="questionForm" onSubmit={props.handleSubmit(values =>
         handleSubmitButton(values)
       )}>
-        <ul>
+        <ul className="questionOptions">
           {options}
         </ul>
-        <button type="submit">Submit</button>
+
+        <i className={prevQuestionClass} 
+          onClick={()=>handleGotoQuestionButton(-1)}
+          aria-hidden="true">
+          <span className="faText">Previous</span>
+        </i>
+      
+        <button className={submitButtonClass} type="submit">Submit</button>
+
+        <i className={nextQuestionClass} 
+          onClick={()=>handleGotoQuestionButton(1)}
+          aria-hidden="true">
+          <span className="faText">Skip</span>
+        </i>
+
       </form>
 
-      {/*Footer - can arrows be inside form, or should "appear" inside form*/}
-          
-      <button className={prevQuestionButton} onClick={()=>handleGotoQuestionButton(-1)}>back</button>
-      <button className={nextQuestionButton} onClick={()=>handleGotoQuestionButton(1)}>fwd</button>
-
-        <p>Answers: Skip for now, same as questions, but add in: 
+      <p>Answers: Skip for now, same as questions, but add in: 
           User's choice, 
           Correct answer (optional), 
           Links to resources, 

@@ -18,7 +18,7 @@ export function QuizList(props) {
   }
 
   const quizLi = props.quiz.menuOfAllQuizzes.map((quiz, index)=>{
-    return <QuizLi key={index} status={true} testing={true} li={quiz} />
+    return <QuizLi key={index} status={true} li={quiz} />
   })
   
     return (

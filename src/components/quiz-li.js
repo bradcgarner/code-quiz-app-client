@@ -46,7 +46,12 @@ export function QuizLi(props) {
   const category= props.li.category || 'cat';
   const difficulty= props.li.difficulty || 'dif';
   const name= props.li.name || 'name';
-  const theQuiz = <span>{name}/{category}/{difficulty}</span>;
+
+  const theQuiz = <div className="quizLi">
+    <div className="quizLiName">{name}</div>
+    <div className="quizLiCategory">{category}</div>
+    <div className="quizLiDifficulty">{difficulty}</div>
+  </div>;
 
   const total= props.li.total;
   const completed= props.li.completed;
@@ -59,8 +64,15 @@ export function QuizLi(props) {
     correct={correct}
   />;
 
-  const addButton = props.mode.view==='dashboard' ? '' : <button onClick={()=>handleAddQuizButton(props.li)}>Add</button> ;
-  const takeButton = <button onClick={()=>handleTakeQuizButton(props.li)}>Go!</button> ;
+  const addButton = props.mode.view==='dashboard' ? '' :
+  <i class="fa fa-list-ul smallIcon" aria-hidden="true"onClick={()=>handleAddQuizButton(props.li)}>
+    <span className="faText">Add</span>
+  </i>;
+  
+  const takeButton = <i className="fa fa-hand-o-right smallIcon" aria-hidden="true" onClick={()=>handleTakeQuizButton(props.li)}>
+    <span className="faText">Go!</span>
+  </i>;
+  
 
   const status = props.li.status ? statusBox : addButton ;
   

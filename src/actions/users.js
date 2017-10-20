@@ -174,7 +174,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     });
   }
 
-export const submitChoices = (choices, authToken, next) => dispatch => { 
+export const submitChoices = (choices, authToken, next) => dispatch => { // next === 'score' or next index
   console.log('choice as received by submitChoices',choices)
   console.log('next as received by submitChoices',next)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
@@ -204,7 +204,7 @@ export const submitChoices = (choices, authToken, next) => dispatch => {
       console.log('choices.quizId, choices.userId', choices.quizId, choices.userId);
       dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
     } else {
-      dispatch(actionsQuiz.updateCurrentQuestion(1));
+      dispatch(actionsQuiz.updateCurrentQuestion(next));
     }
   })
   .catch(error => {

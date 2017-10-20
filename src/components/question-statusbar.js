@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 
 export function StatusBar(props) {
   
-    return (
-      <div>
-        <p>StatusBar</p>
-      </div>
-    );
+  const total= props.total;
+  const current= props.current + 1;
+  
+  return (
+    <div className="statusBar">
+      {current} &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; {total}
+    </div>
+  );
 }
 
-const mapStateToProps = state => ({
-  user: state.user
-})
-
-export default connect(mapStateToProps)(StatusBar);
+export default connect()(StatusBar);

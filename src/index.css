@@ -34,7 +34,7 @@ footer, header, hgroup, menu, nav, section {
 body {
   line-height: 1; }
 
-ol, ul {
+ol, ul, li {
   list-style: none; }
 
 blockquote, q {
@@ -70,9 +70,11 @@ body {
   background-color: #DDBCB0;
   overflow: none; }
 
-.about, .login, .profile, .dashboard, .quizlist,
-.question, .results {
+.about, .login, .profile, .dashboard, .quizlist {
   margin: 20px 10px 10px 10px; }
+
+.question, .results {
+  margin: 0px 10px 10px 10px; }
 
 /* @@@@@@@@@@@@@@@@ ICONS @@@@@@@@@@@@@@ */
 .fa {
@@ -82,15 +84,24 @@ body {
   display: inline-block;
   margin: 5px; }
 
-.fa-hand-o-left {
+.homeIcon {
   position: absolute;
   left: 0;
   top: 0; }
 
-.fa-cogs {
+.settingsIcon {
   position: absolute;
   right: 0;
   top: 0; }
+
+.faText {
+  font-size: 11px;
+  font-family: 'Oxygen', sans-serif;
+  margin: 0 5px; }
+
+.smallIcon {
+  font-size: 80%;
+  margin-right: 5px; }
 
 /* @@@@@@@@@@@@@@@@ HEADER @@@@@@@@@@@@@@ */
 .header {
@@ -109,17 +120,32 @@ header {
 .landing, .login, .profile {
   text-align: center; }
 
-.loginButton, .aboutButton, .createAccountButton {
+/* @@@@@@@@@@@@@@ STATUS BAR @@@@@@@@@@@@ */
+.statusBar {
+  font-size: 16px;
+  padding: 2px;
+  height: 20px;
+  background-color: #4F758B;
+  color: #CA9A8E;
+  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 30px; }
+
+/* @@@@@@@@@@@@@@ BUTTONS @@@@@@@@@@@@ */
+.loginButton, .submitButton {
+  font-size: 35px; }
+
+.aboutButton, .createAccountButton, .gotoQuizListButton,
+.checkAccuracyButton, .takeAnotherQuizButton {
+  font-size: 20px; }
+
+.loginButton, .aboutButton, .createAccountButton, .gotoQuizListButton,
+.checkAccuracyButton, .takeAnotherQuizButton, .submitButton {
   background-color: #A6BBC8;
   display: inline-block;
   color: #583D3E;
   margin: 15px; }
-
-.loginButton {
-  font-size: 35px; }
-
-.aboutButton, .createAccountButton {
-  font-size: 20px; }
 
 /* @@@@@@@@@@@@@@ LANDING @@@@@@@@@@@@ */
 .landingCover {
@@ -146,7 +172,26 @@ header {
   font-family: 'Archivo Black', sans-serif;
   margin: 15px 0; }
 
-/* @@@@@@@@@@@@@@ GENERAL OVERRIDES @@@@@@@@@@@@ */
+/* @@@@@@@@@@@@@@ QUIZ LISTS  @@@@@@@@@@@@ */
+.quizLi, .quizLiName, .quizLiCategory, .quizLiDifficulty {
+  display: inline-block; }
+
+.quizLi {
+  margin: 15px 0; }
+
+.quizLiName {
+  width: 120px; }
+
+.quizLiCategory {
+  width: 50px; }
+
+.quizLiDifficulty {
+  width: 30px; }
+
+.dashboardQuizListHeader {
+  margin: 20px 0; }
+
+/* @@@@@@@@@@@@@@ FORMS  @@@@@@@@@@@@ */
 .profileInput {
   font-size: 18px;
   padding: 8px;
@@ -160,6 +205,20 @@ header {
   display: block;
   text-align: center;
   width: 100%; }
+
+.questionAsked {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #CA9A8E;
+  padding-bottom: 20px;
+  width: 100%; }
+
+.questionOptions {
+  margin-bottom: 10px; }
+
+.questionForm {
+  margin-bottom: 40px;
+  border-bottom: 1px solid #CA9A8E;
+  padding-bottom: 20px; }
 
 /* @@@@@@@@@@@@@@ GENERAL OVERRIDES @@@@@@@@@@@@ */
 .center {
@@ -177,5 +236,8 @@ header {
 
 .codeBox {
   background-color: #CA9A8E; }
+
+.inactive {
+  color: #A37F74; }
 
 /*# sourceMappingURL=index.css.map */
