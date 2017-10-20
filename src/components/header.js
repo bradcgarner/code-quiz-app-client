@@ -18,47 +18,47 @@ export function Header(props) {
 
   } else if (props.mode.view === 'login') {
     home =<Home where={'landing'} label={'Back'}/>; 
-    header = <h1 classname="headerLabel">Login</h1>;
+    header = <h1 className="headerLabel">Login</h1>;
 
   } else if (props.mode.view === 'about') {
     home =<Home where={'landing'} label={'Back'}/>; 
-    header = <h1 classname="headerLabel">About</h1>;
+    header = <h1 className="headerLabel">About</h1>;
 
   } else if (props.mode.view === 'profile' && props.user.id ) {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">{username} Profile</h1>
+    header = <h1 className="headerLabel">{username} Profile</h1>
 
   } else if (props.mode.view === 'profile' ) {
     home =<Home where={'landing'} label={'Back'}/>; 
-    header = <h1 classname="headerLabel">Create Account</h1>
+    header = <h1 className="headerLabel">Create Account</h1>
 
   } else if (props.mode.view === 'dashboard') {
     home =<Home where={'profile'} label={'Profile'}/>; 
-    header = <h1 classname="headerLabel">{username} Dashboard</h1>
+    header = <h1 className="headerLabel">{username} Dashboard</h1>
     settings = <Settings type ={'user'} />;
 
   } else if (props.mode.view === 'quizlist') {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">Menu of Quizzes</h1>;
+    header = <h1 className="headerLabel">Menu of Quizzes</h1>;
     settings = <Settings type={'user'}/>;
     
   } else if (props.mode.view === 'question') {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">{props.quiz.name}</h1>;
+    header = <h1 className="headerLabel">{props.quiz.name}</h1>;
     settings = <Settings type={'quiz'}/>;
     
   } else if (props.mode.view === 'result') {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">Score: {props.quiz.name}</h1>;
+    header = <h1 className="headerLabel">Score: {props.quiz.name}</h1>;
     settings = <Settings type={'quiz'}/>;
     
   } else if (props.mode.view === 'accuracy') {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">Review: {props.quiz.name}</h1>;
+    header = <h1 className="headerLabel">Review: {props.quiz.name}</h1>;
     
   } else if (props.mode.view === 'answer') {
     home =<Home where={'dashboard'} label={'Dashboard'}/>; 
-    header = <h1 classname="headerLabel">See Key: {props.quiz.name}</h1>;
+    header = <h1 className="headerLabel">See Key: {props.quiz.name}</h1>;
   }
 
     return (

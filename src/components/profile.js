@@ -12,8 +12,8 @@ export class Profile extends React.Component {
   handleSubmitButton(values) { // add form validation first
     if (this.props.user.id) {
       this.props.dispatch(actionsUser.updateUserProfile(values, this.props.user.authToken));
-    } else {
-      this.props.dispatch(actionsUser.createUser());
+    } else {    
+      this.props.dispatch(actionsUser.createUser(values));
     }
   }
   render() {
@@ -26,22 +26,22 @@ export class Profile extends React.Component {
 
           <Field 
             className="profileInput"
-            name="firstname"
+            name="firstName"
             id="firstName"
             component="input"
             type="text" 
-            placeholder="firstname"
+            placeholder="first name"
             required
           /><br />
 
           <label className="inputLabel center" htmlFor="firstname">First Name</label>
           <Field 
             className="profileInput"
-            name="lastname" 
+            name="lastName" 
             id="lastName"
             component="input"
             type="text" 
-            placeholder="lastname" 
+            placeholder="last name" 
             required
           /><br />
           <label className="inputLabel center" htmlFor="lastname">Last Name</label>
@@ -80,7 +80,6 @@ export class Profile extends React.Component {
           
           <button className="createAccountButton" type="submit">{buttonText}</button>
          </form> 
-         {/* <button className="createAccountButton" onClick={e=>this.handleProfileButton()}>Create Account</button> */}
         </div>
       );
   }

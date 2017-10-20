@@ -23,9 +23,7 @@ export const login = (credentials) => dispatch => {
   const headers = {"Authorization": "Basic " + btoa(auth)}; // base64 encryption
   const init = { 
     method: 'POST',
-    headers: headers,
-    mode: 'cors',
-    cache: 'default'//not caching anything just passing
+    headers
   };
   console.log('init', init);
   return fetch(url, init)
@@ -51,13 +49,15 @@ export const login = (credentials) => dispatch => {
 ////create new user  async
 export const createUser = (credentials) => dispatch => { //credential should include   username, password, firstName, lastName
   console.log('credentials',credentials)// dispatch synchronous form validation here
+  console.log('credentials',JSON.stringify(credentials));// dispatch synchronous form validation here
+  
   const url = `${REACT_APP_BASE_URL}/api/users`;
-  console.log('url', url);
+  const headers = { "Content-Type": "application/json"};
+  
   const init = { 
     method: 'POST',
-    body: credentials,
-    mode: 'cors',
-    cache: 'default'
+    body: JSON.stringify(credentials),
+    headers
   };
   console.log('init', init);
   return fetch(url, init)
@@ -90,9 +90,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
   const init = { 
     method: 'PUT',
     body: credentials,
-    headers: headers,
-    mode: 'cors',
-    cache: 'default'
+    headers
   };
   console.log('init', init);
   return fetch(url, init)
@@ -104,7 +102,8 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     return res.json();
   }) 
   .then(user => { 
-    console.log('user updated', user); 
+    user.authToken = authToken;
+    console.log('user updated - should have auth token', user); 
     return dispatch(updateUserStore(user));
   })
   .catch(error => {
@@ -122,7 +121,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     console.log('headers at update user data', headers);
     const init = { 
       method: 'PUT',
-      headers: headers,
+      headers,
       body: JSON.stringify(userData) //user data should flow the exact format ofthe schema
     };
     // ######## The body is showing up as populated on the 
@@ -139,7 +138,8 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
       return res.json();
     }) 
     .then(user => { 
-      console.log('user updated, ready for STORE', user); 
+      user.authToken = authToken;
+      console.log('user updated, ready for STORE, should have auth token', user); 
       return dispatch(updateUserStore(user));
     })
     .catch(error => {
@@ -148,18 +148,14 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     });
   }
   
-  //get user by Id  async
-  //response user api repr
+  //get user by Id  - used at login
   export const getUser = (id) => dispatch => { 
     console.log('id',id)
     const url = `${REACT_APP_BASE_URL}/api/users/${id}/`;
     console.log('url', url);
     const init = { 
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default'
+      method: 'GET'
     };
-    console.log('init', init);
     return fetch(url, init)
     .then(res=>{//response user api repr  
       console.log(res);
@@ -177,24 +173,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
       console.log(error);
     });
   }
-  
 
-  //delete by user id  async
-  //const url = `${REACT_APP_BASE_URL}/api/users/:id/`;
-  //id
-  // response code
-
-
-  ///////CHOICES
-  // choice must have this format
-  //   {   "userId": "59e51b41c5944e09d2bc9036",
-  //       "questionId": "59e651e1c7bea3a51c15d900",
-  //       "quizId": "59e651e1c7bea3a51c15d8fe",
-  //       "choices" : [
-  //         {"optionId" : "59e651e1c7bea3a51c15d904"},
-  //         {"optionId" : "59e651e1c7bea3a51c15d905"},
-  //       ]
-  //    }
 export const submitChoices = (choices, authToken, next) => dispatch => { 
   console.log('choice as received by submitChoices',choices)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
@@ -202,7 +181,7 @@ export const submitChoices = (choices, authToken, next) => dispatch => {
   const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
   const init = { 
     method: 'POST',
-    headers: headers,
+    headers,
     body: JSON.stringify(choices),
   };
   console.log('init for submitChoices', init);
