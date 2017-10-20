@@ -11,7 +11,6 @@ export class Profile extends React.Component {
 
   handleSubmitButton(values) { // add form validation first
     if (this.props.user.id) {
-      
       this.props.dispatch(actionsUser.updateUserProfile(values, this.props.user.authToken));
     } else {
       this.props.dispatch(actionsUser.createUser());
@@ -20,57 +19,68 @@ export class Profile extends React.Component {
   render() {
     const buttonText = this.props.user.id ? 'Save Changes' : 'Create Account';
       return (
-        <div>
-          <h2 className="temp">3 Profile</h2>
+        <div className="profile">
           <form onSubmit={this.props.handleSubmit(values => 
             this.handleSubmitButton(values)
-            )}>
+          )}>
+
           <Field 
+            className="profileInput"
             name="firstname"
             id="firstName"
             component="input"
             type="text" 
             placeholder="firstname"
-            required/>
-          <label htmlFor="firstname">First Name</label>
+            required
+          /><br />
+
+          <label className="inputLabel center" htmlFor="firstname">First Name</label>
           <Field 
+            className="profileInput"
             name="lastname" 
             id="lastName"
             component="input"
             type="text" 
             placeholder="lastname" 
-            required/>
-          <label htmlFor="lastname">Last Name</label>
+            required
+          /><br />
+          <label className="inputLabel center" htmlFor="lastname">Last Name</label>
 
           <Field
+            className="profileInput"
             name="username" 
             id="username"
             component="input"
             type="text" 
             placeholder="username" 
             required
-          />
-          <label htmlFor="username">Username</label>
+          /><br />
+          <label className="inputLabel center" htmlFor="username">Username</label>
+          
           <Field 
+            className="profileInput"
             name="password" 
             id="password"
             component="input"
             type="text" 
             placeholder="password" 
             required
-          />
-          <label htmlFor="password">Password</label>
+          /><br />
+          <label className="inputLabel center" htmlFor="password">Password</label>
+          
           <Field 
+            className="profileInput"
             name="password2" 
             id="password2"
             component="input"
             type="text" 
             placeholder="re-type password" 
             required/>
-          <label htmlFor="password2">Re-Type Password</label>
-          <button type="submit">Login</button>
+          <label className="inputLabel center" htmlFor="password2">Re-Type Password</label>
+          
+          <button className="createAccountButton" type="submit">{buttonText}</button>
          </form> 
-         <button onClick={e=>this.handleProfileButton()}>Create Account</button>
+         {/* <button className="createAccountButton" onClick={e=>this.handleProfileButton()}>Create Account</button> */}
         </div>
       );
   }

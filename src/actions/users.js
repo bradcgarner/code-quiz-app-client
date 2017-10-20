@@ -1,8 +1,6 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
-
-const qs = require('qs');
-const assert = require('assert');
+import * as actionsQuiz from './quiz';
 
 export const UPDATE_USER_STORE = 'UPDATE_USER_STORE';
 export const updateUserStore = user => {
@@ -223,7 +221,7 @@ export const submitChoices = (choices, authToken, next) => dispatch => {
   .then(()=> {
     if ( next === 'score' ) {
       dispatch(actionsMode.gotoResult);
-      dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
+      //dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
     }
   })
   .catch(error => {

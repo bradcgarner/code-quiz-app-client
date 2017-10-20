@@ -1,5 +1,6 @@
 .App {
-
+  width: 320px; /* phone, change later */
+  margin: 0 auto;
 }
 
 .App-logo {

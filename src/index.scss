@@ -1,6 +1,26 @@
 /* https://it.labelpartners.com/pantone_coated_table.html */
+$brown1 : #DDBCB0;
+$brown2 : #CA9A8E;
+$brown3 : #BC8A7E;
+$brown4 : #A37F74;
+$brown5 : #866761;
+$brown6 : #6B4C4C;
+$brown7 : #583D3E;
+$brown8 : darken($brown7, 20%);
+$blue1 : #BFCED6;
+$blue2 : #B7C9D3;
+$blue3 : #A6BBC8;
+$blue4 : #7A99AC;
+$blue5 : #5B7F95;
+$blue6 : #4F758B;
+$blue7 : #081F2C;
+
 /* @@@@@@@@@@@@@@ VARIABLES @@@@@@@@@@@@@@@@@@@@ */
+
+$header-height: 50px;
+
 /* @@@@@@@@@@@@@@ RESET @@@@@@@@@@@@@@@@@@@@ */
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -10,161 +30,181 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 16px;
-  /* was 100% */
-  font-family: 'Oxygen', sans-serif;
-  /* Brad added */
+	margin: 0;
+	padding: 0;
+	border: 0;
+  font-size: 16px; /* was 100% */
+  font-family: 'Oxygen', sans-serif; /* Brad added */ 
   /*font: inherit;*/
-  color: #1c1314;
-  /* Brad added */
-  vertical-align: baseline; }
-
+  color: $brown8; /* Brad added */
+	vertical-align: baseline;
+}
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
+article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-  display: block; }
-
+	display: block;
+}
 body {
-  line-height: 1; }
-
+	line-height: 1;
+}
 ol, ul {
-  list-style: none; }
-
+	list-style: none;
+}
 blockquote, q {
-  quotes: none; }
-
+	quotes: none;
+}
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: '';
-  content: none; }
-
+	content: '';
+	content: none;
+}
 table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 * {
-  box-sizing: border-box;
-  /* Brad added */ }
-
+  box-sizing: border-box; /* Brad added */
+}
 /* @@@@@@@@@@@@@@@@ END RESET @@@@@@@@@@@@@@@ */
+
 /* @@@@@@@@@@@@@@ GENERAL @@@@@@@@@@@@ */
+
 h1, h2, h3, h4, h5, h6 {
-  text-align: center; }
+  text-align: center;
+}
 
 body {
-  background-color: white; }
+  background-color: white;
+}
 
 .App {
-  width: 100%;
-  /* phone, change later */
+  width: 100%; /* phone, change later */
   height: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  background-color: #DDBCB0;
-  overflow: none; }
+  background-color: $brown1;
+  overflow: none;
+}
 
 .about, .login, .profile, .dashboard, .quizlist,
 .question, .results {
-  margin: 20px 10px 10px 10px; }
+  margin: 20px 10px 10px 10px;
+}
 
 /* @@@@@@@@@@@@@@@@ ICONS @@@@@@@@@@@@@@ */
+
 .fa {
   background-color: transparent;
-  color: #583D3E;
+  color: $brown7;
   font-size: 24px;
   display: inline-block;
-  margin: 5px; }
+  margin: 5px;
+}
 
 .fa-hand-o-left {
   position: absolute;
   left: 0;
-  top: 0; }
+  top: 0;
+}
 
 .fa-cogs {
   position: absolute;
   right: 0;
-  top: 0; }
+  top: 0;
+}
 
 /* @@@@@@@@@@@@@@@@ HEADER @@@@@@@@@@@@@@ */
+
 .header {
   padding: 15px 5px;
-  height: 50px;
-  background-color: #7A99AC; }
+  height: $header-height;
+  background-color: $blue4;
+}
 
 header {
   position: relative;
-  width: 100%; }
-  header h1 {
+  width: 100%;
+  h1 {
     font-size: 24px;
-    color: #4F758B;
-    width: 100%; }
+    color: $blue6;
+    width: 100%;
+  }
+}
 
 .landing, .login, .profile {
-  text-align: center; }
+  text-align: center;  
+}
 
 .loginButton, .aboutButton, .createAccountButton {
-  background-color: #A6BBC8;
-  display: inline-block;
-  color: #583D3E;
-  margin: 15px; }
-
+  background-color: $blue3;
+  display: inline-block;  
+  color: $brown7;  
+  margin: 15px;
+}
 .loginButton {
-  font-size: 35px; }
+  font-size: 35px;
+}
 
 .aboutButton, .createAccountButton {
-  font-size: 20px; }
+  font-size: 20px;
+}
 
 .landingCover {
   padding: 50px 10px;
-  text-align: center; }
+  text-align: center;
+}
 
 .landingLogo {
   font-size: 65px;
-  color: #7A99AC; }
+  color: $blue4;
+}
 
 .landingTitle {
   font-size: 45px;
-  color: #BC8A7E;
+  color: $brown3;
   font-family: 'Archivo Black', sans-serif;
-  margin: 15px 0; }
-
+  margin: 15px 0;
+}
 /* @@@@@@@@@@@@@@ GENERAL OVERRIDES @@@@@@@@@@@@ */
+
 .profileInput {
   font-size: 18px;
   padding: 8px;
   margin: 5px;
   display: inline-block;
-  text-align: left; }
-
+  text-align: left;
+}
 .inputLabel {
   margin-bottom: 20px;
   margin-top: 5px;
   display: block;
   text-align: center;
-  width: 100%; }
-
+  width: 100%;
+} 
 /* @@@@@@@@@@@@@@ GENERAL OVERRIDES @@@@@@@@@@@@ */
-.center {
-  text-align: center; }
 
-.left {
-  text-align: left; }
+// .clearfix:before,
+// .clearfix:after {
+//   content: "";
+//   display: table;
+// } 
+// .clearfix:after {
+//   clear: both;
+// }
 
-.right {
-  text-align: right; }
+.center { text-align: center; }
+.left   { text-align: left; }
+.right  { text-align: right; }
 
 .code {
   font-family: 'Inconsolata', monospace;
-  color: #4F758B; }
+  color: $blue6;
+}
 
 .codeBox {
-  background-color: #CA9A8E; }
-
-/*# sourceMappingURL=index.css.map */
+  background-color: $brown2;
+}

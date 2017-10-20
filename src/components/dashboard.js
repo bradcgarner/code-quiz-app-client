@@ -24,7 +24,7 @@ export function Dashboard(props) {
   })
 
     return (
-      <div>
+      <div className="dashboard">
         <Badges />
         <Recent recent={props.user.recent}/>
         <h3>{listHeader}</h3>

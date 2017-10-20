@@ -23,7 +23,7 @@ export function Results(props) {
   } 
 
     return (
-      <div>
+      <div className="results">
         <ResultsGraph score={'score'}/>
         <ResultsScore score={'score'}/>
         <button onClick={()=>handleGotoAccuracyButton()}>Check Accuracy</button>

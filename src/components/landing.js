@@ -16,11 +16,18 @@ export function Landing(props) {
   }  
   
     return (
-      <div>
-          <p>Logo image</p>
-          <button onClick={()=>handleLoginButton()}>Login</button>
-          <button onClick={()=>handleAboutButton()}>About</button>
+      <div className="landing">
+        <div className="landingCover">
+          <p className="landingLogo">{`{()=>{}}`}</p>
+          <p className="landingLogo">{`~~:~~`}</p>
+          <p className="landingLogo">{`==`}</p>
+          <h1 className="landingTitle">ama afk</h1>
+        </div>
+        <button className="loginButton clearfix" onClick={()=>handleLoginButton()}>Login</button>
+        <br />
+        <button className="aboutButton clearfix"onClick={()=>handleAboutButton()}>About</button>
       </div>
+
     );
 }
 
