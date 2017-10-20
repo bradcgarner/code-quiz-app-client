@@ -6,7 +6,6 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLiStatus(props) {
-  console.log('QuizLiStatus',props);
 
   const total= props.total;
   const completed= props.completed;
@@ -14,7 +13,7 @@ export function QuizLiStatus(props) {
 
     return (
       <div>
-        <h4 className="temp">Status</h4>
+        <p>Status</p>
         <p>{total}/{completed}/{correct}</p>
       </div>
     );

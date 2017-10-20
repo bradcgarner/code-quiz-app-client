@@ -2,14 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export function ResultsGraph(props) {
-  let infoModal;
-  if (props.user) {
-      infoModal = <p className="temp">Results Test</p>;
-  }
+
     return (
       <div>
-        {infoModal}
-        <p className="temp">7 ResultsGraph</p>
+        <p>ResultsGraph</p>
       </div>
     );
 }

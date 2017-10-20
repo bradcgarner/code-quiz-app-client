@@ -7,26 +7,17 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLi(props) {
-  console.log('QuizLi!!!!',props); // where is _id coming from???
   
   const copyUserWithNewQuiz = (quiz) => {    
-    console.log(' add quiz ', quiz); // fine
-    console.log('inside handle add quiz ', props); // fine
     const quizIsListed = props.user.quizzes.filter(exQuiz=>{
-      console.log('quiz is listed: compare ex', exQuiz, 'against new', quiz);  // 
       return exQuiz.id === quiz.id;
     });
-    console.log('quizIsListed (empty if not listed)', quizIsListed);
     if (quizIsListed.length >= 1) {
        return null;
     } else {
-      console.log('add quiz', quiz);
       const newQuizList = [...props.user.quizzes, quiz ];
-      console.log('newQuizList', newQuizList)
       const userCopy = Object.assign({},props.user);
-      console.log('userCopy', userCopy)
       userCopy.quizzes = newQuizList;
-      console.log(userCopy);
       return userCopy;
     }
   }
@@ -35,7 +26,8 @@ export function QuizLi(props) {
     const userCopy = copyUserWithNewQuiz(quiz);
     if ( userCopy ) {
       console.log('about to update user data', userCopy);
-      props.dispatch(actionsUser.updateUserData(userCopy))      
+      console.log('props at handleAdQuizButton', props);
+      props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken))      
     }
   }
 

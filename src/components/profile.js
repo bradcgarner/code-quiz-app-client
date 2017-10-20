@@ -10,7 +10,6 @@ import * as actionsQuiz from '../actions/quiz';
 export class Profile extends React.Component {
 
   handleSubmitButton(values) { // add form validation first
-    console.log(values);
     if (this.props.user.id) {
       
       this.props.dispatch(actionsUser.updateUserProfile(values, this.props.user.authToken));
@@ -19,7 +18,6 @@ export class Profile extends React.Component {
     }
   }
   render() {
-    console.log('Profile',this.props.user);
     const buttonText = this.props.user.id ? 'Save Changes' : 'Create Account';
       return (
         <div>

@@ -24,7 +24,6 @@ export function Results(props) {
 
     return (
       <div>
-        <h2 className="temp">7 Results</h2>
         <ResultsGraph score={'score'}/>
         <ResultsScore score={'score'}/>
         <button onClick={()=>handleGotoAccuracyButton()}>Check Accuracy</button>

@@ -20,13 +20,9 @@ export const scoreChoice = correct => ({
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
 export const login = (credentials) => dispatch => {
-  console.log('credentials',credentials)// dispatch synchronous form validation here
   const url = `${REACT_APP_BASE_URL}/api/auth/login`;
-  console.log('url', url);
   const auth = `${credentials.username}:${credentials.password}`; // u & pw as string
-  console.log('auth', auth);
-  const headers = new Headers({"Authorization": "Basic " + btoa(auth)}); // base64 encryption
-  console.log('headers', headers);
+  const headers = {"Authorization": "Basic " + btoa(auth)}; // base64 encryption
   const init = { 
     method: 'POST',
     headers: headers,
@@ -43,7 +39,6 @@ export const login = (credentials) => dispatch => {
     return res.json();
   }) 
   .then(user => { 
-    console.log('logged in!', user); 
     
     dispatch(updateUserStore(user));
     return dispatch(actionsMode.gotoDashboard());
@@ -202,7 +197,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
   //         {"optionId" : "59e651e1c7bea3a51c15d905"},
   //       ]
   //    }
-export const submitChoices = (choices, authToken) => dispatch => { 
+export const submitChoices = (choices, authToken, next) => dispatch => { 
   console.log('choice as received by submitChoices',choices)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url for submitChoices', url);
@@ -224,11 +219,12 @@ export const submitChoices = (choices, authToken) => dispatch => {
   .then(correct => { 
     console.log('choice scored', correct); 
     return dispatch(scoreChoice(correct));
-    // read question #s from store:
-    // if not last, gotoQuestion(1)
-    // if last, gotoResults(quiz)
-    // send choices to server/db<
-    // if last, calculate score for entire quiz
+  })
+  .then(()=> {
+    if ( next === 'score' ) {
+      dispatch(actionsMode.gotoResult);
+      dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
+    }
   })
   .catch(error => {
    // dispatch(loginError(error));

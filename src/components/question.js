@@ -8,30 +8,25 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Question(props) {
-  console.log('Question', props);      
 
   const handleSubmitButton = (choice) => {
-    console.log('submitting choice',choice);
     let formattedChoices = [];
     for ( let prop in choice ) {
       formattedChoices.push(prop);
     }
-    console.log('formattedChoice', formattedChoices);
     const formattedChoiceObject = {
       userId: props.user.id, // user must be logged in
       questionId: props.quiz.questions[current].id,
       quizId: props.quiz.id,
       choices : formattedChoices
     };
-    console.log('formattedChoiceObject', formattedChoiceObject);
-    props.dispatch(actionsUser.submitChoices(formattedChoiceObject, props.user.authToken));
+    const next = quiz.current === (quiz.questions.length - 1) ? 'score' : 'next' ;
+    props.dispatch(actionsUser.submitChoices(formattedChoiceObject, props.user.authToken, next));
   }  // refer to actions/users.js for format of values
 
-  console.log('props inside question.js', props);
   const current = props.quiz.current || 0;
   const currQuestion = props.quiz.questions[current];
   const inputType = currQuestion.inputType; 
-  console.log('questions', props.quiz.questions);
   
   const options = currQuestion.answers.map((answer,index)=>{
     const optionName = inputType === 'radio' ? 'option' : `${answer.id}`;
@@ -47,7 +42,12 @@ export function Question(props) {
         <label htmlFor={answer.id}>{answer.option}</label>
       </div>
     )
-  });  
+  });
+
+  const handleGotoQuestionButton = index => {
+    // get current # and go up or back 1
+    props.dispatch(actionsQuiz.updateCurrentQuestion(props.quiz.current + index))
+  }
 
   const prevQuestionButton = props.quiz.current > 0 ?  'normal'  : 'grey' ;
 
@@ -55,7 +55,6 @@ export function Question(props) {
 
   return (
     <div>
-      <h2 className="temp">6 Question</h2>
         <p>{currQuestion.question}</p>
         <form onSubmit={props.handleSubmit(values =>
           handleSubmitButton(values)

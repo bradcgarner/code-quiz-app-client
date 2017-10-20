@@ -9,7 +9,6 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Header(props) {
-  console.log('Header',props);  
   let home = '';
   let header = '';
   let header2 = '';
