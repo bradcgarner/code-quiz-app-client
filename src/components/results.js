@@ -8,7 +8,6 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export function Results(props) {
-  console.log('Results', props.user);
 
   const handleGotoAnotherQuizButton = () => {
     if ( props.user.id ) {

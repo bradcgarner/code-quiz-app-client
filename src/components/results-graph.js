@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 export function ResultsGraph(props) {
   let infoModal;
-  console.log('ResultsGraph', props);
   if (props.user) {
       infoModal = <p className="temp">Results Test</p>;
   }

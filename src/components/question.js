@@ -47,15 +47,7 @@ export function Question(props) {
         <label htmlFor={answer.id}>{answer.option}</label>
       </div>
     )
-  });
-
-  const handleGotoQuestionButton = index => {
-    // get current # and go up or back 1
-    props.dispatch(actionsQuiz.updateCurrentQuestion(props.quiz.current + index))
-    console.log('current question incremented', props.quiz.current, props.quiz.current + index);
-    
-
-  }
+  });  
 
   const prevQuestionButton = props.quiz.current > 0 ?  'normal'  : 'grey' ;
 

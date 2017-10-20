@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export function Recent(props) {
-  console.log('Recent',props);
 
     return (
       <div>
