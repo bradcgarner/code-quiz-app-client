@@ -20,32 +20,34 @@ export class Login extends React.Component {
   render() {
 
     return (
-      <div>
-        <form onSubmit={this.props.handleSubmit(values =>
+      <div className="login">
+        <form className="login" onSubmit={this.props.handleSubmit(values =>
           this.handleSubmitButton(values)
         )}>
           <Field
+            className="profileInput"
             name="username" 
             id="username"
             component="input"
             type="text" 
             placeholder="username" 
             required
-          />
-          <label htmlFor="username">Username</label>
+          /><br />
+          <label className="inputLabel center" htmlFor="username">Username</label>
           <Field 
+            className="profileInput"
             name="password" 
             id="password"
             component="input"
             type="text" 
             placeholder="password" 
             required
-          />
-          <label htmlFor="password">Password</label>
-          <button type="submit">Login</button>
+          /><br />
+          <label className="inputLabel center" htmlFor="password">Password</label>
+          <button type="submit" className="loginButton clearfix">Login</button>
         </form>
 
-        <button onClick={e=>this.handleCreateAccountButton()}>Create Account</button>
+        <button className="createAccountButton" onClick={e=>this.handleCreateAccountButton()}>Create Account</button>
       </div>
     );
   }

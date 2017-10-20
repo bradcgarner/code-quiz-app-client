@@ -42,7 +42,9 @@ export function App(props) {
   return (
     <div className="App">
       <Header />
+      <main className="main">
       {mode}
+      </main>
     </div>
   );
 }

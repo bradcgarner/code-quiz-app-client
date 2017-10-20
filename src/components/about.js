@@ -5,7 +5,7 @@ import * as actionsMode from '../actions/mode';
 export function About(props) {
   
     return (
-      <div>
+      <div className="about">
           <p>About</p>
       </div>
     );

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
+import StatusBar from './question-statusbar';
 import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
@@ -54,21 +55,22 @@ export function Question(props) {
   const nextQuestionButton = props.quiz.questions.length > ( props.quiz.current + 1 ) ?  'normal'  : 'grey' ;
 
   return (
-    <div>
-        <p>{currQuestion.question}</p>
-        <form onSubmit={props.handleSubmit(values =>
-          handleSubmitButton(values)
-        )}>
-          <ul>
-            {options}
-          </ul>
-          <button type="submit">Submit</button>
-        </form>
+    <div className="question">
+      <StatusBar />
+      <p>{currQuestion.question}</p>
+      <form onSubmit={props.handleSubmit(values =>
+        handleSubmitButton(values)
+      )}>
+        <ul>
+          {options}
+        </ul>
+        <button type="submit">Submit</button>
+      </form>
 
-        {/*Footer - can arrows be inside form, or should "appear" inside form*/}
+      {/*Footer - can arrows be inside form, or should "appear" inside form*/}
           
-        <button className={prevQuestionButton} onClick={()=>handleGotoQuestionButton(-1)}>back</button>
-        <button className={nextQuestionButton} onClick={()=>handleGotoQuestionButton(1)}>fwd</button>
+      <button className={prevQuestionButton} onClick={()=>handleGotoQuestionButton(-1)}>back</button>
+      <button className={nextQuestionButton} onClick={()=>handleGotoQuestionButton(1)}>fwd</button>
 
         <p>Answers: Skip for now, same as questions, but add in: 
           User's choice, 

@@ -22,7 +22,7 @@ export function QuizList(props) {
   })
   
     return (
-      <div>
+      <div className="quizlist">
         <ul>
           {quizLi}
         </ul>
