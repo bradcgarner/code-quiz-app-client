@@ -19,7 +19,7 @@ export function Results(props) {
   } 
 
   const handleGotoAccuracyButton = () => {
-    props.dispatch(actionsMode.gotoResult() )
+    props.dispatch(actionsMode.gotoResults() )
   } 
 
     return (

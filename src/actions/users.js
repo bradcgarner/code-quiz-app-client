@@ -200,9 +200,11 @@ export const submitChoices = (choices, authToken, next) => dispatch => {
   })
   .then(()=> {
     if ( next === 'score' ) {
-      dispatch(actionsMode.gotoResult());
+      dispatch(actionsMode.gotoResults());
       console.log('choices.quizId, choices.userId', choices.quizId, choices.userId);
       dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
+    } else {
+      dispatch(actionsQuiz.updateCurrentQuestion(1));
     }
   })
   .catch(error => {

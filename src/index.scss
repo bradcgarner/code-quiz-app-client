@@ -152,15 +152,28 @@ header {
 .aboutButton, .createAccountButton {
   font-size: 20px;
 }
+/* @@@@@@@@@@@@@@ LANDING @@@@@@@@@@@@ */
 
 .landingCover {
   padding: 50px 10px;
   text-align: center;
 }
 
-.landingLogo {
-  font-size: 65px;
+.landingLogoTop {
+  font-size: 75px;
+  color: darken($blue4, 5%);
+}
+
+.landingLogoMid {
+  margin-top: 10px;
+  font-size: 40px;
   color: $blue4;
+}
+
+.landingLogoBot {
+  font-size: 70px;
+  color: lighten($blue4, 7%);
+  margin-bottom: 30px;
 }
 
 .landingTitle {

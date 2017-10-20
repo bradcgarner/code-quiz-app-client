@@ -59,7 +59,7 @@ export function QuizLi(props) {
     correct={correct}
   />;
 
-  const addButton = <button onClick={()=>handleAddQuizButton(props.li)}>Add</button> ;
+  const addButton = props.mode.view==='dashboard' ? '' : <button onClick={()=>handleAddQuizButton(props.li)}>Add</button> ;
   const takeButton = <button onClick={()=>handleTakeQuizButton(props.li)}>Go!</button> ;
 
   const status = props.li.status ? statusBox : addButton ;

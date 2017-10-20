@@ -20,7 +20,7 @@ export function Dashboard(props) {
   console.log('props on dashboard',props);
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   const quizLi = props.user.quizzes.map((quiz, index)=>{
-    return <QuizLi key={index} status={true} testing={true} li={quiz} />
+    return <QuizLi key={index} status={true} li={quiz} />
   })
 
     return (

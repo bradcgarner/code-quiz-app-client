@@ -44,10 +44,10 @@ export const gotoQuestion = () => ({
   view: 'question'
 })
 
-export const GOTO_RESULT = 'GOTO_RESULT';
-export const gotoResult = () => ({
-  type: GOTO_RESULT,
-  view: 'result'
+export const GOTO_RESULTs = 'GOTO_RESULTs';
+export const gotoResults = () => ({
+  type: GOTO_RESULTs,
+  view: 'results'
 })
 
 export const GOTO_ACCURACY = 'GOTO_ACCURACY';
