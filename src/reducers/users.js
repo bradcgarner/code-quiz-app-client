@@ -17,6 +17,7 @@ export const reducer = ( state = initialUser, action ) => {
 
   // this updated the USER SCORECARD, saved in the database
   } else if (action.type === actions.DISPLAY_QUIZ_SCORE ) {
+    console.log('action', action)
     console.log('statequizzes', state.quizzes)
     const quizzes = [...state.quizzes]; // create/copy immutable object from state.quizzes
     // const currentQuiz = quizzes.filter(quiz=>quiz.id === quizId);
@@ -24,7 +25,7 @@ export const reducer = ( state = initialUser, action ) => {
     const quizIndex = quizzes.findIndex(quiz => quiz.id == action.quizId);
     console.log('quizIndex', quizIndex)
     quizzes[quizIndex].correct = action.totalCorrect;
-    console.log('quizzes correct', quizzes)
+    console.log('quizzes with quiz index', quizIndex, '.correct updated to', action.totalCorrect, ': ', quizzes)
     quizzes[quizIndex].completed = action.totalCompleted;
     console.log('quizzes completed', quizzes)
     return Object.assign({}, state, { quizzes });
