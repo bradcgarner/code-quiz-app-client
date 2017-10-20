@@ -25,6 +25,7 @@ export const initialQuiz = { // store.quiz
   current: 0,
   questions: [{
     question: '',
+    id: null,
     inputType: 'checkbox',
     answers: [{
       option: '',

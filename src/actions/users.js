@@ -7,12 +7,12 @@ export const updateUserStore = user => {
   return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
 }
 
-export const SCORE_CHOICE = 'SCORE_CHOICE';
-export const scoreChoice = correct => ({
-  type: SCORE_CHOICE
-  // reach into store and update sub-document
-  // correct: correct.id,
-  // correct: correct.correct
+export const DISPLAY_QUIZ_SCORE = 'DISPLAY_QUIZ_SCORE';
+export const displayQuizScore = (quizId, totalCorrect, totalCompleted) => ({
+  type: DISPLAY_QUIZ_SCORE,
+  quizId,
+  totalCorrect,
+  totalCompleted
 });
 
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
@@ -176,6 +176,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
 
 export const submitChoices = (choices, authToken, next) => dispatch => { 
   console.log('choice as received by submitChoices',choices)
+  console.log('next as received by submitChoices',next)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url for submitChoices', url);
   const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
@@ -193,14 +194,15 @@ export const submitChoices = (choices, authToken, next) => dispatch => {
     }
     return res.json();
   }) 
-  .then(correct => { 
+  .then(correct => { // correct includes .choices and .correct(t/f) .questionId
     console.log('choice scored', correct); 
-    return dispatch(scoreChoice(correct));
+    return dispatch(actionsQuiz.scoreChoice(correct)); // update CURRENT QUIZ with score of 1 question
   })
   .then(()=> {
     if ( next === 'score' ) {
-      dispatch(actionsMode.gotoResult);
-      //dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
+      dispatch(actionsMode.gotoResult());
+      console.log('choices.quizId, choices.userId', choices.quizId, choices.userId);
+      dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
     }
   })
   .catch(error => {
