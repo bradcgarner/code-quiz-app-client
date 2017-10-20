@@ -39,6 +39,8 @@ export const updateCurrentQuestion = (index) => ({
   current: index
 });
 
+
+
 // @@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@
 
 // get list of all quizzes
@@ -93,6 +95,26 @@ export const takeQuiz = quiz => dispatch => {
             return dispatch(updateQuizStoreQuestions(questions));
         })
         .then()
+        .catch(error => {
+         // dispatch(fetchError(error));
+          console.log(error);
+        });
+  };
+
+  export const  scoreQuiz = (quizId, userId) => dispatch => {
+    console.log("fetches quizzes async action");
+    return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${userId}`)
+       .then(res => {
+          console.log('quizzes fetched',res);
+            if (!res.ok) {
+                return Promise.reject(res.statusText);
+            }
+            return res.json();
+        })
+        .then(quizzes => {
+          console.log('quizzes fetched',quizzes);
+           
+        })
         .catch(error => {
          // dispatch(fetchError(error));
           console.log(error);

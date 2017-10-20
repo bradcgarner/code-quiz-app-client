@@ -1,5 +1,6 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
+import * as actionsQuiz from './quiz';
 
 const qs = require('qs');
 const assert = require('assert');
@@ -85,7 +86,7 @@ export const createUser = (credentials) => dispatch => { //credential should inc
 //username, password, firstName, lastName
 export const updateUserProfile = (credentials, authToken) => dispatch => { //credential may include   username, password, firstName, lastName
   console.log('credentials',credentials)// dispatch synchronous form validation here
-  const url = `${REACT_APP_BASE_URL}/api/users/:id`;
+  const url = `${REACT_APP_BASE_URL}/api/users/${credentials.id}`;
   console.log('url', url);
   const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
   //console.log('headers for token', headers);
@@ -154,7 +155,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
   //response user api repr
   export const getUser = (id) => dispatch => { 
     console.log('id',id)
-    const url = `${REACT_APP_BASE_URL}/api/users/:id/`;
+    const url = `${REACT_APP_BASE_URL}/api/users/${id}/`;
     console.log('url', url);
     const init = { 
       method: 'GET',

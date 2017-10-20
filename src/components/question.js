@@ -20,7 +20,7 @@ export function Question(props) {
       quizId: props.quiz.id,
       choices : formattedChoices
     };
-    const next = quiz.current === (quiz.questions.length - 1) ? 'score' : 'next' ;
+    const next = props.quiz.current === (props.quiz.questions.length - 1) ? 'score' : 'next' ;
     props.dispatch(actionsUser.submitChoices(formattedChoiceObject, props.user.authToken, next));
   }  // refer to actions/users.js for format of values
 
