@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { REACT_APP_BASE_URL } from '../config';
+import { compose } from 'redux';
+import { reduxForm, Field } from 'redux-form';
 import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export class Profile extends React.Component {
-constructor(props) {
-  super(props)
-}
 
-  handleSubmitButton() { // add form validation first
+  handleSubmitButton(values) { // add form validation first
+    console.log(values);
     if (this.props.user.id) {
-      this.props.dispatch(actionsUser.updateUserProfile(credentials, props.user.authToken))
+      
+      this.props.dispatch(actionsUser.updateUserProfile(values, this.props.user.authToken));
     } else {
       this.props.dispatch(actionsUser.createUser());
     }
@@ -23,7 +24,9 @@ constructor(props) {
       return (
         <div>
           <h2 className="temp">3 Profile</h2>
-          <form>
+          <form onSubmit={this.props.handleSubmit(values => 
+            this.handleSubmitButton(values)
+            )}>
           <Field 
             name="firstname"
             id="firstName"
@@ -65,10 +68,11 @@ constructor(props) {
             component="input"
             type="text" 
             placeholder="re-type password" 
-            required="true"/>
+            required/>
           <label htmlFor="password2">Re-Type Password</label>
-          <button onClick={e=>this.handleProfileButton()}>Create Account</button>
-         </form>
+          <button type="submit">Login</button>
+         </form> 
+         <button onClick={e=>this.handleProfileButton()}>Create Account</button>
         </div>
       );
   }
@@ -83,4 +87,7 @@ const mapStateToProps = state => ({
   mode: state.mode
 })
 
-export default connect(mapStateToProps)(Profile);
+export default compose(
+  connect(mapStateToProps),
+  reduxForm({form:'profile'})
+)(Profile);

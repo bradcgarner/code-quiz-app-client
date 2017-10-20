@@ -92,8 +92,8 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
   console.log('credentials',credentials)// dispatch synchronous form validation here
   const url = `${REACT_APP_BASE_URL}/api/users/:id`;
   console.log('url', url);
-  const headers = new Headers({"Authorization": "Bearer " + authToken});
-  console.log('headers', headers);
+  const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
+  //console.log('headers for token', headers);
   const init = { 
     method: 'PUT',
     body: credentials,
@@ -121,12 +121,12 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
 }
 
 //update user  put async
-  export const updateUserData = (userData) => dispatch => { 
+  export const updateUserData = (userData, authToken) => dispatch => { 
     console.log('userData',userData)
     const url = `${REACT_APP_BASE_URL}/api/users/${userData.id}/data`;
     console.log('url', url);
-    const headers = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + props.user.authToken});
-    console.log('headers', headers);
+    const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
+    console.log('headers at update user data', headers);
     const init = { 
       method: 'PUT',
       headers: headers,
@@ -136,7 +136,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     // ######## client, but showing up empty on the server.
     // ######## The same method, format, headers work in Postman,
     // ######## but not here
-    console.log('init', init);
+    console.log('init at update user data', init);
     return fetch(url, init)
     .then(res=>{//response user api repr  no need to do anything with response
       console.log(res);
@@ -202,13 +202,14 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
   //         {"optionId" : "59e651e1c7bea3a51c15d905"},
   //       ]
   //    }
-export const submitChoices = choices => dispatch => { 
+export const submitChoices = (choices, authToken) => dispatch => { 
   console.log('choice as received by submitChoices',choices)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url for submitChoices', url);
+  const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
   const init = { 
     method: 'POST',
-    headers: {"Content-Type": "application/json"},
+    headers: headers,
     body: JSON.stringify(choices),
   };
   console.log('init for submitChoices', init);

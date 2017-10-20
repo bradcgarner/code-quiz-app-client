@@ -24,7 +24,7 @@ export function Question(props) {
       choices : formattedChoices
     };
     console.log('formattedChoiceObject', formattedChoiceObject);
-    props.dispatch(actionsUser.submitChoices(formattedChoiceObject));
+    props.dispatch(actionsUser.submitChoices(formattedChoiceObject, props.user.authToken));
   }  // refer to actions/users.js for format of values
 
   console.log('props inside question.js', props);
