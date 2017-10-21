@@ -4,6 +4,7 @@ import { initialUser } from './initialState';
 
 export const reducer = ( state = initialUser, action ) => {
   if ( action.type === actions.UPDATE_USER_STORE ) {
+    console.log('update user store', action);
     return Object.assign({}, state, {
       authToken: action.authToken,
       id: action.id,

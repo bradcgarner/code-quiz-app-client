@@ -16,16 +16,16 @@ export const reducer = ( state = initialQuiz, action ) => {
       name: action.name,
       category: action.category,
       difficulty: action.difficulty,
-      current: action.currrent || 0,
+      currentIndex: action.currentIndex || 0,
     })   
   } else if ( action.type === actions.UPDATE_QUIZ_STORE_QUESTIONS ) {
     return Object.assign({}, state, {
-      current: action.current || 0,
+      currentIndex: action.currentIndex || 0,
       questions: action.questions
     })
   } else if ( action.type === actions.UPDATE_CURRENT_QUESTION ) {
       return Object.assign({}, state, {
-        current: action.current
+        currentIndex: action.currentIndex
       })    
       
   // this updates the CURRENT quiz

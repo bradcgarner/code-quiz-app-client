@@ -17,11 +17,11 @@ export function Dashboard(props) {
       props.dispatch(actionsQuiz.fetchQuizzes());      
     }
   }
-  console.log('props on dashboard',props);
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   const quizLi = props.user.quizzes.map((quiz, index)=>{
-    return <QuizLi key={index} status={true} li={quiz} />
+    return <QuizLi key={index} li={quiz} />
   })
+  const addButtonLabel = props.user.quizzes.length ? 'Add Another Quiz' : 'Add a Quiz';
 
     return (
       <div className="dashboard">
@@ -29,7 +29,7 @@ export function Dashboard(props) {
         <Recent recent={props.user.recent}/>
         <h3 className="dashboardQuizListHeader">{listHeader}</h3>
         {quizLi}            
-        <button className="gotoQuizListButton"onClick={()=>handleQuizlistButton()}>Add Another Quiz</button>
+        <button className="gotoQuizListButton"onClick={()=>handleQuizlistButton()}>{addButtonLabel}</button>
       </div>
     );
 }

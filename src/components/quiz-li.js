@@ -68,16 +68,15 @@ export function QuizLi(props) {
   <i className="fa fa-list-ul smallIcon" aria-hidden="true"onClick={()=>handleAddQuizButton(props.li)}>
     <span className="faText">Add</span>
   </i>;
-  
+ 
+ const statusBoxOrAddButton = props.mode.view==='dashboard' ? statusBox : addButton ;
+
   const takeButton = <i className="fa fa-hand-o-right smallIcon" aria-hidden="true" onClick={()=>handleTakeQuizButton(props.li)}>
     <span className="faText">Go!</span>
   </i>;
   
-
-  const status = props.li.status ? statusBox : addButton ;
-  
   return (
-      <li>{theQuiz}{status}{takeButton}</li>
+      <li>{theQuiz}{statusBoxOrAddButton}{takeButton}</li>
   );
 }
 

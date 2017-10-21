@@ -4,19 +4,13 @@ import { REACT_APP_BASE_URL } from '../config';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import StatusBar from './question-statusbar';
+import Resources from './question-resources';
+import Comments  from './question-comments';
 import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export class Question extends React.Component {
-
-  componentWillReceiveProps(nextprops){
-    if(nextprops !== this.props) {
-      console.log('NO MATCH');
-    } else { 
-      console.log('MATCH');
-    }
-  }
 
   handleSubmitButton(choice, currentIndex) {
     let formattedChoices = [];
@@ -31,7 +25,9 @@ export class Question extends React.Component {
     };
     const nextIndex = this.props.quiz.currentIndex === (this.props.quiz.questions.length - 1) ?
       999 : this.props.quiz.currentIndex + 1 ;
-    this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user.authToken, nextIndex));
+      console.log(nextIndex);
+      this.props.reset();   
+      this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user.authToken, nextIndex));
   }  // refer to actions/users.js for format of values
 
   handleGotoQuestionButton(index) { // index = 1 or -1
@@ -60,8 +56,10 @@ export class Question extends React.Component {
       )
     });
 
-    const prevQuestionClass = this.props.quiz.currentIndex > 0 ?  'fa fa-hand-o-left smallIcon'  : 'fa fa-hand-o-left smallIcon inactive' ;
-    const nextQuestionClass = this.props.quiz.questions.length > ( this.props.quiz.currentIndex + 1 ) ?  'fa fa-hand-o-right smallIcon'  : 'fa fa-hand-o-right smallIcon inactive' ;
+    const prevQuestionClass = this.props.quiz.currentIndex > 0 ?
+      'fa fa-hand-o-left smallIcon'  : 'fa fa-hand-o-left smallIcon inactive' ;
+    const nextQuestionClass = this.props.quiz.questions.length > ( this.props.quiz.currentIndex + 1 ) ?
+      'fa fa-hand-o-right smallIcon'  : 'fa fa-hand-o-right smallIcon inactive' ;
     const submitButtonClass = 'formisEmpty'==='empty' ?  'submitButton'  : 'submitButton inactive' ;
 
     return (
@@ -73,21 +71,25 @@ export class Question extends React.Component {
 
       <p className="questionAsked">{currQuestion.question}</p>
       
-      <form className="questionForm" onSubmit={this.props.this.handleSubmit(values =>
+      <form className="questionForm" onSubmit={this.props.handleSubmit(values =>
         this.handleSubmitButton(values, currentIndex)
       )}>
+        {/* multiple choice options */}
         <ul className="questionOptions">
           {options}
         </ul>
 
+        {/* previous button  */}
         <i className={prevQuestionClass} 
           onClick={()=>this.handleGotoQuestionButton(-1)}
           aria-hidden="true">
         < span className="faText">Previous</span>
         </i>
-    
+
+        {/* submit button  */}
         <button className={submitButtonClass} type="submit">Submit</button>
 
+        {/* next button */}
         <i className={nextQuestionClass} 
           onClick={()=>this.handleGotoQuestionButton(1)}
           aria-hidden="true">

@@ -29,10 +29,10 @@ export function App(props) {
     case 'quizlist':
       mode = <QuizList />;
       break;
-    case 'question':
+    case 'question' || 'accuracy' || 'key': // question asks question, accuracy layers on user' choice, layers on correct answer
       mode = <Question />;
       break;
-    case 'results':
+    case 'results':         // results shows score, score is tabulation of choices
       mode = <Results />;
       break;
     default:

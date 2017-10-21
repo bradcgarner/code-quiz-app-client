@@ -12,7 +12,8 @@ export class Profile extends React.Component {
   handleSubmitButton(values) { // add form validation first
     if (this.props.user.id) {
       this.props.dispatch(actionsUser.updateUserProfile(values, this.props.user.authToken));
-    } else {    
+    } else {
+      this.props.dispatch(actionsMode.gotoLogin());   
       this.props.dispatch(actionsUser.createUser(values));
     }
   }

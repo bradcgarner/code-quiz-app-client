@@ -8,9 +8,15 @@ import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 
 export class Login extends React.Component {
+
+  componentDidMount() {
+    this.props.initialize({username: this.props.user.username})
+    console.log('did mount username', this.props);
+  }
   
   handleSubmitButton(values) {
     this.props.dispatch(actionsUser.login(values));
+    this.props.reset();   
   }
   
   handleCreateAccountButton() {
@@ -18,7 +24,6 @@ export class Login extends React.Component {
   }
 
   render() {
-
     return (
       <div className="login">
         <form className="login" onSubmit={this.props.handleSubmit(values =>
@@ -32,6 +37,7 @@ export class Login extends React.Component {
             type="text" 
             placeholder="username" 
             required
+            value={this.props.mode.view}
           /><br />
           <label className="inputLabel center" htmlFor="username">Username</label>
           <Field 

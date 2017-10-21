@@ -37,6 +37,6 @@ export const initialQuiz = { // store.quiz - single current quiz, loads when use
 
 export const initialMode = {  // store.mode
   view: 'landing', // landing, about, login, profile, dashboard, quizlist, 
-                   // question, result, accuracy, answer
+                   // question, result, accuracy, key
   modal: '' // userSettings, quizSettings
 } 

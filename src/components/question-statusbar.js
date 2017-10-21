@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 export function StatusBar(props) {
   
   const total= props.total;
-  const current= props.current + 1;
+  const current= props.currentIndex + 1;
   
   return (
     <div className="statusBar">
