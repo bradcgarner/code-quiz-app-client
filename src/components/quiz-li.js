@@ -65,7 +65,7 @@ export function QuizLi(props) {
   />;
 
   const addButton = props.mode.view==='dashboard' ? '' :
-  <i class="fa fa-list-ul smallIcon" aria-hidden="true"onClick={()=>handleAddQuizButton(props.li)}>
+  <i className="fa fa-list-ul smallIcon" aria-hidden="true"onClick={()=>handleAddQuizButton(props.li)}>
     <span className="faText">Add</span>
   </i>;
   

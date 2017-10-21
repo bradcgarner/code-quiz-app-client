@@ -124,7 +124,8 @@ export const takeQuiz = quiz => dispatch => {
         })
         .then(choices => {
           console.log('choices fetched to score',choices);
-          const totalCorrect = choices.reduce((sum, value) => sum + ( choices.correct === true ? 1 : 0 ), 0);
+          const choicesCorrect = choices.filter(choice => choice.correct === true );
+          const totalCorrect = choicesCorrect.length;
           const totalCompleted = choices.length;
           dispatch(actionsUser.displayQuizScore(quizId, totalCorrect, totalCompleted));
         })

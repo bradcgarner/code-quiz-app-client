@@ -24,8 +24,8 @@ export function Results(props) {
 
     return (
       <div className="results">
-        <ResultsGraph score={'score'}/>
-        <ResultsScore score={'score'}/>
+        <ResultsGraph />
+        <ResultsScore />
         <button className="checkAccuracyButton" onClick={()=>handleGotoAccuracyButton()}>Check Accuracy</button>
         <button className="takeAnotherQuizButton" onClick={()=>handleGotoAnotherQuizButton()}>Take Another Quiz</button>
       </div>
