@@ -18,7 +18,7 @@ export const updateQuizStore = (quiz) => ({
   name: quiz.name,
   category: quiz.category,
   difficulty: quiz.difficulty,
-  current: 0,
+  currentIndex: 0,
 });
 
 // update current quiz with score for 1 question
@@ -34,7 +34,7 @@ export const scoreChoice = correct => ({
 export const UPDATE_QUIZ_STORE_QUESTIONS = 'UPDATE_QUIZ_STORE_QUESTIONS';
 export const updateQuizStoreQuestions = (questions) => ({
   type: UPDATE_QUIZ_STORE_QUESTIONS,
-  current: 0,
+  currentIndex: 0,
   questions: questions,
 });
 
@@ -44,9 +44,9 @@ export const updateQuizMenu = (menu) => ({
   menuOfAllQuizzes: menu
 });
 export const UPDATE_CURRENT_QUESTION = 'UPDATE_CURRENT_QUESTION';
-export const updateCurrentQuestion = (index) => ({
+export const updateCurrentQuestion = (nextIndex) => ({
   type: UPDATE_CURRENT_QUESTION,
-  current: index
+  currentIndex: nextIndex
 });
 
 

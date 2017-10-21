@@ -1,9 +1,9 @@
-export const initialUser = { // store.user
+export const initialUser = { // store.user, single current user, loads at login
   id: null,
   firstName: '',
   lastName: '',
   username: '',
-  quizzes: [{
+  quizzes: [{ // all quizzes user has ever taken
     id: 555,
     name: 'test',
     total: 3,
@@ -17,13 +17,13 @@ export const initialUser = { // store.user
   authToken: ''
 };
 
-export const initialQuiz = { // store.quiz
+export const initialQuiz = { // store.quiz - single current quiz, loads when user clicks <QuizLi/ > from <QuizList /> or <Dashboard />
   id: null,    
   name: '',
   category: '',
   difficulty: '',
-  current: 0,
-  questions: [{
+  currentIndex: 0,       // index of array below, advances via submit choice or skip button
+  questions: [{     // all questions this quiz, parsed out individually using "current" as the index
     question: '',
     id: null,
     inputType: 'checkbox',
@@ -32,7 +32,7 @@ export const initialQuiz = { // store.quiz
       id: null,
     }]
   }],
-  menuOfAllQuizzes: []
+  menuOfAllQuizzes: [] // menu of all quizzes in the database, loads at 1st visit to <QuizList />. Array does not store questions.
 };
 
 export const initialMode = {  // store.mode

@@ -174,9 +174,9 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     });
   }
 
-export const submitChoices = (choices, authToken, next) => dispatch => { // next === 'score' or next index
+export const submitChoices = (choices, authToken, nextIndex) => dispatch => { // nextIndex === 999 if score
   console.log('choice as received by submitChoices',choices)
-  console.log('next as received by submitChoices',next)
+  console.log('nextIndex as received by submitChoices',nextIndex)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url for submitChoices', url);
   const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
@@ -199,12 +199,12 @@ export const submitChoices = (choices, authToken, next) => dispatch => { // next
     return dispatch(actionsQuiz.scoreChoice(correct)); // update CURRENT QUIZ with score of 1 question
   })
   .then(()=> {
-    if ( next === 'score' ) {
+    if ( nextIndex === 999 ) { /// 999 === score
       dispatch(actionsMode.gotoResults());
       console.log('choices.quizId, choices.userId', choices.quizId, choices.userId);
       dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
     } else {
-      dispatch(actionsQuiz.updateCurrentQuestion(next));
+      dispatch(actionsQuiz.updateCurrentQuestion(nextIndex));
     }
   })
   .catch(error => {
