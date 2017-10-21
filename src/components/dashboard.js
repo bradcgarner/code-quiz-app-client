@@ -18,6 +18,7 @@ export function Dashboard(props) {
     }
   }
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
+  console.log('props.user.quizzes',props.user.quizzes)
   const quizLi = props.user.quizzes.map((quiz, index)=>{
     return <QuizLi key={index} li={quiz} />
   })

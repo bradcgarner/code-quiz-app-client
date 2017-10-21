@@ -7,14 +7,13 @@ import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLiStatus(props) {
 
-  const total= props.total;
-  const completed= props.completed;
-  const correct= props.correct;
+  const total= props.total || 0;
+  const completed= props.completed || 0;
+  const correct= props.correct || 0;
 
     return (
-      <div>
-        <p>Status</p>
-        <p>{total}/{completed}/{correct}</p>
+      <div className="statusBox">
+        <span>{total}|{completed}|{correct}</span>
       </div>
     );
 }

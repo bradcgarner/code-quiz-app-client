@@ -191,6 +191,9 @@ header {
 .dashboardQuizListHeader {
   margin: 20px 0; }
 
+.statusBox {
+  display: inline-block; }
+
 /* @@@@@@@@@@@@@@ FORMS  @@@@@@@@@@@@ */
 .profileInput {
   font-size: 18px;

@@ -23,6 +23,7 @@ export function QuizLi(props) {
   }
 
   const handleAddQuizButton = (quiz) => {
+    console.log('quiz at add quiz button', quiz);
     const userCopy = copyUserWithNewQuiz(quiz);
     if ( userCopy ) {
       console.log('about to update user data', userCopy);
@@ -33,7 +34,7 @@ export function QuizLi(props) {
 
   const handleTakeQuizButton = (quiz) => {
     if ( props.mode.view !== 'dashboard') {
-      console.log('I AM NOT ON THE DASHBOARD');
+      console.log('I AM NOT ON THE DASHBOARD', quiz);
       handleAddQuizButton(quiz)
     }
     console.log('JUST SELECTED QUIZ TO TAKE', quiz);    
@@ -69,6 +70,7 @@ export function QuizLi(props) {
     <span className="faText">Add</span>
   </i>;
  
+ // condition below needs to change to ===='dashboard' || the quiz is included in props.user.quizzes...
  const statusBoxOrAddButton = props.mode.view==='dashboard' ? statusBox : addButton ;
 
   const takeButton = <i className="fa fa-hand-o-right smallIcon" aria-hidden="true" onClick={()=>handleTakeQuizButton(props.li)}>

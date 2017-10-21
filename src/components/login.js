@@ -9,6 +9,7 @@ import * as actionsQuiz from '../actions/quiz';
 
 export class Login extends React.Component {
 
+  // trying to pre-populate username into form
   componentDidMount() {
     this.props.initialize({username: this.props.user.username})
     console.log('did mount username', this.props);
@@ -37,7 +38,6 @@ export class Login extends React.Component {
             type="text" 
             placeholder="username" 
             required
-            value={this.props.mode.view}
           /><br />
           <label className="inputLabel center" htmlFor="username">Username</label>
           <Field 

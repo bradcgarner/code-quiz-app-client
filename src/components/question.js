@@ -31,6 +31,7 @@ export class Question extends React.Component {
   }  // refer to actions/users.js for format of values
 
   handleGotoQuestionButton(index) { // index = 1 or -1
+    this.props.reset();       
     this.props.dispatch(actionsQuiz.updateCurrentQuestion(this.props.quiz.currentIndex + index))
   }
   
