@@ -7,10 +7,14 @@ import * as actionsQuiz from '../actions/quiz';
 export function QuizLi(props) {
   
   const copyUserWithNewQuiz = (newQuiz) => {  
+    // console.log('new quiz at copy user w/ new quiz', newQuiz);
+    // console.log('props.user.quizzes', props.user.quizzes);
     const quizIsListed = props.user.quizzes.filter(exQuiz=>{
       return exQuiz.id === newQuiz.id;
     });
+    // console.log('quizislisted',quizIsListed)
     if (quizIsListed.length > 0) {
+      // console.log('quiz is already listed, not adding');
        return null;
     } else {
       newQuiz.attempt = 0;
@@ -22,11 +26,11 @@ export function QuizLi(props) {
   }
 
   const handleAddQuizButton = (quiz) => { 
-    console.log('quiz at add quiz button', quiz);
+    // console.log('quiz at add quiz button', quiz);
     const userCopy = copyUserWithNewQuiz(quiz); // copy user; add to quizzes; attempt is alway 0 when adding
     if ( userCopy ) {
-      console.log('about to update user data', userCopy);
-      console.log('props at handleAdQuizButton', props);
+      // console.log('about to update user data', userCopy);
+      // console.log('props at handleAddQuizButton', props);
       props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken)) // update db, then store, archived quizzes filtered out by server before responding   
     }
   }
@@ -34,29 +38,18 @@ export function QuizLi(props) {
   const handleTakeQuizButton = (quiz) => {
     let attempt = 0;
     if ( props.mode.view !== 'dashboard') {
-      console.log('NOT ON DASHBOARD, adding quiz', quiz, attempt);
+      // console.log('NOT ON DASHBOARD, adding quiz', quiz, attempt);
       handleAddQuizButton(quiz)
     }
-    console.log('JUST SELECTED QUIZ TO TAKE', quiz);  
-    // calculate attempt
+    // console.log('JUST SELECTED QUIZ TO TAKE', quiz);  
     const quizId = quiz.id;
     const priorQuizAttempt = props.user.quizzes.filter(quiz=>quiz.id === quizId);
-    console.log('priorQuizAttempt', priorQuizAttempt)
+    // console.log('priorQuizAttempt', priorQuizAttempt)
     const howMany = priorQuizAttempt.length;
-    console.log('howmany', howMany)    
+    // console.log('howmany', howMany)    
     attempt = howMany === 0 ? 0 : priorQuizAttempt[howMany-1].attempt + 1; 
-    console.log('attempt', attempt)  
+    // console.log('attempt', attempt)  
     props.dispatch(actionsQuiz.takeQuiz(quiz, attempt, props.user))
-    // probably pass below as argument to above
-    // if quiz.completed > 0
-       // const increment = quiz.attempt + 1
-       // props.dispatch(actionsUser.incrementAttempt(quiz));
-       // new choices will receive the attempt #
-       // find user in db
-       // mark quiz.archive as true in db
-       // when we update the user, we'll filter out archived quizzes
-       // props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken))      
-
   }
 
   const id = props.li.id;
