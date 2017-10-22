@@ -36,7 +36,11 @@ export const login = (credentials) => dispatch => {
   }) 
   .then(user => { 
     dispatch(updateUserStore(user));
-    return dispatch(actionsMode.gotoDashboard());
+    if (user.quizzes.length > 0 ) {
+      return dispatch(actionsMode.gotoDashboard());      
+    } else {
+    return dispatch(actionsQuiz.fetchQuizzes()); 
+    }
   })
   .catch(error => {
    // dispatch(loginError(error));

@@ -30,6 +30,8 @@ export class Question extends React.Component {
   }  // refer to actions/users.js for format of values
 
   handleGotoQuestionButton(index) { // index = 1 or -1
+    console.log('indices at go to question',index, this.props.quiz.currentIndex);
+    console.log('this.props.quiz.total', this.props.quiz.total);
     if ( ( index === -1 && this.props.quiz.currentIndex > 0 ) || 
          ( index === 1 && this.props.quiz.currentIndex < this.props.quiz.total )
     ) {
