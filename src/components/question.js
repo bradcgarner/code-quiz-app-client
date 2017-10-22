@@ -18,15 +18,16 @@ export class Question extends React.Component {
     }
     const formattedChoiceObject = {
       userId: this.props.user.id, // user must be logged in
-      questionId: this.props.quiz.questions[currentIndex].id,
       quizId: this.props.quiz.id,
+      attempt: this.props.quiz.attempt,
+      questionId: this.props.quiz.questions[currentIndex].id,
       choices : formattedChoices
     };
     const nextIndex = this.props.quiz.currentIndex === (this.props.quiz.questions.length - 1) ?
       999 : this.props.quiz.currentIndex + 1 ;
       console.log(nextIndex);
       this.props.reset();   
-      this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user.authToken, nextIndex));
+      this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user, nextIndex));
   }  // refer to actions/users.js for format of values
 
   handleGotoQuestionButton(index) { // index = 1 or -1

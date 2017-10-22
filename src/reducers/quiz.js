@@ -21,7 +21,8 @@ export const reducer = ( state = initialQuiz, action ) => {
   } else if ( action.type === actions.UPDATE_QUIZ_STORE_QUESTIONS ) {
     return Object.assign({}, state, {
       currentIndex: action.currentIndex || 0,
-      questions: action.questions
+      questions: action.questions,
+      attempt: action.attempt
     })
   } else if ( action.type === actions.UPDATE_CURRENT_QUESTION ) {
       return Object.assign({}, state, {

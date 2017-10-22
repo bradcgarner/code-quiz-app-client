@@ -6,42 +6,54 @@ import * as actionsQuiz from '../actions/quiz';
 
 export function QuizLi(props) {
   
-  const copyUserWithNewQuiz = (quiz) => {    
+  const copyUserWithNewQuiz = (newQuiz) => {  
+    // console.log('new quiz at copy user w/ new quiz', newQuiz);
+    // console.log('props.user.quizzes', props.user.quizzes);
     const quizIsListed = props.user.quizzes.filter(exQuiz=>{
-      return exQuiz.id === quiz.id;
+      return exQuiz.id === newQuiz.id;
     });
-    if (quizIsListed.length >= 1) {
+    // console.log('quizislisted',quizIsListed)
+    if (quizIsListed.length > 0) {
+      // console.log('quiz is already listed, not adding');
        return null;
     } else {
-      const newQuizList = [...props.user.quizzes, quiz ];
+      newQuiz.attempt = 0;
+      const newQuizList = [...props.user.quizzes, newQuiz ];
       const userCopy = Object.assign({},props.user);
       userCopy.quizzes = newQuizList;
       return userCopy;
     }
   }
 
-  const handleAddQuizButton = (quiz) => {
-    console.log('quiz at add quiz button', quiz);
-    const userCopy = copyUserWithNewQuiz(quiz);
+  const handleAddQuizButton = (quiz) => { 
+    // console.log('quiz at add quiz button', quiz);
+    const userCopy = copyUserWithNewQuiz(quiz); // copy user; add to quizzes; attempt is alway 0 when adding
     if ( userCopy ) {
-      console.log('about to update user data', userCopy);
-      console.log('props at handleAdQuizButton', props);
-      props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken))      
+      // console.log('about to update user data', userCopy);
+      // console.log('props at handleAddQuizButton', props);
+      props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken)) // update db, then store, archived quizzes filtered out by server before responding   
     }
   }
 
   const handleTakeQuizButton = (quiz) => {
+    let attempt = 0;
     if ( props.mode.view !== 'dashboard') {
-      console.log('I AM NOT ON THE DASHBOARD', quiz);
+      // console.log('NOT ON DASHBOARD, adding quiz', quiz, attempt);
       handleAddQuizButton(quiz)
     }
-    console.log('JUST SELECTED QUIZ TO TAKE', quiz);    
-    props.dispatch(actionsQuiz.takeQuiz(quiz))
-    
-    // starts @ 1st unanswered question
+    // console.log('JUST SELECTED QUIZ TO TAKE', quiz);  
+    const quizId = quiz.id;
+    const priorQuizAttempt = props.user.quizzes.filter(quiz=>quiz.id === quizId);
+    // console.log('priorQuizAttempt', priorQuizAttempt)
+    const howMany = priorQuizAttempt.length;
+    // console.log('howmany', howMany)    
+    attempt = howMany === 0 ? 0 : priorQuizAttempt[howMany-1].attempt + 1; 
+    // console.log('attempt', attempt)  
+    props.dispatch(actionsQuiz.takeQuiz(quiz, attempt, props.user))
   }
 
   const id = props.li.id;
+  const attempt = props.li.attempt;
   const category= props.li.category || 'cat';
   const difficulty= props.li.difficulty || 'dif';
   const name= props.li.name || 'name';

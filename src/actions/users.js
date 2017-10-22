@@ -7,9 +7,9 @@ export const updateUserStore = user => {
   return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
 }
 
-export const DISPLAY_QUIZ_SCORE = 'DISPLAY_QUIZ_SCORE';
-export const displayQuizScore = (quizId, totalCorrect, totalCompleted) => ({
-  type: DISPLAY_QUIZ_SCORE,
+export const UPDATE_USER_QUIZ_SCORE = 'UPDATE_USER_QUIZ_SCORE';
+export const updateUserQuizScore = (quizId, totalCorrect, totalCompleted) => ({
+  type: UPDATE_USER_QUIZ_SCORE,
   quizId,
   totalCorrect,
   totalCompleted
@@ -35,6 +35,7 @@ export const login = (credentials) => dispatch => {
     return res.json();
   }) 
   .then(user => { 
+    console.log('user from db', user);
     dispatch(updateUserStore(user));
     if (user.quizzes.length > 0 ) {
       return dispatch(actionsMode.gotoDashboard());      
@@ -119,7 +120,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     };
     console.log('init at update user data', init);
     return fetch(url, init)
-    .then(res=>{//response user api repr  no need to do anything with response
+    .then(res=>{          //response=user.apiRepr() with archived quizzes filtered out
       console.log(res);
       if (!res.ok) { 
         return Promise.reject(res.statusText);
@@ -128,7 +129,7 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     }) 
     .then(user => { 
       user.authToken = authToken;
-      return dispatch(updateUserStore(user));
+      return dispatch(updateUserStore(user)); // archived quizzes not included
     })
     .catch(error => {
      // dispatch(loginError(error));
@@ -162,12 +163,12 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
     });
   }
 
-export const submitChoices = (choices, authToken, nextIndex) => dispatch => { // nextIndex === 999 if score
+export const submitChoices = (choices, user, nextIndex) => dispatch => { // nextIndex === 999 if score
   console.log('choice as received by submitChoices',choices)
   console.log('nextIndex as received by submitChoices',nextIndex)
   const url = `${REACT_APP_BASE_URL}/api/choices/`;
   console.log('url for submitChoices', url);
-  const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
+  const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + user.authToken};
   const init = { 
     method: 'POST',
     headers,
@@ -175,22 +176,22 @@ export const submitChoices = (choices, authToken, nextIndex) => dispatch => { //
   };
   console.log('init for submitChoices', init);
   return fetch(url, init)
-  .then(res=>{//response is object{correct, id}
+  .then(res=>{  // response is object including properties correct & id
     console.log('response after fetch in submitChoices', res);
     if (!res.ok) { 
       return Promise.reject(res.statusText);
     }
     return res.json();
   }) 
-  .then(correct => { // correct includes .choices and .correct(t/f) .questionId
-    console.log('choice scored', correct); 
-    return dispatch(actionsQuiz.scoreChoice(correct)); // update CURRENT QUIZ with score of 1 question
+  .then(choice => { // correct includes .choices(array) and .correct(t/f) .questionId
+    console.log('choice scored', choice); 
+    return dispatch(actionsQuiz.scoreChoice(choice)); // update CURRENT QUIZ with score of 1 question
   })
   .then(()=> {
     if ( nextIndex === 999 ) { /// 999 === score
       dispatch(actionsMode.gotoResults());
-      console.log('choices.quizId, choices.userId', choices.quizId, choices.userId);
-      dispatch(actionsQuiz.scoreQuiz(choices.quizId, choices.userId));
+      console.log('choices.quizId', choices.quizId, 'user', user, 'attempt', choices.attempt);
+      dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
     } else {
       dispatch(actionsQuiz.updateCurrentQuestion(nextIndex));
     }

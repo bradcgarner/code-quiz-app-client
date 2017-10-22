@@ -6,6 +6,7 @@ export const initialUser = { // store.user, single current user, loads at login
   quizzes: [{ // all quizzes user has ever taken
     id: 555,
     name: 'test',
+    attempt: 0,
     total: 3,
     completed: 1,
     correct: 1,
@@ -20,6 +21,7 @@ export const initialUser = { // store.user, single current user, loads at login
 export const initialQuiz = { // store.quiz - single current quiz, loads when user clicks <QuizLi/ > from <QuizList /> or <Dashboard />
   id: null,    
   name: '',
+  attempt: 0,
   category: '',
   difficulty: '',
   total: '',
@@ -31,7 +33,10 @@ export const initialQuiz = { // store.quiz - single current quiz, loads when use
     answers: [{
       option: '',
       id: null,
-    }]
+    }],
+    // user data for current quiz
+    correct: '',
+    choices: [],
   }],
   menuOfAllQuizzes: [] // menu of all quizzes in the database, loads at 1st visit to <QuizList />. Array does not store questions.
 };
