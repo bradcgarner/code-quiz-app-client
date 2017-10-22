@@ -77,10 +77,12 @@ export const  fetchQuizzes = () => dispatch => {
 };
 
 // get all questions by quiz id
-export const takeQuiz = (quiz, subset) => dispatch => {
-  const attempt = quiz.attempt;
+export const takeQuiz = (quiz, attempt, user) => dispatch => {
+  //const attempt = quiz.attempt;
+  console.log('take quiz attempt', attempt, 'quiz', quiz);
+  console.log('take quiz user', user);
   console.log('do something clever while fetching questions');
-  dispatch(updateQuizStore(quiz));
+  dispatch(updateQuizStore(quiz)); // updates state.quiz, but not state.quiz.questions
   return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quiz.id}/questions`)
         .then(res => {
           console.log(res);
@@ -96,7 +98,15 @@ export const takeQuiz = (quiz, subset) => dispatch => {
           dispatch(actionsMode.gotoQuestion());
           return dispatch(updateQuizStoreQuestions(questions, attempt));
         })
-        .then()
+        .then(()=>{
+          // only need to update the # of attempts
+          const updatedQuizzes = [...user.quizzes];
+          const quizId = quiz.id;
+          const thisQuizIndex = updatedQuizzes.findIndex(quiz=>quiz.id = quizId);
+          updatedQuizzes[thisQuizIndex].attempt = attempt;
+          const updatedUser = Object.assign({}, user, {quizzes: updatedQuizzes})
+          return dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
+        })
         .catch(error => {
          // dispatch(fetchError(error));
           console.log(error);
@@ -104,9 +114,9 @@ export const takeQuiz = (quiz, subset) => dispatch => {
   };
 
 
-  export const  scoreQuiz = (quizId, userId) => dispatch => {
+  export const  scoreQuiz = (quizId, user, attempt=0) => dispatch => {
     console.log("score quiz");
-    return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${userId}`)
+    return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${user.id}/${attempt}`)
        .then(res => {
           console.log('choices fetched to score',res);
             if (!res.ok) {
@@ -119,7 +129,17 @@ export const takeQuiz = (quiz, subset) => dispatch => {
           const choicesCorrect = choices.filter(choice => choice.correct === true );
           const totalCorrect = choicesCorrect.length;
           const totalCompleted = choices.length;
-          dispatch(actionsUser.displayQuizScore(quizId, totalCorrect, totalCompleted));
+          dispatch(actionsUser.updateUserQuizScore(quizId, totalCorrect, totalCompleted));
+          const userQuizzes = [...user.quizzes];
+          console.log('userQuizzes', userQuizzes);
+          const indexToUpdate = userQuizzes.findIndex(quiz=>quiz.id === quizId);
+          console.log('indexToUpdate', indexToUpdate);
+          userQuizzes[indexToUpdate].correct = totalCorrect;
+          userQuizzes[indexToUpdate].completed = totalCompleted;
+          console.log('userQuizzes after update', userQuizzes);
+          const updatedUser = Object.assign({}, user, {quizzes: userQuizzes});
+          console.log('updatedUser', updatedUser);
+          dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
         })
         .catch(error => {
          // dispatch(fetchError(error));

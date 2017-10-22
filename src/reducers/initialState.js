@@ -33,7 +33,10 @@ export const initialQuiz = { // store.quiz - single current quiz, loads when use
     answers: [{
       option: '',
       id: null,
-    }]
+    }],
+    // user data for current quiz
+    correct: '',
+    choices: [],
   }],
   menuOfAllQuizzes: [] // menu of all quizzes in the database, loads at 1st visit to <QuizList />. Array does not store questions.
 };
