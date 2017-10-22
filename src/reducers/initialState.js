@@ -6,6 +6,7 @@ export const initialUser = { // store.user, single current user, loads at login
   quizzes: [{ // all quizzes user has ever taken
     id: 555,
     name: 'test',
+    attempt: 0,
     total: 3,
     completed: 1,
     correct: 1,
@@ -20,6 +21,7 @@ export const initialUser = { // store.user, single current user, loads at login
 export const initialQuiz = { // store.quiz - single current quiz, loads when user clicks <QuizLi/ > from <QuizList /> or <Dashboard />
   id: null,    
   name: '',
+  attempt: 0,
   category: '',
   difficulty: '',
   total: '',

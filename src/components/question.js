@@ -20,6 +20,7 @@ export class Question extends React.Component {
       userId: this.props.user.id, // user must be logged in
       questionId: this.props.quiz.questions[currentIndex].id,
       quizId: this.props.quiz.id,
+      attempt: this.props.quiz.attempt,
       choices : formattedChoices
     };
     const nextIndex = this.props.quiz.currentIndex === (this.props.quiz.questions.length - 1) ?

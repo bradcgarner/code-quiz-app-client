@@ -36,12 +36,23 @@ export function QuizLi(props) {
       handleAddQuizButton(quiz)
     }
     console.log('JUST SELECTED QUIZ TO TAKE', quiz);    
-    props.dispatch(actionsQuiz.takeQuiz(quiz))
-    
-    // starts @ 1st unanswered question
+    // if quiz.completed > 0 && quiz.completed < quiz.total
+       // subset = filter the quiz by no choices
+    props.dispatch(actionsQuiz.takeQuiz(quiz, subset))
+    // probably pass below as argument to above
+    // if quiz.completed > 0
+       // const increment = quiz.attempt + 1
+       // props.dispatch(actionsUser.incrementAttempt(quiz));
+       // new choices will receive the attempt #
+       // find user in db
+       // mark quiz.archive as true in db
+       // when we update the user, we'll filter out archived quizzes
+       // props.dispatch(actionsUser.updateUserData(userCopy, props.user.authToken))      
+
   }
 
   const id = props.li.id;
+  const attempt = props.li.attempt;
   const category= props.li.category || 'cat';
   const difficulty= props.li.difficulty || 'dif';
   const name= props.li.name || 'name';

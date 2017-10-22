@@ -32,10 +32,11 @@ export const scoreChoice = correct => ({
 
 // this is the single current quiz
 export const UPDATE_QUIZ_STORE_QUESTIONS = 'UPDATE_QUIZ_STORE_QUESTIONS';
-export const updateQuizStoreQuestions = (questions) => ({
+export const updateQuizStoreQuestions = (questions, attempt) => ({
   type: UPDATE_QUIZ_STORE_QUESTIONS,
   currentIndex: 0,
-  questions: questions,
+  questions,
+  attempt
 });
 
 export const UPDATE_QUIZ_MENU = 'UPDATE_QUIZ_MENU';
@@ -76,7 +77,8 @@ export const  fetchQuizzes = () => dispatch => {
 };
 
 // get all questions by quiz id
-export const takeQuiz = quiz => dispatch => {
+export const takeQuiz = (quiz, subset) => dispatch => {
+  const attempt = quiz.attempt;
   console.log('do something clever while fetching questions');
   dispatch(updateQuizStore(quiz));
   return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quiz.id}/questions`)
@@ -89,8 +91,10 @@ export const takeQuiz = quiz => dispatch => {
         })
         .then(questions => {
           console.log('quiz returned', questions);
+          // if typeof subset === 'array'
+               // filter questions per 'subset' parameter
           dispatch(actionsMode.gotoQuestion());
-            return dispatch(updateQuizStoreQuestions(questions));
+          return dispatch(updateQuizStoreQuestions(questions, attempt));
         })
         .then()
         .catch(error => {
