@@ -37,19 +37,31 @@ export function QuizLi(props) {
 
   const handleTakeQuizButton = (quiz) => {
     let attempt = 0;
+    let filterQuestions = false;
     if ( props.mode.view !== 'dashboard') {
       // console.log('NOT ON DASHBOARD, adding quiz', quiz, attempt);
       handleAddQuizButton(quiz)
     }
     // console.log('JUST SELECTED QUIZ TO TAKE', quiz);  
     const quizId = quiz.id;
+    console.log('quizid', quizId)
+    console.log('props.user.quizzes', props.user.quizzes)
     const priorQuizAttempt = props.user.quizzes.filter(quiz=>quiz.id === quizId);
-    // console.log('priorQuizAttempt', priorQuizAttempt)
-    const howMany = priorQuizAttempt.length;
-    // console.log('howmany', howMany)    
-    attempt = howMany === 0 ? 0 : priorQuizAttempt[howMany-1].attempt + 1; 
-    // console.log('attempt', attempt)  
-    props.dispatch(actionsQuiz.takeQuiz(quiz, attempt, props.user))
+    console.log('priorQuizAttempt', priorQuizAttempt)
+    // PROBLEM IS THAT COMPLETED IS NOT INCREMENTING WITH EACH CHOICE
+    if ( !priorQuizAttempt.completed ) {
+      console.log('priorQuizAttempt.completed', priorQuizAttempt.completed);
+      console.log('completed is falsy')
+    } else if ( priorQuizAttempt.completed > 0 && priorQuizAttempt.completed < priorQuizAttempt.total ) {
+      attempt = priorQuizAttempt.attempt;
+      filterQuestions = true;
+      console.log('partial', attempt, filterQuestions);
+    } else if ( priorQuizAttempt.length > 0 ) {
+      attempt = priorQuizAttempt[priorQuizAttempt.length-1].attempt + 1;
+      console.log('increment attempt to', attempt);
+    }
+    console.log('attempt', attempt);
+    props.dispatch(actionsQuiz.takeQuiz(quiz, attempt, filterQuestions, props.user))
   }
 
   const id = props.li.id;
