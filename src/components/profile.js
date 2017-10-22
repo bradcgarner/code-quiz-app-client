@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { REACT_APP_BASE_URL } from '../config';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
-import * as actionsQuiz from '../actions/quiz';
 
 export class Profile extends React.Component {
 

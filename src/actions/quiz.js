@@ -75,19 +75,7 @@ export const  fetchQuizzes = () => dispatch => {
       });
 };
 
-//update quiz by ID
-//const url = `${REACT_APP_BASE_URL}/api/quizzes/:id`
-// name:req.body.name,
-{/*description: req.body.description,
-category: req.body.category,
-difficulty: req.body.difficulty,
-questions: req.body.questions*/}
-
-
 // get all questions by quiz id
-//const url = `${REACT_APP_BASE_URL}/api/quizzes/:id/questions`
-//quizId
-
 export const takeQuiz = quiz => dispatch => {
   console.log('do something clever while fetching questions');
   dispatch(updateQuizStore(quiz));

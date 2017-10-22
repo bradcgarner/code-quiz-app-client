@@ -31,10 +31,9 @@ export const reducer = ( state = initialQuiz, action ) => {
   // this updates the CURRENT quiz
   } else if (action.type === actions.SCORE_CHOICE) {
     console.log('action', action)
-    console.log('state questions', state.questions)
     const questions = [...state.questions]; // create/copy immutable object from state.quizzes
     console.log('questions after array assign', questions)
-    const questionIndex = questions.findIndex(question => question.id == action.questionId);
+    const questionIndex = questions.findIndex(question => question.id === action.questionId);
     console.log('questionIndex', questionIndex)
     questions[questionIndex].correct = action.correct;
     questions[questionIndex].choices = action.choices;

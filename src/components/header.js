@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Home from './header-home';
 import Settings from './header-settings';
-import { REACT_APP_BASE_URL } from '../config';
-import * as actionsUser from '../actions/users';
-import * as actionsMode from '../actions/mode';
-import * as actionsQuiz from '../actions/quiz';
 
 export function Header(props) {
   let home = '';

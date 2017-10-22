@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import Badges from './dashboard-badges';
 import Recent  from './dashboard-recent';
 import QuizLi from './quiz-li';
-import { REACT_APP_BASE_URL } from '../config';
-import * as actionsUser from '../actions/users';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
 

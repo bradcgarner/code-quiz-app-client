@@ -22,6 +22,7 @@ export const initialQuiz = { // store.quiz - single current quiz, loads when use
   name: '',
   category: '',
   difficulty: '',
+  total: '',
   currentIndex: 0,       // index of array below, advances via submit choice or skip button
   questions: [{     // all questions this quiz, parsed out individually using "current" as the index
     question: '',

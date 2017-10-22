@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionsMode from '../actions/mode';
 
 export function About(props) {
   
@@ -11,10 +10,10 @@ export function About(props) {
 <br />
 <br />{'const learnToCode = ( multiple-choice, mobile-first ) ({'}
 <br />&emsp;{'    protected: {'}
-<br />&emsp;&emsp;{'      answers: \"concealed\",'}
-<br />&emsp;&emsp;{'      scoring: \"real-time\"'}
+<br />&emsp;&emsp;{'      answers: "concealed",'}
+<br />&emsp;&emsp;{'      scoring: "real-time"'}
 <br />&emsp;{'    },'}
-<br />&emsp;{'    scalable: \"absolutely\"'}
+<br />&emsp;{'    scalable: "absolutely"'}
 <br />{'})'}
 <br />
 <br /><h2>{'    Technology Used'}</h2>

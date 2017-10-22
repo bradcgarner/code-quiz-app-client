@@ -1,4 +1,3 @@
-import { REACT_APP_BASE_URL } from '../config';
 // one action for each property of state.mode
 // see initialState.js for the list
 

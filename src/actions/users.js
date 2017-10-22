@@ -35,7 +35,6 @@ export const login = (credentials) => dispatch => {
     return res.json();
   }) 
   .then(user => { 
-    
     dispatch(updateUserStore(user));
     return dispatch(actionsMode.gotoDashboard());
   })

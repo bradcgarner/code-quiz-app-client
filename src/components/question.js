@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { REACT_APP_BASE_URL } from '../config';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import StatusBar from './question-statusbar';
@@ -31,8 +30,16 @@ export class Question extends React.Component {
   }  // refer to actions/users.js for format of values
 
   handleGotoQuestionButton(index) { // index = 1 or -1
-    this.props.reset();       
-    this.props.dispatch(actionsQuiz.updateCurrentQuestion(this.props.quiz.currentIndex + index))
+    if ( ( index === -1 && this.props.quiz.currentIndex > 0 ) || 
+         ( index === 1 && this.props.quiz.currentIndex < this.props.quiz.total )
+    ) {
+      this.props.reset();    
+      this.props.dispatch(actionsQuiz.updateCurrentQuestion(this.props.quiz.currentIndex + index))
+    } else if ( index === 1 && this.props.quiz.currentIndex === this.props.quiz.total ) {
+      this.props.reset();    
+      this.props.dispatch(actionsMode.gotoResults())
+    }
+
   }
   
   render() {
