@@ -77,10 +77,10 @@ export const  fetchQuizzes = () => dispatch => {
 };
 
 // get all questions by quiz id
-export const takeQuiz = (quiz, attempt, user) => dispatch => {
+export const takeQuiz = (quiz, attempt, filterQuestions, user) => dispatch => {
   //const attempt = quiz.attempt;
   console.log('take quiz attempt', attempt, 'quiz', quiz);
-  console.log('take quiz user', user);
+  console.log('take quiz filter', filterQuestions, 'user', user);
   console.log('do something clever while fetching questions');
   dispatch(updateQuizStore(quiz)); // updates state.quiz, but not state.quiz.questions
   return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quiz.id}/questions`)
@@ -93,8 +93,29 @@ export const takeQuiz = (quiz, attempt, user) => dispatch => {
         })
         .then(questions => {
           console.log('quiz returned', questions);
-          // if typeof subset === 'array'
-               // filter questions per 'subset' parameter
+          if (filterQuestions  === true) {
+            const choiceObject = {};
+            return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quiz.id}/users/${user.id}/${attempt}`)
+            .then(res => {
+               console.log('choices fetched to use for filter',res);
+                 if (!res.ok) {
+                     return Promise.reject(res.statusText);
+                 }
+                 return res.json();
+             })
+            .then(choices=>{
+              choices.forEach(choice=>{
+                choiceObject[choice.questionId] = true;
+              });
+              console.log('choiceObject', choiceObject);
+              console.log('questions still available?', questions);
+              return questions.filter(question=>choiceObject[question.id] !== true);
+            })
+          } else {
+            return questions;
+          } // end if
+        }) // end then
+        .then(questions=>{
           dispatch(actionsMode.gotoQuestion());
           return dispatch(updateQuizStoreQuestions(questions, attempt));
         })
