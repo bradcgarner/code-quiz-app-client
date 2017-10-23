@@ -47,7 +47,9 @@ export class Question extends React.Component {
   
   render() {
 
+    // FIX THIS !!!!!! IS TRYING TO RENDER INDEX 999 !!!!!
     const currentIndex = this.props.quiz.currentIndex || 0;
+    console.log('this.props.quiz',this.props.quiz);
     const currQuestion = this.props.quiz.questions[currentIndex];
     const inputType = currQuestion.inputType; 
     

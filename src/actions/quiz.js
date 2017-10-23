@@ -22,7 +22,16 @@ export const updateQuizStore = (quiz) => ({
   difficulty: quiz.difficulty,
   questions: quiz.questions,
   attempt: quiz.attempt,
-  currentIndex: quiz.currentIndex,
+  currentIndex: quiz.nextIndex,
+  completed: quiz.completed,
+  correct: quiz.correct,
+});
+
+// only used for skipping, not when submitting choices
+export const UPDATE_CURRENT_QUESTION = 'UPDATE_CURRENT_QUESTION';
+export const updateCurrentQuestion = (nextIndex) => ({
+  type: UPDATE_CURRENT_QUESTION,
+  currentIndex: nextIndex
 });
 
 // update current quiz with score for 1 question
@@ -39,12 +48,6 @@ export const updateQuizMenu = (menu) => ({
   type: UPDATE_QUIZ_MENU,
   menuOfAllQuizzes: menu
 });
-export const UPDATE_CURRENT_QUESTION = 'UPDATE_CURRENT_QUESTION';
-export const updateCurrentQuestion = (nextIndex) => ({
-  type: UPDATE_CURRENT_QUESTION,
-  currentIndex: nextIndex
-});
-
 
 
 // @@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@
@@ -191,12 +194,15 @@ export const takeQuiz = (quiz, user, option) => dispatch => {
     })
 
 
-    // UPDATE THE STORE - SYNC, THEN ASYNC
+    // UPDATE THE QUIZ STORE, THEN USER STORE - SYNC, THEN ASYNC
     .then(()=>{
-      dispatch(actionsMode.gotoQuestion());
       dispatch(updateQuizStore(updatedQuiz)); // updates state.quiz, but not state.quiz.questions
       // ASYNC
       return dispatch(actionsUser.updateUserData(updatedUser, authToken));
+    })
+    // CHANGE VIEW MODE LAST
+    .then(()=>{
+      return dispatch(actionsMode.gotoQuestion());      
     })
     .catch(error => {
       // dispatch(fetchError(error));
@@ -205,36 +211,39 @@ export const takeQuiz = (quiz, user, option) => dispatch => {
   };
 
 
-  export const  scoreQuiz = (quizId, user, attempt=0) => dispatch => {
-    console.log("score quiz");
-    return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${user.id}/${attempt}`)
-       .then(res => {
-          console.log('choices fetched to score',res);
-            if (!res.ok) {
-                return Promise.reject(res.statusText);
-            }
-            return res.json();
-        })
-        .then(choices => {
-          console.log('choices fetched to score',choices);
-          const choicesCorrect = choices.filter(choice => choice.correct === true );
-          const totalCorrect = choicesCorrect.length;
-          const totalCompleted = choices.length;
-          dispatch(actionsUser.updateUserQuizScore(quizId, totalCorrect, totalCompleted));
-          const userQuizzes = [...user.quizzes];
-          console.log('userQuizzes', userQuizzes);
-          const indexToUpdate = userQuizzes.findIndex(quiz=>quiz.id === quizId);
-          console.log('indexToUpdate', indexToUpdate);
-          userQuizzes[indexToUpdate].correct = totalCorrect;
-          userQuizzes[indexToUpdate].completed = totalCompleted;
-          console.log('userQuizzes after update', userQuizzes);
-          const updatedUser = deepAssign({}, user, {quizzes: userQuizzes});
-          console.log('updatedUser', updatedUser);
-          dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
-        })
-        .catch(error => {
-         // dispatch(fetchError(error));
-          console.log(error);
-        });
-  };
+  // export const  scoreQuiz = (quizId, user, attempt=0) => dispatch => {
+  //   console.log("score quiz");
+  //   return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${user.id}/${attempt}`)
+  //      .then(res => {
+  //         console.log('choices fetched to score',res);
+  //           if (!res.ok) {
+  //               return Promise.reject(res.statusText);
+  //           }
+  //           return res.json();
+  //       })
+  //       .then(choices => {
+  //         console.log('choices fetched to score',choices);
+  //         const choicesCorrect = choices.filter(choice => choice.correct === true );
+  //         const totalCorrect = choicesCorrect.length;
+  //         const totalCompleted = choices.length;
+  //         dispatch(actionsUser.updateUserQuizScore(quizId, totalCorrect, totalCompleted));
+          
+          
+          
+  //         const userQuizzes = [...user.quizzes];
+  //         console.log('userQuizzes', userQuizzes);
+  //         const indexToUpdate = userQuizzes.findIndex(quiz=>quiz.id === quizId);
+  //         console.log('indexToUpdate', indexToUpdate);
+  //         userQuizzes[indexToUpdate].correct = totalCorrect;
+  //         userQuizzes[indexToUpdate].completed = totalCompleted;
+  //         console.log('userQuizzes after update', userQuizzes);
+  //         const updatedUser = deepAssign({}, user, {quizzes: userQuizzes});
+  //         console.log('updatedUser', updatedUser);
+  //         dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
+  //       })
+  //       .catch(error => {
+  //        // dispatch(fetchError(error));
+  //         console.log(error);
+  //       });
+  // };
 

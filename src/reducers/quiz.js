@@ -11,14 +11,17 @@ export const reducer = ( state = initialQuiz, action ) => {
       menuOfAllQuizzes: action.menuOfAllQuizzes
     })
   } else if ( action.type === actions.UPDATE_QUIZ_STORE ) {
+    console.log(action);
     return Object.assign({}, state, {
       id: action.id,    
       name: action.name,
       category: action.category,
       difficulty: action.difficulty,
-      questions: action.questions,
+      questions: action.questions || state.questions,
+      attempt: action.attempt,    
       currentIndex: action.currentIndex || 0,
-      attempt: action.attempt,      
+      completed: action.completed,
+      correct: action.correct,  
     }) 
   } else if ( action.type === actions.UPDATE_CURRENT_QUESTION ) {
       return Object.assign({}, state, {

@@ -9,13 +9,13 @@ export const updateUserStore = user => {
   return deepAssign({}, user, {  type: UPDATE_USER_STORE } )
 }
 
-export const UPDATE_USER_QUIZ_SCORE = 'UPDATE_USER_QUIZ_SCORE';
-export const updateUserQuizScore = (quizId, totalCorrect, totalCompleted) => ({
-  type: UPDATE_USER_QUIZ_SCORE,
-  quizId,
-  totalCorrect,
-  totalCompleted
-});
+// export const UPDATE_USER_QUIZ_SCORE = 'UPDATE_USER_QUIZ_SCORE';
+// export const updateUserQuizScore = (quizId, totalCorrect, totalCompleted) => ({
+//   type: UPDATE_USER_QUIZ_SCORE,
+//   quizId,
+//   totalCorrect,
+//   totalCompleted
+// });
 
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
@@ -178,45 +178,61 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     body: JSON.stringify(choices),
   };
   console.log('init for submitChoices', init);
+  const updatedUser = deepAssign({}, user );
+  let completed;
+  let correct;
+  const quizIndexToUpdate = user.quizzes.findIndex(quiz=>quiz.id === choices.quizId);
+  console.log('quizIndexToUpdate', quizIndexToUpdate);
+  console.log('quiz to update', user.quizzes[quizIndexToUpdate]);
+  let quizForStore;
+
+  // POST CHOICE: SCORES, SAVES IN DB, RETURNS ALL CHOICES THIS QUIZ, THIS ATTEMPT
   return fetch(url, init)
-  .then(res=>{  // response is object including properties correct & id
-    console.log('response after fetch in submitChoices', res);
-    if (!res.ok) { 
-      return Promise.reject(res.statusText);
-    }
-    return res.json();
-  })
-  .then(choice=>{    
-    console.log('choice scored', choice); 
-    return dispatch(actionsQuiz.scoreChoice(choice)); // update CURRENT QUIZ with score of 1 question
-  })
-  .then(()=>{
-    return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${choices.quizId}/users/${user.id}/${choices.attempt}`)
-  })   
   .then(res => {
-    console.log('choices fetched',res);
+    console.log('choices fetched (this user, this quiz, this attempt',res);
     if (!res.ok) {
       return Promise.reject(res.statusText);
     }
     return res.json();
   })
+
+  // UPDATE COMPLETED & CORRECT
   .then(allQuizChoices => { // this is to update state.user.quizzes[].completed
-    console.log('allQuizChoices length', allQuizChoices.length, allQuizChoices); 
-    const quizIndexToUpdate = user.quizzes.findIndex(quiz=>quiz.id === choices.quizId);
-    console.log('quizIndexToUpdate', quizIndexToUpdate);
-    console.log('quiz to update', user.quizzes[quizIndexToUpdate]);
-    const updatedUser = deepAssign({}, user );
-    updatedUser.quizzes[quizIndexToUpdate].completed = allQuizChoices.length;
-    console.log('updatedUser',updatedUser);
-    dispatch(updateUserData(updatedUser, user.authToken));
+    console.log('allQuizChoices ', allQuizChoices); 
+    completed = allQuizChoices.length;
+    console.log('completed',completed); 
+
+    const choicesCorrect = allQuizChoices.filter(choice => choice.correct === true );
+    console.log('choicesCorrect',choicesCorrect); 
+    correct = choicesCorrect.length;
+    console.log('correct',correct); 
+    
+    updatedUser.quizzes[quizIndexToUpdate].completed = completed;
+    updatedUser.quizzes[quizIndexToUpdate].correct = correct;
+    console.log('updatedUser after updating completed & correct',updatedUser);
+    
+    // UPDATE QUIZ STORE
+    quizForStore = deepAssign({}, updatedUser.quizzes[quizIndexToUpdate]);
+    if (nextIndex !== 999 ) { quizForStore.nextIndex = nextIndex }
+    console.log('quizForStore',quizForStore);
+    
+    // UPDATE USER IN DB (ASYNC) AND IN STORE
+    return dispatch(updateUserData(updatedUser, user.authToken));
+  
+    // dispatch(actionsUser.updateUserQuizScore(quizId, totalCorrect, totalCompleted));
+
   })
+
+  // ADVANCE QUIZ
   .then(()=> {
+    console.log('quizForStore',quizForStore);
     if ( nextIndex === 999 ) { /// 999 === score
-      dispatch(actionsMode.gotoResults());
       console.log('choices.quizId', choices.quizId, 'user', user, 'attempt', choices.attempt);
-      dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
+      dispatch(actionsMode.gotoResults());
+      return dispatch(actionsQuiz.updateQuizStore(quizForStore));
+      // return dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
     } else {
-      dispatch(actionsQuiz.updateCurrentQuestion(nextIndex));
+      dispatch(actionsQuiz.updateQuizStore(quizForStore));      
     }
   })
   .catch(error => {
@@ -224,8 +240,3 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     console.log(error);
   });
 }
-
-//get choices by quiz id and user id   async
-//const url = `${REACT_APP_BASE_URL}/api/choices/quizzes/:quizId/users/:userId`;
-//quizId and userId
-//response array api reprof each choice
