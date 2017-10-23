@@ -1,6 +1,8 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
 import * as actionsUser from './users';
+const deepAssign = require('deep-assign');
+
 // NOTE: Quiz is for quizzes and questions
 // CHOICES GO IN USERS !!!
 
@@ -18,7 +20,9 @@ export const updateQuizStore = (quiz) => ({
   name: quiz.name,
   category: quiz.category,
   difficulty: quiz.difficulty,
-  currentIndex: 0,
+  questions: quiz.questions,
+  attempt: quiz.attempt,
+  currentIndex: quiz.currentIndex,
 });
 
 // update current quiz with score for 1 question
@@ -28,15 +32,6 @@ export const scoreChoice = correct => ({
   questionId: correct.questionId,
   correct: correct.correct,
   choices: correct.choices
-});
-
-// this is the single current quiz
-export const UPDATE_QUIZ_STORE_QUESTIONS = 'UPDATE_QUIZ_STORE_QUESTIONS';
-export const updateQuizStoreQuestions = (questions, attempt) => ({
-  type: UPDATE_QUIZ_STORE_QUESTIONS,
-  currentIndex: 0,
-  questions,
-  attempt
 });
 
 export const UPDATE_QUIZ_MENU = 'UPDATE_QUIZ_MENU';
@@ -76,62 +71,137 @@ export const  fetchQuizzes = () => dispatch => {
       });
 };
 
-// get all questions by quiz id
-export const takeQuiz = (quiz, attempt, filterQuestions, user) => dispatch => {
+// take (or add) quiz
+export const takeQuiz = (quiz, user, option) => dispatch => {
   //const attempt = quiz.attempt;
-  console.log('take quiz attempt', attempt, 'quiz', quiz);
-  console.log('take quiz filter', filterQuestions, 'user', user);
-  console.log('do something clever while fetching questions');
-  dispatch(updateQuizStore(quiz)); // updates state.quiz, but not state.quiz.questions
-  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quiz.id}/questions`)
-        .then(res => {
-          console.log(res);
+  console.log('take quiz option', option, quiz);
+  console.log('user', user);
+  let updatedUser = deepAssign({},user);
+  let updatedQuizList;
+  const authToken = user.authToken;
+  const quizId = quiz.id;  
+  let thisQuiz = deepAssign({},quiz);
+  thisQuiz.attempt = 0;
+  let fetchedQuestions = [];
+  let filterQuestions = false;
+  let updatedQuiz = {};
+  let quizIsListed = false;
+
+  // CALCULATE THE QUIZ SETTINGS: 
+  // 1) ATTEMPT, 2) RESET CORRECT, 3) FILTER COMPLETED QUESTIONS
+  if ( option !== 'add' ) {
+    const priorAttempts = updatedUser.quizzes.filter(quiz=>quiz.id === quizId); // user should already be deepAssign();
+    const priorAttemptPointer = priorAttempts[priorAttempts.length-1];
+    const priorAttempt = deepAssign({}, priorAttemptPointer);
+    console.log('priorAttempt, #', priorAttempts.length, priorAttempt)
+    if ( !priorAttempt ) {
+      console.log('priorAttempt (false)', priorAttempt);
+    } else if (!priorAttempt.completed) {
+      console.log('priorAttempt.completed (false)', priorAttempt.completed);
+    } else if ( priorAttempt.completed > 0 && priorAttempt.completed < priorAttempt.total ) {
+      filterQuestions = true;
+      console.log('partial, filter', priorAttempt, filterQuestions);
+    } else if ( priorAttempts.length > 0 ) {
+      thisQuiz.attempt = priorAttempt.attempt + 1;
+      thisQuiz.correct = 0;
+      thisQuiz.completed = 0;
+      console.log('restart thisQuiz', thisQuiz);
+    }
+    console.log('thisQuiz @ end of settings', thisQuiz);
+  }
+
+  // ADD QUIZ TO UPDATED USER IF NEEDED
+  updatedUser.quizzes.forEach(exQuiz=>{
+    if (exQuiz.id === quizId) {
+      quizIsListed = true;
+      console.log('quizisListed, quizId', quizIsListed, quizId);
+    }
+  });
+  console.log('updatedUser b4, quizId',quizId, updatedUser);
+  console.log('quizislisted',quizIsListed);
+  if (quizIsListed) {
+    updatedQuizList = [...updatedUser.quizzes];
+    console.log('NOT ADDING QUIZ !!')
+  } else {
+    updatedQuizList= [...updatedUser.quizzes, thisQuiz];
+    console.log('updatedUser with quiz ADDED', updatedUser);
+  } 
+  updatedUser.quizzes = updatedQuizList;
+  console.log('updatedUser with quiz ADDED', updatedUser);
+  console.log('updatedQuizList', updatedQuizList);
+  
+  
+  // && quizIsListed[0].hasOwnProperty('id')
+
+
+  // IF ONLY ADD, UPDATE USER STORE, AND END
+  if ( option === 'add' ) {
+    return dispatch(actionsUser.updateUserData(updatedUser, authToken));    
+  }
+
+
+  // GET ALL QUESTIONS FOR THIS QUIZ FROM DATABASE
+  return fetch(`${REACT_APP_BASE_URL}/api/quizzes/${quizId}/questions`)
+    .then(res => {
+      console.log(res);
+      if (!res.ok) {
+        return Promise.reject(res.statusText);
+      }
+      return res.json();
+    })
+
+
+    // FILTER QUESTIONS IF NEEDED
+    .then(questions => {
+      console.log('questions returned', questions);
+      if (filterQuestions  === true) {
+        const choiceObject = {};
+        return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${user.id}/${thisQuiz.attempt}`)
+          .then(res => {
+            console.log('choices fetched to use for filter',res);
             if (!res.ok) {
-                return Promise.reject(res.statusText);
+              return Promise.reject(res.statusText);
             }
             return res.json();
-        })
-        .then(questions => {
-          console.log('quiz returned', questions);
-          if (filterQuestions  === true) {
-            const choiceObject = {};
-            return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quiz.id}/users/${user.id}/${attempt}`)
-            .then(res => {
-               console.log('choices fetched to use for filter',res);
-                 if (!res.ok) {
-                     return Promise.reject(res.statusText);
-                 }
-                 return res.json();
-             })
-            .then(choices=>{
-              choices.forEach(choice=>{
-                choiceObject[choice.questionId] = true;
-              });
-              console.log('choiceObject', choiceObject);
-              console.log('questions still available?', questions);
-              return questions.filter(question=>choiceObject[question.id] !== true);
-            })
-          } else {
-            return questions;
-          } // end if
-        }) // end then
-        .then(questions=>{
-          dispatch(actionsMode.gotoQuestion());
-          return dispatch(updateQuizStoreQuestions(questions, attempt));
-        })
-        .then(()=>{
-          // only need to update the # of attempts
-          const updatedQuizzes = [...user.quizzes];
-          const quizId = quiz.id;
-          const thisQuizIndex = updatedQuizzes.findIndex(quiz=>quiz.id = quizId);
-          updatedQuizzes[thisQuizIndex].attempt = attempt;
-          const updatedUser = Object.assign({}, user, {quizzes: updatedQuizzes})
-          return dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
-        })
-        .catch(error => {
-         // dispatch(fetchError(error));
-          console.log(error);
-        });
+          })
+          .then(choices=>{
+            choices.forEach(choice=>{
+              choiceObject[choice.questionId] = true;
+            });
+            console.log('choiceObject', choiceObject);
+            console.log('questions still available?', questions);
+            fetchedQuestions = questions.filter(question=>choiceObject[question.id] !== true);
+          })
+      } else {
+        fetchedQuestions = questions;
+      } // end if
+      return;
+    }) // end then
+
+
+
+    // UPDATE SINGLE QUIZ FOR THE STORE
+    .then(()=>{
+      updatedQuiz = deepAssign({}, thisQuiz, {
+        questions: fetchedQuestions,
+        currentIndex: 0,  // always start at 0, which might be start of a filtered array
+      });
+      console.log('updatedQuiz', updatedQuiz);
+      return updatedQuiz;
+    })
+
+
+    // UPDATE THE STORE - SYNC, THEN ASYNC
+    .then(()=>{
+      dispatch(actionsMode.gotoQuestion());
+      dispatch(updateQuizStore(updatedQuiz)); // updates state.quiz, but not state.quiz.questions
+      // ASYNC
+      return dispatch(actionsUser.updateUserData(updatedUser, authToken));
+    })
+    .catch(error => {
+      // dispatch(fetchError(error));
+      console.log(error);
+    });
   };
 
 
@@ -158,7 +228,7 @@ export const takeQuiz = (quiz, attempt, filterQuestions, user) => dispatch => {
           userQuizzes[indexToUpdate].correct = totalCorrect;
           userQuizzes[indexToUpdate].completed = totalCompleted;
           console.log('userQuizzes after update', userQuizzes);
-          const updatedUser = Object.assign({}, user, {quizzes: userQuizzes});
+          const updatedUser = deepAssign({}, user, {quizzes: userQuizzes});
           console.log('updatedUser', updatedUser);
           dispatch(actionsUser.updateUserData(updatedUser, user.authToken));
         })

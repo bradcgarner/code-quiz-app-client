@@ -5,6 +5,7 @@ import * as actionsMode from '../actions/mode';
 export function Home(props) {
   
   const handleHomeButton=()=> {
+    console.log('GOING ~~~~~ TO ~~~~~', props.where);
     if(props.where === 'dashboard') {
       props.dispatch(actionsMode.gotoDashboard());      
     } else if (props.where === 'profile') {

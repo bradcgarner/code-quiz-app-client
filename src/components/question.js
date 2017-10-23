@@ -25,7 +25,7 @@ export class Question extends React.Component {
     };
     const nextIndex = this.props.quiz.currentIndex === (this.props.quiz.questions.length - 1) ?
       999 : this.props.quiz.currentIndex + 1 ;
-      console.log(nextIndex);
+      console.log('nextIndex', nextIndex);
       this.props.reset();   
       this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user, nextIndex));
   }  // refer to actions/users.js for format of values
