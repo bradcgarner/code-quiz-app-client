@@ -78,8 +78,12 @@ export class Question extends React.Component {
     return (
     <div className="question">
       <StatusBar 
-        total={this.props.quiz.questions.length}
-        currentIndex={this.props.quiz.currentIndex}
+        mode={'question'}
+        total = {this.props.quiz.total}
+        current = {this.props.quiz.currentIndex + 1}
+        currentIndex = {this.props.quiz.currentIndex}
+        completed = {this.props.quiz.completed}
+        correct = {this.props.quiz.correct}
       />
 
       <p className="questionAsked">{currQuestion.question}</p>

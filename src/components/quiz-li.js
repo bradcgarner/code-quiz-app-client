@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import QuizLiStatus from './quiz-li-status';
+import StatusBar from './question-statusbar';
+// import QuizLiStatus from './quiz-li-status';
 import * as actionsQuiz from '../actions/quiz';
 const deepAssign = require('deep-assign');
 
@@ -16,6 +17,11 @@ export function QuizLi(props) {
   const user = deepAssign({}, props.user);
   console.log('deep assign of props.user @ quizli load', user);
 
+  let isListed = false;
+  props.user.quizzes.forEach(quiz=>{
+    if (quiz.id===id) { isListed = true }
+  });
+  
   const handleTakeQuizButton = (option) => {
     props.dispatch(actionsQuiz.takeQuiz(thisQuiz, user, option))
   }
@@ -26,24 +32,24 @@ export function QuizLi(props) {
     <div className="quizLiDifficulty">{difficulty}</div>
   </div>;
 
-  const total= thisQuiz.total;
-  const completed= thisQuiz.completed;
-  const correct= thisQuiz.correct;
+  const statusBox = <StatusBar 
+        mode={'quizlist'}
+        total = {thisQuiz.total}
+        completed = {thisQuiz.completed}
+        correct = {thisQuiz.correct}
+      />;
 
-  const statusBox = <QuizLiStatus
-    id={id}
-    total={total}
-    completed={completed}
-    correct={correct}
-  />;
-
-  const addButton = props.mode.view==='dashboard' ? '' :
+  const addButton =
   <i className="fa fa-list-ul smallIcon" aria-hidden="true"onClick={()=>handleTakeQuizButton('add')}>
     <span className="faText">Add</span>
-  </i>;
- 
- // condition below needs to change to ===='dashboard' || the quiz is included in props.user.quizzes...
- const statusBoxOrAddButton = props.mode.view==='dashboard' ? statusBox : addButton ;
+  </i> ;
+  // condition below needs to change to ===='dashboard' || the quiz is included in props.user.quizzes...
+  let statusBoxOrAddButton = addButton;
+  if ( isListed && props.mode.view === 'dashboard' ) {
+    statusBoxOrAddButton = statusBox ;
+  } else if ( isListed ) {
+    statusBoxOrAddButton = <i class="fa fa-check smallIcon" aria-hidden="true"></i>
+  }
 
   const takeButton = <i className="fa fa-hand-o-right smallIcon" aria-hidden="true" onClick={()=>handleTakeQuizButton('take')}>
     <span className="faText">Go!</span>
