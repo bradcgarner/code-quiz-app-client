@@ -18,7 +18,16 @@ export const reducer = ( state = initialQuiz, action ) => {
       category: action.category,
       difficulty: action.difficulty,
       questions: action.questions || state.questions,
+      originalLength: action.originalLength || state.questions.length,
       attempt: action.attempt,    
+      currentIndex: action.currentIndex || 0,
+      completed: action.completed,
+      correct: action.correct,  
+      total: action.total,  
+    }) 
+  } else if ( action.type === actions.INCREMENT_QUIZ_STORE ) {
+    console.log(action);
+    return Object.assign({}, state, {
       currentIndex: action.currentIndex || 0,
       completed: action.completed,
       correct: action.correct,  

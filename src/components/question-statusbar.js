@@ -3,14 +3,37 @@ import { connect } from 'react-redux';
 
 export function StatusBar(props) {
   
-  const total= props.total;
-  const current= props.currentIndex + 1;
+  const total = props.quiz.total;
+  const current = props.quiz.currentIndex + 1;
+  const currentIndex = props.quiz.currentIndex;
+  const completed = props.quiz.completed;
+  const correct = props.quiz.correct;
+  console.log('total',total,'current',current,'currentIndex',currentIndex,'completed',completed,'correct',correct);
+  
+  const totalPct = 100 || 0;
+  const currentPct = (current/total)*100 || 0;
+  const currentIndexPct = (currentIndex/total)*100 || 0;
+  const completedPct = (completed/total)*100 || 0;
+  const correctPct = (correct/completed)*100 || 0;
+  console.log('total',totalPct,'current',currentPct,'currentIndex',currentIndexPct,'completed',completedPct,'correct',correctPct);
   
   return (
-    <div className="statusBar">
-      {current} &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; {total}
+    <div className="statusBarContainer">
+      <div className="statusBarTotal statusBar" style={{width: totalPct + '%'}}></div>
+      <div className="statusBarCurrent statusBar" style={{width: currentPct + '%'}}></div>
+      <div className="statusBarCurrentIndex statusBar" style={{width: currentIndexPct + '%'}}></div>
+      <div className="statusBarCompletedContainer statusBar" style={{width: completedPct + '%'}}>
+        <div className="statusBarCompleted statusBar" style={{width: 100 + '%'}}></div>
+        <div className="statusBarCorrect statusBar" style={{width: correctPct + '%'}}></div>
+      </div>
     </div>
   );
 }
 
-export default connect()(StatusBar);
+const mapStateToProps = state => ({
+  user: state.user,
+  quiz: state.quiz,
+  mode: state.mode
+})
+
+export default connect(mapStateToProps)(StatusBar);

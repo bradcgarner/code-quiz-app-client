@@ -21,7 +21,18 @@ export const updateQuizStore = (quiz) => ({
   category: quiz.category,
   difficulty: quiz.difficulty,
   questions: quiz.questions,
+  originalLength: quiz.originalLength,
   attempt: quiz.attempt,
+  currentIndex: quiz.nextIndex,
+  completed: quiz.completed,
+  correct: quiz.correct,
+  total: quiz.questions.length,
+});
+
+// this is the single current quiz
+export const INCREMENT_QUIZ_STORE = 'INCREMENT_QUIZ_STORE';
+export const incrementQuizStore = (quiz) => ({
+  type: INCREMENT_QUIZ_STORE,
   currentIndex: quiz.nextIndex,
   completed: quiz.completed,
   correct: quiz.correct,
@@ -87,6 +98,7 @@ export const takeQuiz = (quiz, user, option) => dispatch => {
   thisQuiz.attempt = 0;
   let fetchedQuestions = [];
   let filterQuestions = false;
+  let originalLength;
   let updatedQuiz = {};
   let quizIsListed = false;
 
@@ -157,6 +169,8 @@ export const takeQuiz = (quiz, user, option) => dispatch => {
     // FILTER QUESTIONS IF NEEDED
     .then(questions => {
       console.log('questions returned', questions);
+      originalLength = questions.length;
+      console.log('originalLength',originalLength);
       if (filterQuestions  === true) {
         const choiceObject = {};
         return fetch(`${REACT_APP_BASE_URL}/api/choices/quizzes/${quizId}/users/${user.id}/${thisQuiz.attempt}`)
@@ -188,6 +202,7 @@ export const takeQuiz = (quiz, user, option) => dispatch => {
       updatedQuiz = deepAssign({}, thisQuiz, {
         questions: fetchedQuestions,
         currentIndex: 0,  // always start at 0, which might be start of a filtered array
+        originalLength
       });
       console.log('updatedQuiz', updatedQuiz);
       return updatedQuiz;

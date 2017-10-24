@@ -210,6 +210,8 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     updatedUser.quizzes[quizIndexToUpdate].completed = completed;
     updatedUser.quizzes[quizIndexToUpdate].correct = correct;
     console.log('updatedUser after updating completed & correct',updatedUser);
+    console.log('quizIndexToUpdate',quizIndexToUpdate);
+    console.log('updatedUser.quizzes[quizIndexToUpdate]',updatedUser.quizzes[quizIndexToUpdate]);
     
     // UPDATE QUIZ STORE
     quizForStore = deepAssign({}, updatedUser.quizzes[quizIndexToUpdate]);
@@ -229,10 +231,10 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     if ( nextIndex === 999 ) { /// 999 === score
       console.log('choices.quizId', choices.quizId, 'user', user, 'attempt', choices.attempt);
       dispatch(actionsMode.gotoResults());
-      return dispatch(actionsQuiz.updateQuizStore(quizForStore));
+      return dispatch(actionsQuiz.incrementQuizStore(quizForStore));
       // return dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
     } else {
-      dispatch(actionsQuiz.updateQuizStore(quizForStore));      
+      dispatch(actionsQuiz.incrementQuizStore(quizForStore));      
     }
   })
   .catch(error => {
