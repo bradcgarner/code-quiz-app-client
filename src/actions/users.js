@@ -1,19 +1,21 @@
 import { REACT_APP_BASE_URL } from '../config';
 import * as actionsMode from './mode';
 import * as actionsQuiz from './quiz';
+const deepAssign = require('deep-assign');
+
 
 export const UPDATE_USER_STORE = 'UPDATE_USER_STORE';
 export const updateUserStore = user => {
-  return Object.assign({}, user, {  type: UPDATE_USER_STORE } )
+  return deepAssign({}, user, {  type: UPDATE_USER_STORE } )
 }
 
-export const UPDATE_USER_QUIZ_SCORE = 'UPDATE_USER_QUIZ_SCORE';
-export const updateUserQuizScore = (quizId, totalCorrect, totalCompleted) => ({
-  type: UPDATE_USER_QUIZ_SCORE,
-  quizId,
-  totalCorrect,
-  totalCompleted
-});
+// export const UPDATE_USER_QUIZ_SCORE = 'UPDATE_USER_QUIZ_SCORE';
+// export const updateUserQuizScore = (quizId, totalCorrect, totalCompleted) => ({
+//   type: UPDATE_USER_QUIZ_SCORE,
+//   quizId,
+//   totalCorrect,
+//   totalCompleted
+// });
 
 // @@@@@@@@@@@@@@@@@ ASYNC @@@@@@@@@@@@@@@@@@@
 
@@ -110,58 +112,59 @@ export const updateUserProfile = (credentials, authToken) => dispatch => { //cre
 }
 
 // update user non-profile data (quizzes taken, badges, etc.)
-  export const updateUserData = (userData, authToken) => dispatch => { 
-    const url = `${REACT_APP_BASE_URL}/api/users/${userData.id}/data`;
-    const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
-    const init = { 
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(userData) //user data should flow the exact format ofthe schema
-    };
-    console.log('init at update user data', init);
-    return fetch(url, init)
-    .then(res=>{          //response=user.apiRepr() with archived quizzes filtered out
-      console.log(res);
-      if (!res.ok) { 
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    }) 
-    .then(user => { 
-      user.authToken = authToken;
-      return dispatch(updateUserStore(user)); // archived quizzes not included
-    })
-    .catch(error => {
-     // dispatch(loginError(error));
-      console.log(error);
-    });
-  }
+export const updateUserData = (userData, authToken) => dispatch => { 
+  const url = `${REACT_APP_BASE_URL}/api/users/${userData.id}/data`;
+  const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + authToken};
+  const init = { 
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(userData) //user data should flow the exact format ofthe schema
+  };
+  console.log('init at update user data', init);
+  return fetch(url, init)
+  .then(res=>{          //response=user.apiRepr() with archived quizzes filtered out
+    console.log(res);
+    if (!res.ok) { 
+      return Promise.reject(res.statusText);
+    }
+    return res.json();
+  }) 
+  .then(user => { 
+    console.log('user returned from db',user);
+    user.authToken = authToken;
+    return dispatch(updateUserStore(user)); // archived quizzes not included
+  })
+  .catch(error => {
+  // dispatch(loginError(error));
+    console.log(error);
+  });
+}
   
-  //get user by Id  - used at login
-  export const getUser = (id) => dispatch => { 
-    console.log('id',id)
-    const url = `${REACT_APP_BASE_URL}/api/users/${id}/`;
-    console.log('url', url);
-    const init = { 
-      method: 'GET'
-    };
-    return fetch(url, init)
-    .then(res=>{//response user api repr  
-      console.log(res);
-      if (!res.ok) { 
-        return Promise.reject(res.statusText);
-      }
-      return res.json();
-    }) 
-    .then(user => { 
-      console.log('user found', user); 
-      return dispatch(updateUserStore(user));
-    })
-    .catch(error => {
-     // dispatch(loginError(error));
-      console.log(error);
-    });
-  }
+//get user by Id  - used at login
+export const getUser = (id) => dispatch => { 
+  console.log('id',id)
+  const url = `${REACT_APP_BASE_URL}/api/users/${id}/`;
+  console.log('url', url);
+  const init = { 
+    method: 'GET'
+  };
+  return fetch(url, init)
+  .then(res=>{//response user api repr  
+    console.log(res);
+    if (!res.ok) { 
+      return Promise.reject(res.statusText);
+    }
+    return res.json();
+  }) 
+  .then(user => { 
+    console.log('user found', user); 
+    return dispatch(updateUserStore(user));
+  })
+  .catch(error => {
+  // dispatch(loginError(error));
+    console.log(error);
+  });
+}
 
 export const submitChoices = (choices, user, nextIndex) => dispatch => { // nextIndex === 999 if score
   console.log('choice as received by submitChoices',choices)
@@ -175,25 +178,63 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     body: JSON.stringify(choices),
   };
   console.log('init for submitChoices', init);
+  const updatedUser = deepAssign({}, user );
+  let completed;
+  let correct;
+  const quizIndexToUpdate = user.quizzes.findIndex(quiz=>quiz.id === choices.quizId);
+  console.log('quizIndexToUpdate', quizIndexToUpdate);
+  console.log('quiz to update', user.quizzes[quizIndexToUpdate]);
+  let quizForStore;
+
+  // POST CHOICE: SCORES, SAVES IN DB, RETURNS ALL CHOICES THIS QUIZ, THIS ATTEMPT
   return fetch(url, init)
-  .then(res=>{  // response is object including properties correct & id
-    console.log('response after fetch in submitChoices', res);
-    if (!res.ok) { 
+  .then(res => {
+    console.log('choices fetched (this user, this quiz, this attempt',res);
+    if (!res.ok) {
       return Promise.reject(res.statusText);
     }
     return res.json();
-  }) 
-  .then(choice => { // correct includes .choices(array) and .correct(t/f) .questionId
-    console.log('choice scored', choice); 
-    return dispatch(actionsQuiz.scoreChoice(choice)); // update CURRENT QUIZ with score of 1 question
   })
+
+  // UPDATE COMPLETED & CORRECT
+  .then(allQuizChoices => { // this is to update state.user.quizzes[].completed
+    console.log('allQuizChoices ', allQuizChoices); 
+    completed = allQuizChoices.length;
+    console.log('completed',completed); 
+
+    const choicesCorrect = allQuizChoices.filter(choice => choice.correct === true );
+    console.log('choicesCorrect',choicesCorrect); 
+    correct = choicesCorrect.length;
+    console.log('correct',correct); 
+    
+    updatedUser.quizzes[quizIndexToUpdate].completed = completed;
+    updatedUser.quizzes[quizIndexToUpdate].correct = correct;
+    console.log('updatedUser after updating completed & correct',updatedUser);
+    console.log('quizIndexToUpdate',quizIndexToUpdate);
+    console.log('updatedUser.quizzes[quizIndexToUpdate]',updatedUser.quizzes[quizIndexToUpdate]);
+    
+    // UPDATE QUIZ STORE
+    quizForStore = deepAssign({}, updatedUser.quizzes[quizIndexToUpdate]);
+    if (nextIndex !== 999 ) { quizForStore.nextIndex = nextIndex }
+    console.log('quizForStore',quizForStore);
+    
+    // UPDATE USER IN DB (ASYNC) AND IN STORE
+    return dispatch(updateUserData(updatedUser, user.authToken));
+  
+    // dispatch(actionsUser.updateUserQuizScore(quizId, totalCorrect, totalCompleted));
+
+  })
+
+  // ADVANCE QUIZ
   .then(()=> {
+    console.log('quizForStore',quizForStore);
     if ( nextIndex === 999 ) { /// 999 === score
-      dispatch(actionsMode.gotoResults());
       console.log('choices.quizId', choices.quizId, 'user', user, 'attempt', choices.attempt);
-      dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
+      dispatch(actionsMode.gotoResults());
+      return dispatch(actionsQuiz.incrementQuizStore(quizForStore));
+      // return dispatch(actionsQuiz.scoreQuiz(choices.quizId, user, choices.attempt));
     } else {
-      dispatch(actionsQuiz.updateCurrentQuestion(nextIndex));
+      dispatch(actionsQuiz.incrementQuizStore(quizForStore));      
     }
   })
   .catch(error => {
@@ -201,8 +242,3 @@ export const submitChoices = (choices, user, nextIndex) => dispatch => { // next
     console.log(error);
   });
 }
-
-//get choices by quiz id and user id   async
-//const url = `${REACT_APP_BASE_URL}/api/choices/quizzes/:quizId/users/:userId`;
-//quizId and userId
-//response array api reprof each choice

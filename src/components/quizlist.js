@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import QuizLi from './quiz-li';
+const deepAssign = require('deep-assign');
+
 
 export function QuizList(props) {
 
   const quizLi = props.quiz.menuOfAllQuizzes.map((quiz, index)=>{
-    return <QuizLi key={index} li={quiz} />
+    return <QuizLi key={index} li={deepAssign({},quiz)} />
   })
   
     return (

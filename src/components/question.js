@@ -25,7 +25,7 @@ export class Question extends React.Component {
     };
     const nextIndex = this.props.quiz.currentIndex === (this.props.quiz.questions.length - 1) ?
       999 : this.props.quiz.currentIndex + 1 ;
-      console.log(nextIndex);
+      console.log('nextIndex', nextIndex);
       this.props.reset();   
       this.props.dispatch(actionsUser.submitChoices(formattedChoiceObject, this.props.user, nextIndex));
   }  // refer to actions/users.js for format of values
@@ -47,7 +47,9 @@ export class Question extends React.Component {
   
   render() {
 
+    // FIX THIS !!!!!! IS TRYING TO RENDER INDEX 999 !!!!!
     const currentIndex = this.props.quiz.currentIndex || 0;
+    console.log('this.props.quiz',this.props.quiz);
     const currQuestion = this.props.quiz.questions[currentIndex];
     const inputType = currQuestion.inputType; 
     
@@ -76,8 +78,12 @@ export class Question extends React.Component {
     return (
     <div className="question">
       <StatusBar 
-        total={this.props.quiz.questions.length}
-        currentIndex={this.props.quiz.currentIndex}
+        mode={'question'}
+        total = {this.props.quiz.total}
+        current = {this.props.quiz.currentIndex + 1}
+        currentIndex = {this.props.quiz.currentIndex}
+        completed = {this.props.quiz.completed}
+        correct = {this.props.quiz.correct}
       />
 
       <p className="questionAsked">{currQuestion.question}</p>

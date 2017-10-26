@@ -5,6 +5,7 @@ import Recent  from './dashboard-recent';
 import QuizLi from './quiz-li';
 import * as actionsMode from '../actions/mode';
 import * as actionsQuiz from '../actions/quiz';
+const deepAssign = require('deep-assign');
 
 export function Dashboard(props) {
 
@@ -18,7 +19,7 @@ export function Dashboard(props) {
   const listHeader = props.user.quizzes ? 'My Quizzes' : '' ;
   console.log('props.user.quizzes',props.user.quizzes)
   const quizLi = props.user.quizzes.map((quiz, index)=>{
-    return <QuizLi key={index} li={quiz} />
+    return <QuizLi key={index} li={deepAssign({},quiz)} />
   })
   const addButtonLabel = props.user.quizzes.length ? 'Add Another Quiz' : 'Add a Quiz';
 

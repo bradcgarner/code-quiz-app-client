@@ -1,10 +1,11 @@
 {
   "name": "CodeQuiz",
   "version": "0.1.0",
-  "description": "Like Code Wars, but more mobile-friendly and multiple choice.",  
+  "description": "Like Code Wars, but more mobile-friendly and multiple choice.",
   "private": true,
   "dependencies": {
     "assert": "^1.4.1",
+    "deep-assign": "^2.0.0",
     "qs": "^6.5.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
