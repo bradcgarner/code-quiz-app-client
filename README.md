@@ -1,1 +1,2 @@
-                              <h1>Code Quiz App</h1>
+<h1>Code Quiz App</h1>
+<hr/>
