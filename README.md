@@ -38,6 +38,4 @@ When user loads up the app, he can see about the game by clicking about. To use 
 his profile, he must login the app. If he has not username, he can create his username and password, then he can login the game. After login, he can go directly to the quiz menu page and can select the quiz to his profile. He can select one of the 
 quiz and can go to question section in his dashboard. He can skip question, can choose answer. At last he can see his score out of total question he attempts.
 
-![alt text](http://via.placeholder.com/200x200)
-
 ![alt text](login.png)
