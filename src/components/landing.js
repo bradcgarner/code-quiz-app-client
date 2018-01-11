@@ -18,7 +18,18 @@ export function Landing(props) {
           <p className="landingLogo landingLogoTop">{`{()=>{}}`}</p>
           <p className="landingLogo landingLogoMid">{`~~:~~`}</p>
           <p className="landingLogo landingLogoBot">{`==`}</p>
-          <h1 className="landingTitle">ama afk</h1>
+          <h1 className="landingTitle">Code Quiz</h1>
+        </div>
+        <div class="landingDescription">
+          <p>The Code Quiz app helps you test your knowledge of software
+             programming using a quiz based format. Login the page and you can start your quiz by selecting 
+             different quiz groups.</p>
+             
+        </div>
+        <div>
+        <h3>Demo Login:</h3>
+             <p>userName: guest</p>
+             <p>password: mypassword</p>
         </div>
         <button className="loginButton clearfix" onClick={()=>handleLoginButton()}>Enter</button>
         <br />

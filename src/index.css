@@ -105,8 +105,8 @@ body {
 
 /* @@@@@@@@@@@@@@@@ HEADER @@@@@@@@@@@@@@ */
 .header {
-  padding: 15px 5px;
-  height: 50px;
+  padding: 0px 5px;
+  height: 0px;
   background-color: #7A99AC; }
 
 header {
@@ -188,7 +188,7 @@ header {
 
 /* @@@@@@@@@@@@@@ LANDING @@@@@@@@@@@@ */
 .landingCover {
-  padding: 50px 10px;
+  padding: 30px 10px;
   text-align: center; }
 
 .landingLogoTop {
@@ -207,9 +207,20 @@ header {
 
 .landingTitle {
   font-size: 45px;
-  color: #BC8A7E;
+  color: #401b04;
   font-family: 'Archivo Black', sans-serif;
   margin: 15px 0; }
+
+  .landingDescription {
+    
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px 100px;
+  }
+  .landingDescription p {
+    font-size: 15px;
+    padding-bottom: 10px;
+  }
 
 /* @@@@@@@@@@@@@@ QUIZ LISTS  @@@@@@@@@@@@ */
 .quizLi, .quizLiName, .quizLiCategory, .quizLiDifficulty {
